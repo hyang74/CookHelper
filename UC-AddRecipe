@@ -1,0 +1,14 @@
+Name: Add recipe
+Actors: Users with accounts
+Goals: Add a recipe to the database storing all recipes
+Preconditions: User must have an account
+Summary: User creates a new recipe and saves it into the recipe database
+Related use case: Edit Recipe, Delete Recipe
+Steps: Actors - System Response
+1. Requests to add new recipe
+2. Asks for the recipe name/class/type/category/ingredients/directions
+3. Provides the required information
+4. Prompt the selection of confirmation/ canceling
+5. Choose confirm or cancel to save the new recipe
+6. Confirmation of the addition/clear of the new recipe
+Postconditions: The new recipe created by the user is accessible by all other users
