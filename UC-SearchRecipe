@@ -1,0 +1,11 @@
+Name: Search recipe
+Actors: Users with accounts
+Goals: Return a recipe with the most familiar content selected by the user
+Preconditions: User must have an account and have inputted search criteria
+Summary: User searches database and is provided a recipe matching their inputted criteria
+Related use case: View Recipe
+Steps: Actors - System Response
+1. Requests to search a recipe - 2. Asks for the user to input search criteria
+3. Inputs search criteria - 4. Prompt the selection of confirmation/ canceling the search
+5. Choose confirm or cancel to search for matching recipe - 6. Returns a recipe with the most familiar search content
+Postconditions: The selected recipe(s) should be deleted from the recipe database
