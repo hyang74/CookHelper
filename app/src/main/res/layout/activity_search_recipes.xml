@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app=""
+    xmlns:app="CookHelper"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_search_recipes"
     android:layout_width="match_parent"
@@ -15,7 +15,6 @@
         android:text="Reset"
         android:layout_height="50dp"
         android:id="@+id/button"
-        style="@android:style/Widget.Material.Light.Button"
         android:layout_below="@+id/button2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -104,11 +103,10 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/spinner11"
+                android:id="@+id/spinner12"
                 android:layout_weight="1"
                 android:background="@drawable/untitled"
-
-                style="@android:style/Widget.DeviceDefault.Light.Spinner" />
+                android:dropDownSelector="@android:drawable/arrow_down_float" />
 
             <Spinner
                 android:layout_width="match_parent"
