@@ -15,17 +15,16 @@
         android:text="  Add new recipe..."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button7"
         android:gravity="left|center_vertical|center_horizontal"
         android:textStyle="normal|italic"
         android:layout_alignParentBottom="true"
-        />
+        android:id="@+id/addRecipe" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_above="@+id/button7">
+        android:layout_above="@+id/addRecipe">
 
         <LinearLayout
             android:orientation="vertical"
@@ -45,7 +44,7 @@
                 android:background="@android:drawable/editbox_background"
                 android:layout_height="40dp"
 
-                android:id="@+id/Search"
+                android:id="@+id/search"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -73,22 +72,25 @@
                         android:text="Class"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/textView3"
-                        android:layout_weight="1" />
+                        android:id="@+id/Tclass"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
 
                     <TextView
                         android:text="Origin"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/textView2"
-                        android:layout_weight="1" />
+                        android:id="@+id/Torigin"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
 
                     <TextView
                         android:text="Category"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/textView"
-                        android:layout_weight="1" />
+                        android:id="@+id/Tcategory"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -107,23 +109,20 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/spinner12"
-                        android:layout_weight="1"
-                        android:dropDownSelector="@android:drawable/arrow_down_float"
-                        android:spinnerMode="dialog" />
+                        android:id="@+id/SPclass"
+                        android:layout_weight="1"/>
 
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/spinner9"
+                        android:id="@+id/SPorigin"
                         android:layout_weight="1" />
 
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/spinner8"
                         android:layout_weight="1"
-                        android:gravity="center_vertical" />
+                        android:id="@+id/SPcategory" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -142,14 +141,14 @@
                         android:text="Reset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button6"
+                        android:id="@+id/reset"
                         android:layout_weight="1" />
 
                     <Button
                         android:text="Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button5"
+                        android:id="@+id/filter"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -157,8 +156,7 @@
                 <ListView
                     android:id="@+id/recipe_list_view"
                     android:layout_width="match_parent"
-                    android:layout_marginEnd="0dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="264dp" />
 
             </LinearLayout>
 
@@ -173,7 +171,6 @@
         android:onClick="clear"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/linearLayout2"
         android:layout_width="40dp"
         android:layout_height="40dp" />
 

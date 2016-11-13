@@ -2,15 +2,18 @@ package group88.cookhelper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Button;
+import android.widget.*;
 import android.view.*;
 import android.text.*;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
+
+    private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
+    private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+    private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+    private String[] listItems ={"Spaghetti","Steak","Pho","Grilled Chicken","Beef Stew","Meat Pizza","Ice Cream"};
+
     EditText mEditText;
     Button mClearText;
     @Override
@@ -18,13 +21,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //This is how to add  items to list: use ArrayAdapter
         mListView = (ListView) findViewById(R.id.recipe_list_view);
-        String[] listItems ={"Spaghetti","Steak","Pho","Grilled Chicken","Beef Stew","Meat Pizza","Ice Cream"};
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
-        mListView.setAdapter(adapter);
+        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
+        mListView.setAdapter(adapterRecipe);
 
 
-        mEditText = (EditText) findViewById(R.id.Search);
+        //This is how to add items to spinner:
+        Spinner spClass = (Spinner) findViewById(R.id.SPclass);
+        ArrayAdapter<String> adapterClass = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spinnerClass);
+        spClass.setAdapter(adapterClass);
+        spClass.setSelection(0);
+
+        Spinner spOrigin = (Spinner) findViewById(R.id.SPorigin);
+        ArrayAdapter<String> adapterOrigin = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spinnerOrigin);
+        spOrigin.setAdapter(adapterOrigin);
+        spOrigin.setSelection(0);
+
+        Spinner spCategory = (Spinner) findViewById(R.id.SPcategory);
+        ArrayAdapter<String> adapterCategory = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spinnerCategory);
+        spCategory.setAdapter(adapterCategory);
+        spCategory.setSelection(0);
+
+        // Do not change, this block is used to clear text on clicking the X botton
+        mEditText = (EditText) findViewById(R.id.search);
         mClearText = (Button) findViewById(R.id.clearText);
 
         //initially clear button is invisible
@@ -53,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             }
     });
 }
+
+    // This function is called to reset the text
     public void clear(View view) {
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
