@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.widget.*;
 import android.view.*;
 import android.text.*;
+import android.content.*;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView mListView;
+    private ListView recipeList;
 
     private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mEditText;
     Button mClearText;
+    Button showRecipeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         //This is how to add  items to list: use ArrayAdapter
-        mListView = (ListView) findViewById(R.id.recipe_list_view);
+        recipeList = (ListView) findViewById(R.id.recipe_list_view);
         ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
-        mListView.setAdapter(adapterRecipe);
+        recipeList.setAdapter(adapterRecipe);
 
 
         //This is how to add items to spinner:
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         // Do not change, this block is used to clear text on clicking the X botton
         mEditText = (EditText) findViewById(R.id.search);
         mClearText = (Button) findViewById(R.id.clearText);
+
+        showRecipeView = (Button) findViewById(R.id.addRecipe);
 
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
@@ -82,5 +86,10 @@ public class MainActivity extends AppCompatActivity {
     public void clear(View view) {
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
+    }
+
+    public void goRecipe(View view) {
+        Intent intent = new Intent(this,showRecipe.class );
+        startActivity(intent);
     }
 }
