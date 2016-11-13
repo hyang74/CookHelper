@@ -13,11 +13,10 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-    private String[] listItems ={"Spaghetti","Steak","Pho","Grilled Chicken","Beef Stew","Meat Pizza","Ice Cream"};
+    private String[] listItems ={"Steak","Pho","Grilled Chicken","Beef Stew","Meat Pizza","Ice Cream"};
 
     EditText mEditText;
     Button mClearText;
-    Button showRecipeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         mEditText = (EditText) findViewById(R.id.search);
         mClearText = (Button) findViewById(R.id.clearText);
 
-        showRecipeView = (Button) findViewById(R.id.addRecipe);
 
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
@@ -89,7 +87,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goRecipe(View view) {
-        Intent intent = new Intent(this,showRecipe.class );
-        startActivity(intent);
+        Intent intent1 = new Intent(this,showRecipe.class );
+        startActivity(intent1);
+    }
+    public void goAdd(View view) {
+        Intent intent2 = new Intent(this,editRecipe.class );
+        startActivity(intent2);
     }
 }

@@ -1,6 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="CookHelper"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_search_recipes"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="group88.cookhelper.MainActivity">
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_above="@+id/addRecipe">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:id="@+id/linearLayout"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button7"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:inputType="textPersonName"
+                android:hint="Recipe Name..."
+                android:textStyle="italic"
+                android:ems="10"
+                android:layout_width="match_parent"
+                android:background="@android:drawable/editbox_background"
+                android:layout_height="40dp"
+
+                android:id="@+id/search"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Search"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_above="@+id/linearLayout"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:text="Class"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Aclass"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
+
+                    <TextView
+                        android:text="Origin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Aorigin"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
+
+                    <TextView
+                        android:text="Category"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Acategory"
+                        android:layout_weight="1"
+                        android:gravity="bottom|left" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Addclass"
+                        android:layout_weight="1"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Addorigin"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/Addcategory" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <TextView
+                        android:text="Ingredients:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView2"
+                        android:gravity="bottom|left"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:text="+"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:gravity="left|center_vertical|center_horizontal"
+                        android:textStyle="normal|italic"
+                        android:id="@+id/reset" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/edit_ing_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <TextView
+                        android:text="Steps:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:gravity="bottom|left"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:text="+"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:gravity="left|center_vertical|center_horizontal"
+                        android:textStyle="normal|italic"
+                        android:id="@+id/addStep" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/edit_step_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="Save"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/saveEdit"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/clearText"
+        android:layout_gravity="right|bottom"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="clearName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+</RelativeLayout>
