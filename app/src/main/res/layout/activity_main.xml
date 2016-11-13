@@ -12,117 +12,169 @@
     tools:context="group88.cookhelper.MainActivity">
 
     <Button
-        android:text="Reset"
-        android:layout_height="50dp"
-        android:id="@+id/button"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textAppearance="@android:style/TextAppearance"
-        android:layout_width="65dp" />
-
-    <TextView
-        android:text="Search"
-        android:id="@+id/textView3"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
-
-    <EditText
+        android:text="  Add new recipe..."
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_width="300dp"
-        android:layout_toLeftOf="@+id/button"
-        android:background="@android:drawable/editbox_background"
-        android:layout_alignBottom="@+id/button"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="+"
-        android:layout_height="50dp"
-        android:id="@+id/button2"
-        style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="65dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/button7"
+        android:gravity="left|center_vertical|center_horizontal"
+        android:textStyle="normal|italic"
+        android:layout_alignParentBottom="true"
+        />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_height="600dp"
+        android:layout_above="@+id/button7">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:weightSum="1"
+            android:id="@+id/linearLayout"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button7"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:layout_weight="1" />
+            <EditText
+                android:inputType="textPersonName"
+                android:hint="Search ingredient..."
+                android:ems="10"
+                android:layout_width="match_parent"
+                android:background="@android:drawable/editbox_background"
+                android:layout_height="40dp"
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                android:layout_weight="1" />
+                android:id="@+id/Search"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:layout_weight="1" />
+                android:layout_below="@+id/Search"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_above="@+id/linearLayout"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:text="Class"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:text="Origin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView2"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:text="Category"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/spinner12"
+                        android:layout_weight="1"
+                        android:dropDownSelector="@android:drawable/arrow_down_float"
+                        android:spinnerMode="dialog" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/spinner9"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/spinner8"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:text="Reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button6"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:text="Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button5"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/recipe_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_marginEnd="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            >
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/spinner12"
-                android:layout_weight="1"
-                android:dropDownSelector="@android:drawable/arrow_down_float"
-                android:spinnerMode="dialog" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/spinner9"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/spinner8"
-                android:layout_weight="1"
-                android:gravity="center_vertical" />
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/recipe_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/clearText"
+        android:layout_gravity="right|bottom"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="clear"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
 </RelativeLayout>
