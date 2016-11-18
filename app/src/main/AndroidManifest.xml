@@ -29,10 +29,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".githubTester"
-            android:label="@string/title_activity_github_tester"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
-
+</application>
 </manifest>
