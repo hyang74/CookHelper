@@ -21,13 +21,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class editRecipe extends Activity {
 
 
     private String[] spinnerAddClass = {"ANY", "BEEF", "CHICKEN", "SEAFOOD", "VEGIE"};
     private String[] spinnerAddOrigin = {"ANY", "ITALIAN", "CHINESE", "MIDLE_EASTERN", "INDIAN", "AMERICAN"};
     private String[] spinnerAddCategory = {"ANY", "STARTER", "MAIN_DISH", "DESERT", "DRINK", "SAUCE", "SALAD"};
-
+    private List<Ingredient> newIngredientList = new LinkedList<>();
+    private List<String> newStepList = new LinkedList<>();
 
     EditText mEditText;
     Button mClearText;
