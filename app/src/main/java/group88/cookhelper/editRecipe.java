@@ -5,50 +5,64 @@ package group88.cookhelper;
  */
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class editRecipe extends Activity {
 
 
-    private String[] spinnerAddClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
-    private String[] spinnerAddOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-    private String[] spinnerAddCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+    private String[] spinnerAddClass = {"ANY", "BEEF", "CHICKEN", "SEAFOOD", "VEGIE"};
+    private String[] spinnerAddOrigin = {"ANY", "ITALIAN", "CHINESE", "MIDLE_EASTERN", "INDIAN", "AMERICAN"};
+    private String[] spinnerAddCategory = {"ANY", "STARTER", "MAIN_DISH", "DESERT", "DRINK", "SAUCE", "SALAD"};
 
 
     EditText mEditText;
     Button mClearText;
+    Button mSave;
+    EditText mEditName = (EditText) findViewById(R.id.EditName);
+    Spinner aClass = (Spinner) findViewById(R.id.Addclass);
+    Spinner aOrigin = (Spinner) findViewById(R.id.Addorigin);
+
+    Spinner aCategory = (Spinner) findViewById(R.id.Addcategory);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_recipe);
 
 
-        Spinner AClass = (Spinner) findViewById(R.id.Addclass);
         ArrayAdapter<String> adapterAClass = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddClass);
-        AClass.setAdapter(adapterAClass);
-        AClass.setSelection(0);
+        aClass.setAdapter(adapterAClass);
+        aClass.setSelection(0);
 
-        Spinner AOrigin = (Spinner) findViewById(R.id.Addorigin);
-        ArrayAdapter<String> adapterAOrigin = new ArrayAdapter<String>(this,
+
+        ArrayAdapter<String> adapteraOrigin = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddOrigin);
-        AOrigin.setAdapter(adapterAOrigin);
-        AOrigin.setSelection(0);
+        aOrigin.setAdapter(adapteraOrigin);
+        aOrigin.setSelection(0);
 
-        Spinner ACategory = (Spinner) findViewById(R.id.Addcategory);
-        ArrayAdapter<String> adapterACategory = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapteraCategory = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddCategory);
-        ACategory.setAdapter(adapterACategory);
-        ACategory.setSelection(0);
+        aCategory.setAdapter(adapteraCategory);
+        aCategory.setSelection(0);
 
         // Do not change, this block is used to clear text on clicking the X botton
         mEditText = (EditText) findViewById(R.id.search);
         mClearText = (Button) findViewById(R.id.clearText);
-
+        mSave = (Button) findViewById(R.id.saveEdit);
 
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
@@ -68,7 +82,7 @@ public class editRecipe extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0) {
+                if (s.length() != 0) {
                     mClearText.setVisibility(View.VISIBLE);
                 } else {
                     mClearText.setVisibility(View.GONE);
@@ -76,9 +90,31 @@ public class editRecipe extends Activity {
             }
         });
     }
+
     public void clearName(View view) {
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
     }
 
+    public void saveEditRecipe(View view) {
+        Recipe newRecipe = new Recipe();
+        newRecipe.setRecipeName(mEditName.getText().toString());
+        newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
+        newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
+        newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
+
+
+
+        try {
+            JSONObject jasonRecipe = new JSONObject();
+            jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
+            jasonRecipe.put("Class", aClass.getSelectedItem().toString());
+            jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
+            jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
+            JSONArray newIngredients = new JSONArray();
+            while()
+        }
+
+        catch(JSONException ex){}
+    }
 }
