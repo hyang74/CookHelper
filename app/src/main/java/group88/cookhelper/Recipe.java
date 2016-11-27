@@ -15,7 +15,11 @@ public class Recipe {
         private String ingName;
         private float ingQuantity;
         private Measure ingUnits;
-
+        Ingredient(String newIngName, float newIngQuantity, Measure newIngUnits){
+            this.ingName=newIngName;
+            this.ingQuantity=newIngQuantity;
+            this.ingUnits=newIngUnits;
+        }
         public String getIngName() { return ingName; }
         public void setIngName(String name) {ingName = name;}
         public float getIngQuantity() { return ingQuantity; }
@@ -29,19 +33,23 @@ public class Recipe {
     private Category recipeCategory;
     private List<Ingredient>  ingredients;
     private List<String> steps;
-
     public String getRecipeName() { return recipeName; }
     public void setRecipeName(String name) { recipeName = name; }
     public Class getRecipeClass() { return recipeClass; }
-    public void setRecipeClass(Class cl) { recipeClass = cl; }
+    public void setRecipeClass(Class c) { recipeClass = c; }
     public Origin getRecipeOrigin() { return recipeOrigin; }
     public void setRecipeOrigin(Origin origin) { recipeOrigin = origin; }
     public Category getRecipeCategory() { return recipeCategory; }
-    public void setRecipeCategory(Category cat) { recipeCategory = cat; }
+    public void setRecipeCategory(Category category) { recipeCategory = category; }
     public List<Ingredient> getIngredients() { return ingredients; }
-    public void setIngredients(List<Ingredient> ig) { ingredients = ig; }
+    public void addIngredients(String newIngName, float newIngQuantity, Measure newIngUnits) {
+        Ingredient newIng= new Ingredient(newIngName,newIngQuantity,newIngUnits);
+        ingredients.add(newIng);
+    }
+    public void deleteIngredients(){ingredients.clear();}
     public List<String> getSteps() { return steps; }
     public void setSteps(List<String> dr) { steps = dr; }
+    public void deleteSteps(){steps.clear();}
     public String toString(){
         String str;
         str = "Recipe Name: " + recipeName + "\n";
@@ -60,6 +68,4 @@ public class Recipe {
         }
         return str;
     }
-}
-
 }
