@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
     public void goAdd(View view) {
         Intent intent2 = new Intent(this,editRecipe.class );
         startActivity(intent2);
-        Recipe newR = new Recipe();
 
     }
 }
