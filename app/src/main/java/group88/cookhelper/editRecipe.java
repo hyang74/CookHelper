@@ -12,15 +12,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -106,6 +103,7 @@ public class editRecipe extends Activity {
         newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
         newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
         newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
+        Boolean if_added =Recipe.recipes.add(newRecipe);
 
 
 
@@ -116,7 +114,29 @@ public class editRecipe extends Activity {
             jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
             jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
             JSONArray newIngredients = new JSONArray();
-            while()
+            int i=0;
+            while(i<newIngredientList.size()){
+                JSONObject ingred= new JSONObject();
+                ingred.put("name", newIngredientList.get(i).getIngName());
+                ingred.put("quantity",newIngredientList.get(i).getIngQuantity());
+                ingred.put("unit", newIngredientList.get(i).getIngUnits());
+                newIngredients.put(ingred);
+                i++;
+            }
+            jasonRecipe.put("Ingredients",newIngredients);
+
+            JSONArray stps = new JSONArray();
+            int a=0;
+            while( a<newStepList.size()){
+                JSONObject sp= new JSONObject();
+                sp.put("step", newStepList.get(i));
+                stps.put(sp);
+                a++;
+            }
+            jasonRecipe.put("steps", stps);
+            FileOutputStream("test.text");
+            
+
         }
 
         catch(JSONException ex){}

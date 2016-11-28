@@ -3,6 +3,8 @@ package group88.cookhelper;
 /**
  * Created by YANG on 2016-11-24.
  */
+import org.json.JSONObject;
+
 import java.util.*;
 
 
@@ -12,7 +14,7 @@ public class Recipe {
     public String Origin;
     public String Category;
     public enum Measure  {ANY,CUP, TEA_SPOON, TABLE_SPOON, OUNCE, KILO_GRAM, GRAM, PIECE};
-
+    public static List<Recipe> recipes;
     private String recipeName;
     private String recipeClasss;
     private String recipeOrigin;
