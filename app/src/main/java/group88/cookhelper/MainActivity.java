@@ -194,7 +194,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //please implement
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         displayList(showList);//pass a string list to displaylist
