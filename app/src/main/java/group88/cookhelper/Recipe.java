@@ -13,7 +13,6 @@ public class Recipe {
     public String Classs;
     public String Origin;
     public String Category;
-    public enum Measure  {ANY,CUP, TEA_SPOON, TABLE_SPOON, OUNCE, KILO_GRAM, GRAM, PIECE};
     public static List<Recipe> recipes;
     private String recipeName;
     private String recipeClasss;

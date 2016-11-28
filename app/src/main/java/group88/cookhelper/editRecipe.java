@@ -47,6 +47,9 @@ public class editRecipe extends Activity {
     ListView editStepList;
     EditText mEditName;
     int stepCounter = 1;
+    Spinner aClass;
+    Spinner aOrigin;
+    Spinner aCategory;
     AlertDialog.Builder dialogBuilder;
     String newStep;
     Ingredient newIng = new Ingredient();
@@ -73,9 +76,9 @@ public class editRecipe extends Activity {
                 stepDialog();
             }
         });
-        Spinner aClass = (Spinner) findViewById(R.id.Addclass);
-        Spinner aOrigin = (Spinner) findViewById(R.id.Addorigin);
-        Spinner aCategory = (Spinner) findViewById(R.id.Addcategory);
+        aClass = (Spinner) findViewById(R.id.Addclass);
+        aOrigin = (Spinner) findViewById(R.id.Addorigin);
+        aCategory = (Spinner) findViewById(R.id.Addcategory);
         ArrayAdapter<String> adapterAClass = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddClass);
         aClass.setAdapter(adapterAClass);
@@ -109,6 +112,7 @@ public class editRecipe extends Activity {
 
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
+        mEditText = (EditText) findViewById(R.id.EditName);
 
         //clear button visibility on text change
         mEditText.addTextChangedListener(new TextWatcher() {
@@ -139,14 +143,6 @@ public class editRecipe extends Activity {
         mClearText.setVisibility(View.GONE);
     }
 
-
-    public void saveEditRecipe(View view) {
-        Recipe newRecipe = new Recipe();
-        newRecipe.setRecipeName(mEditName.getText().toString());
-        newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
-        newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
-        newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
-        Boolean if_added =Recipe.recipes.add(newRecipe);
 
     public void ingredientDialog(){
         final EditText nameInput ;
@@ -221,39 +217,6 @@ public class editRecipe extends Activity {
         dialogBuilder = new AlertDialog.Builder(this);
         final EditText stepInput = new EditText(this);
 
-
-        try {
-            JSONObject jasonRecipe = new JSONObject();
-            jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
-            jasonRecipe.put("Class", aClass.getSelectedItem().toString());
-            jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
-            jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
-            JSONArray newIngredients = new JSONArray();
-            int i=0;
-            while(i<newIngredientList.size()){
-                JSONObject ingred= new JSONObject();
-                ingred.put("name", newIngredientList.get(i).getIngName());
-                ingred.put("quantity",newIngredientList.get(i).getIngQuantity());
-                ingred.put("unit", newIngredientList.get(i).getIngUnits());
-                newIngredients.put(ingred);
-                i++;
-            }
-            jasonRecipe.put("Ingredients",newIngredients);
-
-            JSONArray stps = new JSONArray();
-            int a=0;
-            while( a<newStepList.size()){
-                JSONObject sp= new JSONObject();
-                sp.put("step", newStepList.get(i));
-                stps.put(sp);
-                a++;
-            }
-            jasonRecipe.put("steps", stps);
-            FileOutputStream("test.text");
-            
-
-        }
-
         dialogBuilder.setTitle("Enter your step "+stepCounter);
         dialogBuilder.setMessage("Type your step here:");
         dialogBuilder.setView(stepInput);
@@ -288,4 +251,49 @@ public class editRecipe extends Activity {
         editStepList.setAdapter(adapterStep);
     }
 
+
+
+    public void saveEditRecipe(View view) {
+        Recipe newRecipe = new Recipe();
+        newRecipe.setRecipeName(mEditName.getText().toString());
+        newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
+        newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
+        newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
+        Boolean if_added =Recipe.recipes.add(newRecipe);
+
+
+        try {
+            JSONObject jasonRecipe = new JSONObject();
+            jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
+            jasonRecipe.put("Class", aClass.getSelectedItem().toString());
+            jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
+            jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
+            JSONArray newIngredients = new JSONArray();
+            int i=0;
+            while(i<newIngredientList.size()){
+                JSONObject ingred= new JSONObject();
+                ingred.put("name", newIngredientList.get(i).getIngName());
+                ingred.put("quantity",newIngredientList.get(i).getIngQuantity());
+                ingred.put("unit", newIngredientList.get(i).getIngUnits());
+                newIngredients.put(ingred);
+                i++;
+            }
+            jasonRecipe.put("Ingredients",newIngredients);
+
+            JSONArray stps = new JSONArray();
+            int a=0;
+            while( a<newStepList.size()){
+                JSONObject sp= new JSONObject();
+                sp.put("step", newStepList.get(i));
+                stps.put(sp);
+                a++;
+            }
+            jasonRecipe.put("steps", stps);
+            //FileOutputStream("test.text");
+
+
+        }
+        catch(JSONException ex){}
+
+}
 }
