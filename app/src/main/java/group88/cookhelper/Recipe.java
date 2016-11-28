@@ -26,9 +26,9 @@ public class Recipe {
 
     Recipe(){
         this.recipeName=" ";
-        this.recipeClasss="ANY";
-        this.recipeOrigin="ANY";
-        this.recipeCategory="ANY";
+        this.recipeClasss="Any";
+        this.recipeOrigin="Any";
+        this.recipeCategory="Any";
         this.ingredients= new LinkedList<>();
         this.steps = new LinkedList<String>();
         this.b =new LinkedList<String>();

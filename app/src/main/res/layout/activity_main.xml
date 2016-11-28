@@ -11,11 +11,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="group88.cookhelper.MainActivity">
 
+    <Button
+        android:id="@+id/clearText"
+        android:layout_gravity="right|bottom"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="clear"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <Button
+        android:text="  Add new recipe..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical|center_horizontal"
+        android:textStyle="normal|italic"
+        android:id="@+id/addRecipe"
+        android:onClick="goAdd"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_above="@+id/addRecipe">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -140,7 +164,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/filter"
-                        android:onClick="goRecipe"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -155,27 +178,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/clearText"
-        android:layout_gravity="right|bottom"
-        android:background="@android:drawable/ic_menu_close_clear_cancel"
-        android:onClick="clear"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
-
-    <Button
-        android:text="  Add new recipe..."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left|center_vertical|center_horizontal"
-        android:textStyle="normal|italic"
-        android:id="@+id/addRecipe"
-        android:onClick="goAdd"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
