@@ -5,10 +5,17 @@ package group88.cookhelper;
  */
 
 public class Ingredient{
+
+    public enum Measure  {none,cup, tea_spoon, table_spoon, ounce, kg, g, piece};
     private String ingName;
     private float ingQuantity;
-    private Recipe.Measure ingUnits;
-    Ingredient(String newIngName, float newIngQuantity,Recipe.Measure newIngUnits){
+    private Measure ingUnits;
+    Ingredient(){
+        this.ingName=" ";
+        this.ingQuantity=0;
+        this.ingUnits = Measure.none;
+    }
+    Ingredient(String newIngName, float newIngQuantity,Measure newIngUnits){
         this.ingName=newIngName;
         this.ingQuantity=newIngQuantity;
         this.ingUnits=newIngUnits;
@@ -21,5 +28,5 @@ public class Ingredient{
         String a="";
         a += ingUnits;
         return a;}
-    public void setIngUnits(Recipe.Measure u) { ingUnits = u; }
+    public void setIngUnits(Measure u) { ingUnits = u; }
 }

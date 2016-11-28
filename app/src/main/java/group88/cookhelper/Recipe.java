@@ -61,7 +61,7 @@ public class Recipe {
 
 
     public void setIngredients(List<Ingredient> ing) {ingredients=ing;}
-    public void addIngredients(String newIngName, float newIngQuantity, Measure newIngUnits) {
+    public void addIngredients(String newIngName, float newIngQuantity, Ingredient.Measure newIngUnits) {
         Ingredient newIng= new Ingredient(newIngName,newIngQuantity,newIngUnits);
         ingredients.add(newIng);
     }

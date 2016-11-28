@@ -143,8 +143,9 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:gravity="left|center_vertical|center_horizontal"
-                        android:textStyle="normal|italic"
-                        android:id="@+id/reset" />
+                        android:textStyle="normal"
+                        android:id="@+id/addIng"
+                        android:onClick="ingredientDialog"/>
 
                 </LinearLayout>
 
@@ -171,8 +172,9 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:gravity="left|center_vertical|center_horizontal"
-                        android:textStyle="normal|italic"
-                        android:id="@+id/addStep" />
+                        android:textStyle="normal"
+                        android:id="@+id/addStep"
+                        android:onClick="stepDialog"/>
                 </LinearLayout>
 
                 <ListView
@@ -185,8 +187,7 @@
                     android:text="Save"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:id="@+id/saveEdit"
-                    android:onClick="saveEditRecipe"/>
+                    android:id="@+id/saveEdit"/>
 
 
             </LinearLayout>

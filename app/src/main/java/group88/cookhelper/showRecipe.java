@@ -27,12 +27,12 @@ public class showRecipe extends Activity {
          */
         Recipe Steak = new Recipe();
         Steak.setRecipeName("Steak");
-        Steak.setRecipeClass(Recipe.Classs.BEEF);
-        Steak.setRecipeCategory(Recipe.Category.MAIN_DISH);
-        Steak.setRecipeOrigin(Recipe.Origin.AMERICAN);
-        Steak.addIngredients("Beef",1, Recipe.Measure.PIECE);
-        Steak.addIngredients("Peper",10, Recipe.Measure.GRAM);
-        Steak.addIngredients("Salt",10, Recipe.Measure.GRAM);
+        Steak.setRecipeClass("BEEF");
+        Steak.setRecipeCategory("MAIN_DISH");
+        Steak.setRecipeOrigin("AMERICAN");
+        Steak.addIngredients("Beef",1, Ingredient.Measure.piece);
+        Steak.addIngredients("Peper",10, Ingredient.Measure.g);
+        Steak.addIngredients("Salt",10, Ingredient.Measure.g);
         Steak.addSteps("1. Use peper and salt to season the beef steak");
         Steak.addSteps("2. Pour olive oil in to the pan");
         Steak.addSteps("3. Wait until the oil is hot, put steak in the pan");
