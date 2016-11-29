@@ -76,8 +76,12 @@ public class editRecipe extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_recipe);
 
+        Intent intent = getIntent();
+        newRecipe =(Recipe ) intent.getSerializableExtra("Recipe");
+
 
         mEditText=(EditText) findViewById(R.id.EditName);
+        mEditText.setText(newRecipe.getRecipeName());
         mAddIng = (Button) findViewById(R.id.addIng);
         mAddIng.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +102,36 @@ public class editRecipe extends Activity {
         ArrayAdapter<String> adapterAClass = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddClass);
         aClass.setAdapter(adapterAClass);
-        aClass.setSelection(0);
+        //        private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
+//        private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+//        private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+
+        switch (newRecipe.getRecipeClass()) {
+            case "Any":
+                aClass.setSelection(0);
+                break;
+            case "Beef":
+                aClass.setSelection(0);
+                break;
+            case "Chicken":
+                aClass.setSelection(0);
+                break;
+            case "Seafood":
+                aClass.setSelection(0);;
+                break;
+            case "Vegie":
+                aClass.setSelection(0);
+                break;
+            case "kg":
+                aClass.setSelection(0);
+                break;
+            case "g":
+                aClass.setSelection(0);
+                break;
+            case "piece":
+                aClass.setSelection(0);
+        }
+
 
 
         ArrayAdapter<String> adapteraOrigin = new ArrayAdapter<String>(this,
@@ -221,7 +254,7 @@ public class editRecipe extends Activity {
                         newIngredientList.add(newIng);
                         ingList.add(newIng.getIngName()+" x " + newIng.getIngQuantity()+" "+newIng.getIngUnits());
                         display();
-                        Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_SHORT);
+
                         dialogCustom.dismiss();
                     }
                 }
@@ -232,7 +265,7 @@ public class editRecipe extends Activity {
         btncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Canceled",Toast.LENGTH_SHORT);
+
                 dialogCustom.dismiss();
             }
         });
@@ -254,14 +287,13 @@ public class editRecipe extends Activity {
                     stepList.add(newStep);
                     display();
                     stepCounter++;
-                    Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_SHORT);
-                }
+                   }
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Canceled",Toast.LENGTH_SHORT);
+
             }
         });
         dialogBuilder.show();
@@ -279,12 +311,6 @@ public class editRecipe extends Activity {
 
 
     public void saveEditRecipe(View view) {
-        Recipe newRecipe = new Recipe();
-        newRecipe.setRecipeName(mEditText.getText().toString());
-        newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
-        newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
-        newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
-        Boolean if_added =Recipe.recipes.add(newRecipe);
         try {
             FileInputStream fIn = openFileInput("test");
             FileChannel channel = fIn.getChannel();
@@ -352,9 +378,9 @@ public class editRecipe extends Activity {
         newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
         newRecipe.setIngredients(newIngredientList);
         newRecipe.setSteps(stepList);
-        Intent intent = new Intent(this,showRecipe.class );
-        intent.putExtra("Recipe", newRecipe);
-        startActivity(intent);
+        Intent intentShow = new Intent(this,showRecipe.class );
+        intentShow.putExtra("Recipe", newRecipe);
+        startActivity(intentShow);
     }
 
 

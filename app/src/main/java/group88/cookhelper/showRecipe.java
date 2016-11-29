@@ -16,6 +16,7 @@ public class showRecipe extends Activity {
     private Recipe showRecipeDetail;
 
 
+
     //{"Beef showRecipeDetail x 1 Piece", "Peper x 10 g","Olive oil x 200 ml","Salt x 10 g"};
     //private String[] stepItems ={"1. Use peper and salt to season the beef showRecipeDetail","2. Pour olive oil in to the pan","3. Wait until the oil is hot, put showRecipeDetail in the pan","4. blablablabla","5. blablablablabla","6. blablablablablablabla"};
     @Override
@@ -27,8 +28,8 @@ public class showRecipe extends Activity {
         TextView mRecipeCategory = (TextView) findViewById(R.id.SRecipecategory);
         TextView mRecipeOrigin = (TextView) findViewById(R.id.SRecipeorigin);
 
-        Intent intent = getIntent();
-        showRecipeDetail =(Recipe ) intent.getSerializableExtra("Recipe");
+        Intent intentShow = getIntent();
+        showRecipeDetail =(Recipe ) intentShow.getSerializableExtra("Recipe");
 
         /**
          * change the textView
@@ -48,7 +49,9 @@ public class showRecipe extends Activity {
         stepList.setAdapter(adapterStep);
     }
     public void goEdit(View view) {
-        Intent intent = new Intent(this,editRecipe.class );
-        startActivity(intent);
+        Intent intentEdit = new Intent(this,editRecipe.class );
+        intentEdit.putExtra("Recipe", showRecipeDetail);
+        startActivity(intentEdit);
+
     }
 }

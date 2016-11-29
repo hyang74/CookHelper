@@ -27,12 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-    List<Recipe> allRecipe=new LinkedList<>();
-    List<Recipe> filterResult=new LinkedList<>();
-    List<String> showList=new LinkedList<String>();
-    int numOfAllRecipe;
-    int numOfFilteredRecipe;
-    public static List<JSONObject> menu = new LinkedList<>();
+    private List<Recipe> allRecipe=new LinkedList<>();
+    private List<Recipe> filterResult=new LinkedList<>();
+   private  List<String> showList=new LinkedList<String>();
+    private int numOfAllRecipe;
+    private int numOfFilteredRecipe;
 
         EditText mEditText;
         Button mClearText;
@@ -177,8 +176,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goAdd(View view) {
-        Intent intent2 = new Intent(this,editRecipe.class );
-        startActivity(intent2);
+        Intent intentAdd = new Intent(this,editRecipe.class );
+        Recipe newRecipe=new Recipe();
+        intentAdd.putExtra("Recipe", newRecipe);
+        startActivity(intentAdd);
+
 
     }
 

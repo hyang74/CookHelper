@@ -12,7 +12,7 @@ import java.util.*;
 public class Recipe implements Serializable {
 
     private static final long serialVersionUID =1L;
-    public static List<Recipe> recipes;
+
     private String recipeName;
     private String recipeClasss;
     private String recipeOrigin;
@@ -24,7 +24,7 @@ public class Recipe implements Serializable {
 
 
     Recipe(){
-        this.recipeName=" ";
+        this.recipeName="";
         this.recipeClasss="Any";
         this.recipeOrigin="Any";
         this.recipeCategory="Any";

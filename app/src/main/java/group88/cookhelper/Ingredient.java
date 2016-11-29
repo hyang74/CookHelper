@@ -1,18 +1,21 @@
 package group88.cookhelper;
 
 
+import java.io.Serializable;
+
 /**
  * Created by YANG on 2016-11-27.
  */
 
-public class Ingredient{
+public class Ingredient implements Serializable{
 
+    private static final long serialVersionUID =1L;
     public enum Measure  {none,cup, tea_spoon, table_spoon, ounce, kg, g, piece};
     private String ingName;
     private float ingQuantity;
     private Measure ingUnits;
     Ingredient(){
-        this.ingName=" ";
+        this.ingName="";
         this.ingQuantity=0;
         this.ingUnits = Measure.none;
     }
