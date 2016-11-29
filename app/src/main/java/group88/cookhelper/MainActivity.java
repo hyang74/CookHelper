@@ -24,13 +24,13 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
     private ListView recipeList;
 
-    private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
+    private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
     private List<Recipe> filterResult=new LinkedList<>();
-   private  List<String> showList=new LinkedList<String>();
+    private  List<String> showList=new LinkedList<String>();
     private int numOfAllRecipe;
     private int numOfFilteredRecipe;
 

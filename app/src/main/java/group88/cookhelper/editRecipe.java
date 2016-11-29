@@ -285,7 +285,7 @@ public class editRecipe extends Activity {
                 if (!stepInput.getText().toString().trim().isEmpty()){
 
                     newStep = stepCounter +": "+ stepInput.getText().toString();
-                    stepList.add(newStep);
+                    newStepList.add(newStep);
                     display();
                     stepCounter++;
                    }

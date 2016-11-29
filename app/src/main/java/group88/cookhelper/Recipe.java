@@ -18,8 +18,8 @@ public class Recipe implements Serializable {
     private String recipeOrigin;
     private String  recipeCategory;
 
-    public List<Ingredient>  ingredients;
-    public List<String> steps;
+    private List<Ingredient>  ingredients;
+    private List<String> steps;
     private List<String> ingredientsStringList;
 
 
@@ -59,8 +59,8 @@ public class Recipe implements Serializable {
 
 
     public void setIngredients(List<Ingredient> ing) {ingredients=ing;}
-    public void addIngredients(String newIngName, float newIngQuantity, Ingredient.Measure newIngUnits) {
-        Ingredient newIng= new Ingredient(newIngName,newIngQuantity,newIngUnits);
+    public void addIngredients(Ingredient newIng) {
+
         ingredients.add(newIng);
     }
     public List<Ingredient> getIngredients(){return ingredients;}
