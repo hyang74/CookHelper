@@ -48,10 +48,9 @@ public class editRecipe extends Activity {
     private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerAddOrigin = {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-    private List<Ingredient> newIngredientList = new LinkedList<>();
+    private List<Ingredient>newIngList = new LinkedList<>();
     private List<String> newStepList = new LinkedList<>();
-    private List<String> ingList = new LinkedList<>();
-    private List<String> stepList = new LinkedList<>();
+    private List<String> newIngStringList = new LinkedList<>();
     private Recipe newRecipe = new Recipe();
 
 
@@ -103,7 +102,7 @@ public class editRecipe extends Activity {
         ArrayAdapter<String> adapterAClass = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddClass);
         aClass.setAdapter(adapterAClass);
-        //        private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
+        //        private String[] spinnerClass ={{"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
 //        private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
 //        private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
@@ -112,25 +111,23 @@ public class editRecipe extends Activity {
                 aClass.setSelection(0);
                 break;
             case "Beef":
-                aClass.setSelection(0);
+                aClass.setSelection(1);
                 break;
             case "Chicken":
-                aClass.setSelection(0);
+                aClass.setSelection(2);
+                break;
+            case "Prok":
+                aClass.setSelection(3);;
                 break;
             case "Seafood":
-                aClass.setSelection(0);;
+                aClass.setSelection(4);
                 break;
             case "Vegie":
-                aClass.setSelection(0);
+                aClass.setSelection(5);
                 break;
-            case "kg":
-                aClass.setSelection(0);
+            case "Mixed":
+                aClass.setSelection(6);
                 break;
-            case "g":
-                aClass.setSelection(0);
-                break;
-            case "piece":
-                aClass.setSelection(0);
         }
 
 
@@ -138,19 +135,68 @@ public class editRecipe extends Activity {
         ArrayAdapter<String> adapteraOrigin = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddOrigin);
         aOrigin.setAdapter(adapteraOrigin);
-        aOrigin.setSelection(0);
+        //{"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+        switch (newRecipe.getRecipeOrigin()) {
+            case "Any":
+                aOrigin.setSelection(0);
+                break;
+            case "Italian":
+                aOrigin.setSelection(1);
+                break;
+            case "Chinese":
+                aOrigin.setSelection(2);
+                break;
+            case "Midle Eastern":
+                aOrigin.setSelection(3);;
+                break;
+            case "Indian":
+                aOrigin.setSelection(4);
+                break;
+            case "American":
+                aOrigin.setSelection(5);
+                break;
+        }
 
         ArrayAdapter<String> adapteraCategory = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerAddCategory);
         aCategory.setAdapter(adapteraCategory);
-        aCategory.setSelection(0);
+        //{"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"
+        switch (newRecipe.getRecipeClass()) {
+            case "Any":
+                aCategory.setSelection(0);
+                break;
+            case "Starter":
+                aCategory.setSelection(1);
+                break;
+            case "Main Dish":
+                aCategory.setSelection(2);
+                break;
+            case "Desert":
+                aCategory.setSelection(3);;
+                break;
+            case "Drink":
+                aCategory.setSelection(4);
+                break;
+            case "Sauce":
+                aCategory.setSelection(5);
+                break;
+            case "Salad":
+                aCategory.setSelection(6);
+                break;
+        }
+
+
+        newStepList=newRecipe.getSteps();
+        newIngList=newRecipe.getIngredients();
+        newIngStringList=newRecipe.getIngredientsStringListList();
+
 
         editIngList =(ListView) findViewById(R.id.edit_ing_list);
-        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ingList);
+        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newIngStringList);
         editIngList.setAdapter(adapterIng);
 
         editStepList = (ListView) findViewById(R.id.edit_step_list);
-        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stepList);
+        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newStepList);
         editStepList.setAdapter(adapterStep);
 
 
@@ -171,6 +217,12 @@ public class editRecipe extends Activity {
         mEditText = (EditText) findViewById(R.id.EditName);
 
         //clear button visibility on text change
+        if(!mEditText.getText().toString().isEmpty()){
+            mClearText.setVisibility(View.VISIBLE);
+        }
+        else {
+            mClearText.setVisibility(View.GONE);
+        }
         mEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -252,8 +304,8 @@ public class editRecipe extends Activity {
                                 newIng.setIngUnits(Ingredient.Measure.piece);
                                 break;
                         }
-                        newIngredientList.add(newIng);
-                        ingList.add(newIng.getIngName()+" x " + newIng.getIngQuantity()+" "+newIng.getIngUnits());
+                        newIngList.add(newIng);
+                        newIngStringList.add(newIng.getIngName()+" x " + newIng.getIngQuantity()+" "+newIng.getIngUnits());
                         display();
 
                         dialogCustom.dismiss();
@@ -301,17 +353,17 @@ public class editRecipe extends Activity {
     }
     public void display(){
         editIngList =(ListView) findViewById(R.id.edit_ing_list);
-        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ingList);
+        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newIngStringList);
         editIngList.setAdapter(adapterIng);
 
         editStepList = (ListView) findViewById(R.id.edit_step_list);
-        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stepList);
+        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newStepList);
         editStepList.setAdapter(adapterStep);
     }
 
 
 
-    public void saveEditRecipe(View view) {
+    public void saveEditRecipe() {
    try {
        read_jason();
                 JSONObject data = new JSONObject();
@@ -364,8 +416,8 @@ public class editRecipe extends Activity {
         newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
         newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
         newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
-        newRecipe.setIngredients(newIngredientList);
-        newRecipe.setSteps(stepList);
+        newRecipe.setIngredients(newIngList);
+        newRecipe.setSteps(newStepList);
         Intent intentShow = new Intent(this,showRecipe.class );
         intentShow.putExtra("Recipe", newRecipe);
         startActivity(intentShow);
