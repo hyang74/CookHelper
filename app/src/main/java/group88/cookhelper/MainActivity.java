@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
-    private List<Recipe> allRecipe=new LinkedList<>();
+    public static List<Recipe> allRecipe=new LinkedList<>();
     private List<Recipe> filterResult=new LinkedList<>();
    private  List<String> showList=new LinkedList<String>();
     private int numOfAllRecipe;

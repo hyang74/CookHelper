@@ -313,45 +313,41 @@ public class editRecipe extends Activity {
 
     public void saveEditRecipe(View view) {
    try {
-            FileInputStream fIn = openFileInput("test");
-            FileChannel channel = fIn.getChannel();
-            if (channel.size() == 0) {
+       read_jason();
                 JSONObject data = new JSONObject();
                 JSONArray recipes = new JSONArray();
                 data.put("recipes", recipes);
-                OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
-                writer.write(data.toString());
-                writer.close();
-                JSONObject jasonRecipe = new JSONObject();
-                jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
-                jasonRecipe.put("Class", aClass.getSelectedItem().toString());
-                jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
-                jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
-                JSONArray newIngredients = new JSONArray();
-                int i = 0;
-                while (i < newIngredientList.size()) {
-                    JSONObject ingred = new JSONObject();
-                    ingred.put("name", newIngredientList.get(i).getIngName());
-                    ingred.put("quantity", newIngredientList.get(i).getIngQuantity());
-                    ingred.put("unit", newIngredientList.get(i).getIngUnits());
-                    newIngredients.put(ingred);
-                    i++;
-                }
-                jasonRecipe.put("Ingredients", newIngredients);
-                JSONArray stps = new JSONArray();
-                int a = 0;
-                while (a < newStepList.size()) {
-                    JSONObject sp = new JSONObject();
-                    sp.put("step", newStepList.get(i));
-                    stps.put(sp);
-                }
-                    jasonRecipe.put("stpes",stps);
-                    read_jason();
-
-                    OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
-                    write.write(jasonRecipe.toString());
-                    write.close();
-                }
+       MainActivity.allRecipe.add(newRecipe);
+       for(int c=0;c<MainActivity.allRecipe.size(); c++) {
+           JSONObject jasonRecipe = new JSONObject();
+           jasonRecipe.put("RecipeName", MainActivity.allRecipe.get(c).getRecipeName());
+           jasonRecipe.put("Class", MainActivity.allRecipe.get(c).getRecipeClass());
+           jasonRecipe.put("Category", MainActivity.allRecipe.get(c).getRecipeCategory());
+           jasonRecipe.put("Origin", MainActivity.allRecipe.get(c).getRecipeOrigin());
+           JSONArray newIngredients = new JSONArray();
+           int i = 0;
+           while (i < MainActivity.allRecipe.get(c).getIngredients().size()) {
+               JSONObject ingred = new JSONObject();
+               ingred.put("name", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngName());
+               ingred.put("quantity", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngQuantity());
+               ingred.put("unit", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngUnits());
+               newIngredients.put(ingred);
+               i++;
+           }
+           jasonRecipe.put("Ingredients", newIngredients);
+           JSONArray stps = new JSONArray();
+           int a = 0;
+           while (a < MainActivity.allRecipe.get(c).getSteps().size()) {
+               JSONObject sp = new JSONObject();
+               sp.put("step", MainActivity.allRecipe.get(c).getSteps().get(a));
+               stps.put(sp);
+           }
+           jasonRecipe.put("stpes", stps);
+            recipes.put(jasonRecipe);
+       }
+       OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
+       write.write(data.toString());
+       write.close();
             }catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -377,7 +373,6 @@ public class editRecipe extends Activity {
     public  void read_jason(){
         String json = new String();
         MainActivity.allRecipe = new LinkedList<>();
-        MainActivity.showList = new LinkedList<>();
 
         try {
             InputStream is = getAssets().open("test");
@@ -395,7 +390,6 @@ public class editRecipe extends Activity {
                 List steps_list= new LinkedList<String>();
                 JSONObject recp = recipes.getJSONObject(i);
                 String name = recp.getString("RecipeName");
-                MainActivity.showList.add(name);
                 recpe.setRecipeName(name);
                 String classs = recp.getString("Class");
                 recpe.setRecipeClass(classs);
@@ -453,14 +447,8 @@ public class editRecipe extends Activity {
             e.printStackTrace();
         }catch(java.io.IOException e){
             e.printStackTrace();
-
         }
-
     }
-
-
-
-
 }
 
 
