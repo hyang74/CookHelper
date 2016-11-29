@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.MalformedInputException;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.InputStream;
@@ -311,10 +312,9 @@ public class editRecipe extends Activity {
 
 
     public void saveEditRecipe(View view) {
-        try {
+   try {
             FileInputStream fIn = openFileInput("test");
             FileChannel channel = fIn.getChannel();
-
             if (channel.size() == 0) {
                 JSONObject data = new JSONObject();
                 JSONArray recipes = new JSONArray();
@@ -322,15 +322,6 @@ public class editRecipe extends Activity {
                 OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
                 writer.write(data.toString());
                 writer.close();
-            }
-        }catch (FileNotFoundException e) {
-        e.printStackTrace();
-        }catch (JSONException e) {
-        e.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        try {
                 JSONObject jasonRecipe = new JSONObject();
                 jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
                 jasonRecipe.put("Class", aClass.getSelectedItem().toString());
@@ -353,19 +344,20 @@ public class editRecipe extends Activity {
                     JSONObject sp = new JSONObject();
                     sp.put("step", newStepList.get(i));
                     stps.put(sp);
-                    a++;
                 }
-                jasonRecipe.put("steps", stps);
-                try {
-                    OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
-                    writer.write(jasonRecipe.toString());
-                    writer.close();
-                } catch (FileNotFoundException e) {
+                    jasonRecipe.put("stpes",stps);
+                    read_jason();
+
+                    OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
+                    write.write(jasonRecipe.toString());
+                    write.close();
+                }
+            }catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } catch (JSONException e) {
+     catch(JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -382,7 +374,89 @@ public class editRecipe extends Activity {
         intentShow.putExtra("Recipe", newRecipe);
         startActivity(intentShow);
     }
+    public  void read_jason(){
+        String json = new String();
+        MainActivity.allRecipe = new LinkedList<>();
+        MainActivity.showList = new LinkedList<>();
 
+        try {
+            InputStream is = getAssets().open("test");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            JSONObject jsob= new JSONObject(json);
+            JSONArray recipes= new JSONArray();
+            recipes=jsob.getJSONArray("recipes");
+            for (int i =0; i <recipes.length(); i++) {
+                Recipe recpe = new Recipe();
+                List ingredient_list= new LinkedList<Ingredient>();
+                List steps_list= new LinkedList<String>();
+                JSONObject recp = recipes.getJSONObject(i);
+                String name = recp.getString("RecipeName");
+                MainActivity.showList.add(name);
+                recpe.setRecipeName(name);
+                String classs = recp.getString("Class");
+                recpe.setRecipeClass(classs);
+                String category = recp.getString("Category");
+                recpe.setRecipeCategory(category);
+                String Origin = recp.getString("Origin");
+                recpe.setRecipeOrigin(Origin);
+                JSONArray ject = recp.getJSONArray("newIngredients");
+                for (int a = 0; a < ject.length(); a++) {
+                    JSONObject inget = ject.getJSONObject(i);
+                    String names = inget.getString("name");
+                    float quantity = inget.getLong("quantity");
+                    String unit = inget.getString("unit");
+                    Ingredient the_ingredient= new Ingredient();
+                    the_ingredient.setIngName(names);
+                    the_ingredient.setIngQuantity(quantity);
+                    switch (unit) {
+                        case "None":
+                            the_ingredient.setIngUnits(Ingredient.Measure.none);
+                            break;
+                        case "cup":
+                            the_ingredient.setIngUnits(Ingredient.Measure.cup);
+                            break;
+                        case "tea_spoon":
+                            the_ingredient.setIngUnits(Ingredient.Measure.tea_spoon);
+                            break;
+                        case "table_spoon":
+                            the_ingredient.setIngUnits(Ingredient.Measure.table_spoon);
+                            break;
+                        case "ounce":
+                            the_ingredient.setIngUnits(Ingredient.Measure.ounce);
+                            break;
+                        case "kg":
+                            the_ingredient.setIngUnits(Ingredient.Measure.kg);
+                            break;
+                        case "g":
+                            the_ingredient.setIngUnits(Ingredient.Measure.g);
+                            break;
+                        case "piece":
+                            the_ingredient.setIngUnits(Ingredient.Measure.piece);
+                    }
+                    ingredient_list.add(the_ingredient);
+                }
+                recpe.setIngredients(ingredient_list);
+                JSONArray sps = recp.getJSONArray("steps");
+                for (int b = 0; b < sps.length(); b++) {
+                    JSONObject step = sps.getJSONObject(i);
+                    String the_step=step.getString("step");
+                    steps_list.add(the_step);
+                }
+                recpe.setIngredients(steps_list);
+                MainActivity.allRecipe.add(recpe);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }catch(java.io.IOException e){
+            e.printStackTrace();
+
+        }
+
+    }
 
 
 

@@ -27,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerClass ={"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+
     private List<Recipe> allRecipe=new LinkedList<>();
     private List<Recipe> filterResult=new LinkedList<>();
    private  List<String> showList=new LinkedList<String>();
     private int numOfAllRecipe;
     private int numOfFilteredRecipe;
+
 
         EditText mEditText;
         Button mClearText;
@@ -270,9 +272,10 @@ public class MainActivity extends AppCompatActivity {
         recipeList.setAdapter(newAdapter);
     }
 
-    public void loadin(){
-        String json = null;
-        allRecipe = null;
+    public  void read_jason(){
+        String json = new String();
+        allRecipe = new LinkedList<>();
+        showList = new LinkedList<>();
 
         try {
             InputStream is = getAssets().open("test");
@@ -290,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 List steps_list= new LinkedList<String>();
                 JSONObject recp = recipes.getJSONObject(i);
                 String name = recp.getString("RecipeName");
+                showList.add(name);
                 recpe.setRecipeName(name);
                 String classs = recp.getString("Class");
                 recpe.setRecipeClass(classs);
