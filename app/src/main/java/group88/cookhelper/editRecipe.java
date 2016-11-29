@@ -363,9 +363,10 @@ public class editRecipe extends Activity {
 
 
 
-    public void saveEditRecipe() {
-   try {
-       read_jason();
+    public void saveEditRecipe(View view) {
+
+        try {
+
                 JSONObject data = new JSONObject();
                 JSONArray recipes = new JSONArray();
                 data.put("recipes", recipes);
