@@ -1,5 +1,7 @@
 package group88.cookhelper;
 
+import android.content.res.AssetManager;
+import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.*;
@@ -7,8 +9,17 @@ import android.view.*;
 import android.text.*;
 import android.content.*;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Reader;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
     private ListView recipeList;
@@ -21,17 +32,83 @@ public class MainActivity extends AppCompatActivity {
     List<String> showList=new LinkedList<String>();
     int numOfAllRecipe;
     int numOfFilteredRecipe;
+    public static List<JSONObject> menu = new LinkedList<>();
 
-    EditText mEditText;
-    Button mClearText;
-    Button filter;
-    Button reset;
-    Spinner spClass;
-    Spinner spOrigin;
-    Spinner spCategory;
+        EditText mEditText;
+        Button mClearText;
+        Button filter;
+        Button reset;
+        Spinner spClass;
+        Spinner spOrigin;
+        Spinner spCategory;
+
+        Context context = null;
+        AssetManager am = context.getAssets();
+        String str=null;
+
+    public void loadin(){
+        String json = null;
+        allRecipe = null;
+        
+        try {
+            InputStream is = getAssets().open("test");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            JSONObject jsob= new JSONObject(json);
+            JSONArray recipes= new JSONArray();
+            recipes=jsob.getJSONArray("recipes");
+        for (int i =0; i <recipes.length(); i++) {
+            Recipe recpe = new Recipe();
+            List ingredient_list= new LinkedList<Ingredient>();
+            List steps_list= new LinkedList<String>();
+            JSONObject recp = recipes.getJSONObject(i);
+            String name = recp.getString("RecipeName");
+            recpe.setRecipeName(name);
+            String classs = recp.getString("Class");
+            recpe.setRecipeClass(classs);
+            String category = recp.getString("Category");
+            recpe.setRecipeCategory(category);
+            String Origin = recp.getString("Origin");
+            recpe.setRecipeOrigin(Origin);
+            JSONArray ject = recp.getJSONArray("newingredients");
+            for (int a = 0; a < ject.length(); a++) {
+                JSONObject inget = ject.getJSONObject(i);
+                String names = inget.getString("name");
+                float quantity = inget.getLong("quantity");
+                String unit = inget.getString("unit");
+                Ingredient the_ingredient= new Ingredient();
+                the_ingredient.setIngName(names);
+                the_ingredient.setIngQuantity(quantity);
+                the_ingredient.setIngUnits(unit);
+                ingredient_list.add(the_ingredient);
+
+            }
+
+            JSONArray sps = recp.getJSONArray("steps");
+            for (int b = 0; b < sps.length(); b++) {
+                JSONObject step = sps.getJSONObject(i);
+                String the_step=step.getString("step");
+                steps_list.add(the_step);
+            }
+
+        }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch(java.io.IOException e){
+            e.printStackTrace();
+
+        }
+
+    }
 
 
-    @Override
+
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

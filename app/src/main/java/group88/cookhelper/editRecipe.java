@@ -5,9 +5,14 @@ package group88.cookhelper;
  */
 
 import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+
+import android.content.Context;
+
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.DialogPreference;
@@ -21,9 +26,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.OutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.nio.channels.FileChannel;
+
+
 
 public class editRecipe extends Activity {
 
@@ -260,40 +275,72 @@ public class editRecipe extends Activity {
         newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
         newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
         Boolean if_added =Recipe.recipes.add(newRecipe);
-
-
         try {
-            JSONObject jasonRecipe = new JSONObject();
-            jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
-            jasonRecipe.put("Class", aClass.getSelectedItem().toString());
-            jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
-            jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
-            JSONArray newIngredients = new JSONArray();
-            int i=0;
-            while(i<newIngredientList.size()){
-                JSONObject ingred= new JSONObject();
-                ingred.put("name", newIngredientList.get(i).getIngName());
-                ingred.put("quantity",newIngredientList.get(i).getIngQuantity());
-                ingred.put("unit", newIngredientList.get(i).getIngUnits());
-                newIngredients.put(ingred);
-                i++;
-            }
-            jasonRecipe.put("Ingredients",newIngredients);
+            FileInputStream fIn = openFileInput("test");
+            FileChannel channel = fIn.getChannel();
 
-            JSONArray stps = new JSONArray();
-            int a=0;
-            while( a<newStepList.size()){
-                JSONObject sp= new JSONObject();
-                sp.put("step", newStepList.get(i));
-                stps.put(sp);
-                a++;
+            if (channel.size() == 0) {
+                JSONObject data = new JSONObject();
+                JSONArray recipes = new JSONArray();
+                data.put("recipes", recipes);
+                OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
+                writer.write(data.toString());
+                writer.close();
             }
-            jasonRecipe.put("steps", stps);
-            //FileOutputStream("test.text");
+        }catch (FileNotFoundException e) {
+        e.printStackTrace();
+        }catch (JSONException e) {
+        e.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        try {
+                JSONObject jasonRecipe = new JSONObject();
+                jasonRecipe.put("RecipeName", newRecipe.getRecipeName());
+                jasonRecipe.put("Class", aClass.getSelectedItem().toString());
+                jasonRecipe.put("Category", aCategory.getSelectedItem().toString());
+                jasonRecipe.put("Origin", aOrigin.getSelectedItem().toString());
+                JSONArray newIngredients = new JSONArray();
+                int i = 0;
+                while (i < newIngredientList.size()) {
+                    JSONObject ingred = new JSONObject();
+                    ingred.put("name", newIngredientList.get(i).getIngName());
+                    ingred.put("quantity", newIngredientList.get(i).getIngQuantity());
+                    ingred.put("unit", newIngredientList.get(i).getIngUnits());
+                    newIngredients.put(ingred);
+                    i++;
+                }
+                jasonRecipe.put("Ingredients", newIngredients);
+                JSONArray stps = new JSONArray();
+                int a = 0;
+                while (a < newStepList.size()) {
+                    JSONObject sp = new JSONObject();
+                    sp.put("step", newStepList.get(i));
+                    stps.put(sp);
+                    a++;
+                }
+                jasonRecipe.put("steps", stps);
+                try {
+                    OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
+                    writer.write(jasonRecipe.toString());
+                    writer.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+
 
 
         }
-        catch(JSONException ex){}
 
-}
-}
+
+
