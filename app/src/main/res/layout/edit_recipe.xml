@@ -11,11 +11,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="group88.cookhelper.MainActivity">
 
+    <Button
+        android:id="@+id/clearText"
+        android:layout_gravity="right|bottom"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="clearName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_above="@+id/addRecipe">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -195,15 +207,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/clearText"
-        android:layout_gravity="right|bottom"
-        android:background="@android:drawable/ic_menu_close_clear_cancel"
-        android:onClick="clearName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
 
 </RelativeLayout>

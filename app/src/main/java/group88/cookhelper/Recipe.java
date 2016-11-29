@@ -5,14 +5,13 @@ package group88.cookhelper;
  */
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Recipe {
+public class Recipe implements Serializable {
 
-    public String Classs;
-    public String Origin;
-    public String Category;
+    private static final long serialVersionUID =1L;
     public static List<Recipe> recipes;
     private String recipeName;
     private String recipeClasss;
@@ -21,7 +20,7 @@ public class Recipe {
 
     public List<Ingredient>  ingredients;
     public List<String> steps;
-    private List<String> b;
+    private List<String> ingredientsStringList;
 
 
     Recipe(){
@@ -31,7 +30,7 @@ public class Recipe {
         this.recipeCategory="Any";
         this.ingredients= new LinkedList<>();
         this.steps = new LinkedList<String>();
-        this.b =new LinkedList<String>();
+        this.ingredientsStringList =new LinkedList<String>();
 }
 
 
@@ -64,17 +63,17 @@ public class Recipe {
         Ingredient newIng= new Ingredient(newIngName,newIngQuantity,newIngUnits);
         ingredients.add(newIng);
     }
+    public List<Ingredient> getIngredients(){return ingredients;}
     public void deleteIngredients(){ingredients.clear();}
 
-    public void setB(List<String> br){ b = br;}
-    public List<Ingredient> getIngredients(){return ingredients;}
-    public List<String> getIngredientList() {
+    public void setIngredientsStringList(List<String> br){ ingredientsStringList = br;}
+    public List<String> getIngredientsStringListList() {
         Iterator<Ingredient> ingItr = ingredients.iterator();
         while (ingItr.hasNext()) {
             Ingredient ingr = ingItr.next();
-            b.add(ingr.getIngName() + " X " + ingr.getIngQuantity() + " " + ingr.getIngUnits());
+            ingredientsStringList.add(ingr.getIngName() + " X " + ingr.getIngQuantity() + " " + ingr.getIngUnits());
         }
-        return b;
+        return ingredientsStringList;
     }
 
     public List<String> getSteps() { return steps; }

@@ -43,66 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Spinner spCategory;
 
         Context context = null;
-        AssetManager am = context.getAssets();
+//        AssetManager am = context.getAssets();
         String str=null;
 
-    public void loadin(){
-        String json = null;
-        allRecipe = null;
-        
-        try {
-            InputStream is = getAssets().open("test");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-            JSONObject jsob= new JSONObject(json);
-            JSONArray recipes= new JSONArray();
-            recipes=jsob.getJSONArray("recipes");
-        for (int i =0; i <recipes.length(); i++) {
-            Recipe recpe = new Recipe();
-            List ingredient_list= new LinkedList<Ingredient>();
-            List steps_list= new LinkedList<String>();
-            JSONObject recp = recipes.getJSONObject(i);
-            String name = recp.getString("RecipeName");
-            recpe.setRecipeName(name);
-            String classs = recp.getString("Class");
-            recpe.setRecipeClass(classs);
-            String category = recp.getString("Category");
-            recpe.setRecipeCategory(category);
-            String Origin = recp.getString("Origin");
-            recpe.setRecipeOrigin(Origin);
-            JSONArray ject = recp.getJSONArray("newingredients");
-            for (int a = 0; a < ject.length(); a++) {
-                JSONObject inget = ject.getJSONObject(i);
-                String names = inget.getString("name");
-                float quantity = inget.getLong("quantity");
-                String unit = inget.getString("unit");
-                Ingredient the_ingredient= new Ingredient();
-                the_ingredient.setIngName(names);
-                the_ingredient.setIngQuantity(quantity);
-                the_ingredient.setIngUnits(unit);
-                ingredient_list.add(the_ingredient);
-
-            }
-
-            JSONArray sps = recp.getJSONArray("steps");
-            for (int b = 0; b < sps.length(); b++) {
-                JSONObject step = sps.getJSONObject(i);
-                String the_step=step.getString("step");
-                steps_list.add(the_step);
-            }
-
-        }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch(java.io.IOException e){
-            e.printStackTrace();
-
-        }
-
-    }
 
 
 
@@ -324,4 +267,87 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter newAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newList);
         recipeList.setAdapter(newAdapter);
     }
+
+    public void loadin(){
+        String json = null;
+        allRecipe = null;
+
+        try {
+            InputStream is = getAssets().open("test");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            JSONObject jsob= new JSONObject(json);
+            JSONArray recipes= new JSONArray();
+            recipes=jsob.getJSONArray("recipes");
+            for (int i =0; i <recipes.length(); i++) {
+                Recipe recpe = new Recipe();
+                List ingredient_list= new LinkedList<Ingredient>();
+                List steps_list= new LinkedList<String>();
+                JSONObject recp = recipes.getJSONObject(i);
+                String name = recp.getString("RecipeName");
+                recpe.setRecipeName(name);
+                String classs = recp.getString("Class");
+                recpe.setRecipeClass(classs);
+                String category = recp.getString("Category");
+                recpe.setRecipeCategory(category);
+                String Origin = recp.getString("Origin");
+                recpe.setRecipeOrigin(Origin);
+                JSONArray ject = recp.getJSONArray("newIngredients");
+                for (int a = 0; a < ject.length(); a++) {
+                    JSONObject inget = ject.getJSONObject(i);
+                    String names = inget.getString("name");
+                    float quantity = inget.getLong("quantity");
+                    String unit = inget.getString("unit");
+                    Ingredient the_ingredient= new Ingredient();
+                    the_ingredient.setIngName(names);
+                    the_ingredient.setIngQuantity(quantity);
+                    switch (unit) {
+                        case "None":
+                            the_ingredient.setIngUnits(Ingredient.Measure.none);
+                            break;
+                        case "cup":
+                            the_ingredient.setIngUnits(Ingredient.Measure.cup);
+                            break;
+                        case "tea_spoon":
+                            the_ingredient.setIngUnits(Ingredient.Measure.tea_spoon);
+                            break;
+                        case "table_spoon":
+                            the_ingredient.setIngUnits(Ingredient.Measure.table_spoon);
+                            break;
+                        case "ounce":
+                            the_ingredient.setIngUnits(Ingredient.Measure.ounce);
+                            break;
+                        case "kg":
+                            the_ingredient.setIngUnits(Ingredient.Measure.kg);
+                            break;
+                        case "g":
+                            the_ingredient.setIngUnits(Ingredient.Measure.g);
+                            break;
+                        case "piece":
+                            the_ingredient.setIngUnits(Ingredient.Measure.piece);
+                    }
+                    ingredient_list.add(the_ingredient);
+
+                }
+
+                JSONArray sps = recp.getJSONArray("steps");
+                for (int b = 0; b < sps.length(); b++) {
+                    JSONObject step = sps.getJSONObject(i);
+                    String the_step=step.getString("step");
+                    steps_list.add(the_step);
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }catch(java.io.IOException e){
+            e.printStackTrace();
+
+        }
+
+    }
+
 }

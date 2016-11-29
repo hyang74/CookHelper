@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ import java.nio.channels.FileChannel;
 
 public class editRecipe extends Activity {
 
-    public String[] spinnerMeasure = {"None","cup", "tea_spoon", "table_spoon", "ounce", "kg", "g", "piece"};
+    public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece"};
     private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerAddOrigin = {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
@@ -50,7 +51,7 @@ public class editRecipe extends Activity {
     private List<String> newStepList = new LinkedList<>();
     private List<String> ingList = new LinkedList<>();
     private List<String> stepList = new LinkedList<>();
-
+    private Recipe newRecipe = new Recipe();
 
 
     EditText mEditText;
@@ -60,7 +61,7 @@ public class editRecipe extends Activity {
     Button mAddStep;
     ListView editIngList;
     ListView editStepList;
-    EditText mEditName;
+
     int stepCounter = 1;
     Spinner aClass;
     Spinner aOrigin;
@@ -125,6 +126,12 @@ public class editRecipe extends Activity {
         mClearText = (Button) findViewById(R.id.clearText);
         mSave = (Button) findViewById(R.id.saveEdit);
 
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goRecipe();
+            }
+        });
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
         mEditText = (EditText) findViewById(R.id.EditName);
@@ -194,21 +201,24 @@ public class editRecipe extends Activity {
                                 newIng.setIngUnits(Ingredient.Measure.cup);
                                 break;
                             case 2:
+                                newIng.setIngUnits(Ingredient.Measure.tea_spoon);
+                            case 3:
                                 newIng.setIngUnits(Ingredient.Measure.table_spoon);
                                 break;
-                            case 3:
+                            case 4:
                                 newIng.setIngUnits(Ingredient.Measure.ounce);
                                 break;
-                            case 4:
+                            case 5:
                                 newIng.setIngUnits(Ingredient.Measure.kg);
                                 break;
-                            case 5:
+                            case 6:
                                 newIng.setIngUnits(Ingredient.Measure.g);
                                 break;
-                            case 6:
+                            case 7:
                                 newIng.setIngUnits(Ingredient.Measure.piece);
                                 break;
                         }
+                        newIngredientList.add(newIng);
                         ingList.add(newIng.getIngName()+" x " + newIng.getIngQuantity()+" "+newIng.getIngUnits());
                         display();
                         Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_SHORT);
@@ -270,7 +280,7 @@ public class editRecipe extends Activity {
 
     public void saveEditRecipe(View view) {
         Recipe newRecipe = new Recipe();
-        newRecipe.setRecipeName(mEditName.getText().toString());
+        newRecipe.setRecipeName(mEditText.getText().toString());
         newRecipe.setRecipeClass(aClass.getSelectedItem().toString());
         newRecipe.setRecipeOrigin(aOrigin.getSelectedItem().toString());
         newRecipe.setRecipeCategory(aCategory.getSelectedItem().toString());
@@ -335,12 +345,23 @@ public class editRecipe extends Activity {
         }
 
 
+    public void goRecipe() {
+        newRecipe.setRecipeName(mEditText.getText().toString());
+        newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
+        newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
+        newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
+        newRecipe.setIngredients(newIngredientList);
+        newRecipe.setSteps(stepList);
+        Intent intent = new Intent(this,showRecipe.class );
+        intent.putExtra("Recipe", newRecipe);
+        startActivity(intent);
+    }
 
 
 
 
 
-        }
+}
 
 
 
