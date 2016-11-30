@@ -67,11 +67,4 @@ public class showRecipe extends Activity {
         Intent intentMain = new Intent (this,MainActivity.class);
         startActivity(intentMain);
     }
-
-    public void onBackPressed() {
-        moveTaskToBack(false);
-        showRecipe.this.finish();
-        Intent intentMain = new Intent (this,MainActivity.class);
-        startActivity(intentMain);
-    }
 }

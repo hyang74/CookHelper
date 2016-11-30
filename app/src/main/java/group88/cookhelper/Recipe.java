@@ -65,12 +65,13 @@ public class Recipe implements Serializable {
     }
     public List<Ingredient> getIngredients(){return ingredients;}
     public void deleteIngredients(){ingredients.clear();}
-    public void setIngredientsStringList(List<String> br){ ingredientsStringList = br;}
 
+    public void setIngredientsStringList(List<String> br){ ingredientsStringList = br;}
     public List<String> getIngredientsStringListList() {
-        ingredientsStringList=new LinkedList<>();
-        for (int i=0;i<ingredients.size();i++){
-            ingredientsStringList.add(ingredients.get(i).getIngName() + " X " + ingredients.get(i).getIngQuantity() + " " + ingredients.get(i).getIngUnits());
+        Iterator<Ingredient> ingItr = ingredients.iterator();
+        while (ingItr.hasNext()) {
+            Ingredient ingr = ingItr.next();
+            ingredientsStringList.add(ingr.getIngName() + " X " + ingr.getIngQuantity() + " " + ingr.getIngUnits());
         }
         return ingredientsStringList;
     }
