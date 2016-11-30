@@ -29,9 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
-    private List<Recipe> filterResult=new LinkedList<>();
+    private static List<Recipe> filterResult=new LinkedList<>();
     public  List<String> showList=new LinkedList<String>();
     private int numOfFilteredRecipe;
+
+    private static String savedSearch="";
+    private static int savedClass=0;
+    private static int savedOrigin =0;
+    private static int savedCategory =0;
 
 
     EditText mEditText;
@@ -54,28 +59,36 @@ public class MainActivity extends AppCompatActivity {
 
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
+        mEditText = (EditText) findViewById(R.id.search);
+        mEditText.setText(savedSearch);
+        mClearText = (Button) findViewById(R.id.clearText);
+        if(!mEditText.getText().toString().isEmpty()){
+            mClearText.setVisibility(View.VISIBLE);
+        }
+        else {
+            mClearText.setVisibility(View.GONE);
+        }
+
 
         //This is how to add items to spinner:
         spClass = (Spinner) findViewById(R.id.SPclass);
         ArrayAdapter<String> adapterClass = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerClass);
         spClass.setAdapter(adapterClass);
-        spClass.setSelection(0);
+        spClass.setSelection(savedClass);
 
         spOrigin = (Spinner) findViewById(R.id.SPorigin);
         ArrayAdapter<String> adapterOrigin = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerOrigin);
         spOrigin.setAdapter(adapterOrigin);
-        spOrigin.setSelection(0);
+        spOrigin.setSelection(savedOrigin);
 
         spCategory = (Spinner) findViewById(R.id.SPcategory);
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerCategory);
         spCategory.setAdapter(adapterCategory);
-        spCategory.setSelection(0);
+        spCategory.setSelection(savedCategory);
 
-        mEditText = (EditText) findViewById(R.id.search);
-        mClearText = (Button) findViewById(R.id.clearText);
 
         recipeList = (ListView) findViewById(R.id.recipe_list_view);
         ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
@@ -87,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
 
        // showList = new LinkedList<>();
-            if(MainActivity.allRecipe.isEmpty()) {
+            if(allRecipe.isEmpty()) {
+
                 showList.clear();
                 Recipe Steak = new Recipe();
                 Steak.setRecipeName("Steak");
@@ -115,11 +129,28 @@ public class MainActivity extends AppCompatActivity {
 
                 Recipe IceCream = new Recipe();
                 IceCream.setRecipeName("Ice Cream");
+                allRecipe.add(IceCream);
+
+
                 for(int i=0;i<allRecipe.size();i++){
+
                     showList.add(allRecipe.get(i).getRecipeName());
                 }
+                filterResult=allRecipe;
+
             }
-        reset();
+        if (filterResult==allRecipe) {
+            reset();
+        }
+        else{
+            showList.clear();
+            for(int i=0;i<filterResult.size();i++){
+
+                showList.add(filterResult.get(i).getRecipeName());
+                System.out.println(showList.toString());
+            }
+            displayList(showList);
+        }
 
         // just for test
 
@@ -171,6 +202,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> adapterView,View view, int i, long l){
+                Recipe selectedRecipe=filterResult.get(i);
+                goRecipe(selectedRecipe);
+            }
+        });
     }
 
     // This function is called to reset the text
@@ -179,87 +216,25 @@ public class MainActivity extends AppCompatActivity {
         mClearText.setVisibility(View.GONE);
     }
 
-    public void goRecipe(View view) {
+    public void goRecipe(Recipe selectedRecipe) {
+        savedCategory=spCategory.getSelectedItemPosition();
+        savedClass=spClass.getSelectedItemPosition();
+        savedOrigin=spOrigin.getSelectedItemPosition();
+        savedSearch=mEditText.getText().toString();
         Intent intent1 = new Intent(this,showRecipe.class );
+        intent1.putExtra("Recipe",selectedRecipe);
         startActivity(intent1);
     }
 
     public void goAdd(View view) {
+        savedSearch="";
+        savedOrigin=0;
+        savedClass=0;
+        savedCategory=0;
         Intent intentAdd = new Intent(this,editRecipe.class );
         Recipe newRecipe=new Recipe();
         intentAdd.putExtra("Recipe", newRecipe);
         startActivity(intentAdd);
-
-
-    }
-
-
-    public List<Recipe> filterFunction (List<Recipe> allRecipeName,String searchText,int classOption, int originOption, int categoryOption){
-        //we need this function to take a recipe list, and a search string
-        //and output a filtered recipe list
-        //we can input some recipe (see line 40-70)
-        //and add attributes of recipes to test
-        //the integer options are in the following order
-//        Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
-//        origin {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-//        category {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-
-
-        showList = new LinkedList<>();
-        filterResult= new LinkedList<>();
-        //used to store filtered list
-
-
-
-        //just for test,should show last 3 item with reversed order
-        numOfFilteredRecipe=4;
-        for (int i=0;i<numOfFilteredRecipe;i++){
-            filterResult.add(allRecipe.get(allRecipe.size()-i-1));
-        }
-
-
-        for(int j=0;j<numOfFilteredRecipe;j++){
-            showList.add(filterResult.get(j).getRecipeName());
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //please implement
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        displayList(showList);//pass a string list to displaylist
-        return filterResult;
     }
     public void reset (){
         spClass.setSelection(0);
@@ -267,9 +242,14 @@ public class MainActivity extends AppCompatActivity {
         spCategory.setSelection(0);
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
-        showList = new LinkedList<>();
-        for(int i=0;i<allRecipe.size();i++){
-            showList.add(allRecipe.get(i).getRecipeName());
+        savedSearch="";
+        savedOrigin=0;
+        savedClass=0;
+        savedCategory=0;
+        filterResult=allRecipe;
+        showList=new LinkedList<>();
+        for(int i=0;i<filterResult.size();i++){
+            showList.add(filterResult.get(i).getRecipeName());
         }
         displayList(showList);
 
@@ -278,6 +258,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter newAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newList);
         recipeList.setAdapter(newAdapter);
     }
+
+
 
     public  void read_jason(){
         String json = new String();
@@ -365,5 +347,77 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+    public List<Recipe> filterFunction (List<Recipe> allRecipeName,String searchText,int classOption, int originOption, int categoryOption){
+        //we need this function to take a recipe list, and a search string
+        //and output a filtered recipe list
+        //we can input some recipe (see line 40-70)
+        //and add attributes of recipes to test
+        //the integer options are in the following order
+//        Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
+//        origin {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+//        category {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+
+
+        showList = new LinkedList<>();
+        filterResult= new LinkedList<>();
+        //used to store filtered list
+
+
+
+        //just for test,should show last 3 item with reversed order
+        numOfFilteredRecipe=4;
+        for (int i=0;i<numOfFilteredRecipe;i++){
+            filterResult.add(allRecipe.get(allRecipe.size()-i-1));
+        }
+
+
+        for(int j=0;j<numOfFilteredRecipe;j++){
+            showList.add(filterResult.get(j).getRecipeName());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //please implement
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        displayList(showList);//pass a string list to displaylist
+        return filterResult;
+    }
+
+
 
 }
