@@ -63,7 +63,9 @@ public class showRecipe extends Activity {
         });
 
         for(int i =0;i<showRecipeDetail.getIngredients().size();i++){
-            showIng.add(Integer.toString(i+1) +". "+showRecipeDetail.getIngredients().get(i).getIngName());
+            showIng.add(Integer.toString(i+1) +". "+showRecipeDetail.getIngredients().get(i).getIngName()+
+                    " x "+showRecipeDetail.getIngredients().get(i).getIngQuantity()+
+                    " "+ showRecipeDetail.getIngredients().get(i).getIngUnits());
         }
         for(int i =0;i<showRecipeDetail.getSteps().size();i++){
             showSteps.add(Integer.toString(i+1) +". "+showRecipeDetail.getSteps().get(i));
