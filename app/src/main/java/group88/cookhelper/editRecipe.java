@@ -365,18 +365,21 @@ public class editRecipe extends Activity {
     }
 
 
-
-    public    void write_jason() {
-
+    public void write_jason() {
+        MainActivity.allRecipe.add(newRecipe);
+        System.out.println("this is the string" + newRecipe.toString());
+        MainActivity.showList.clear();
+        String prt=MainActivity.showList.toString();
+        System.out.println(prt);
         try {
-
                 JSONObject data = new JSONObject();
                 JSONArray recipes = new JSONArray();
                 data.put("recipes", recipes);
-       MainActivity.allRecipe.add(newRecipe);
        for(int c=0;c<MainActivity.allRecipe.size(); c++) {
            JSONObject jasonRecipe = new JSONObject();
            jasonRecipe.put("RecipeName", MainActivity.allRecipe.get(c).getRecipeName());
+           MainActivity.showList.add(MainActivity.allRecipe.get(c).getRecipeName());
+
            jasonRecipe.put("Class", MainActivity.allRecipe.get(c).getRecipeClass());
            jasonRecipe.put("Category", MainActivity.allRecipe.get(c).getRecipeCategory());
            jasonRecipe.put("Origin", MainActivity.allRecipe.get(c).getRecipeOrigin());
@@ -397,10 +400,15 @@ public class editRecipe extends Activity {
                JSONObject sp = new JSONObject();
                sp.put("step", MainActivity.allRecipe.get(c).getSteps().get(a));
                stps.put(sp);
+
+               a++;
            }
            jasonRecipe.put("stpes", stps);
             recipes.put(jasonRecipe);
        }
+
+            System.out.println(data.toString());
+
        OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
        write.write(data.toString());
        write.close();
@@ -408,6 +416,7 @@ public class editRecipe extends Activity {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
      catch(JSONException e) {
                 e.printStackTrace();

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<Recipe> allRecipe=new LinkedList<>();
     private List<Recipe> filterResult=new LinkedList<>();
-    private  List<String> showList=new LinkedList<String>();
+    public static List<String> showList=new LinkedList<String>();
     private int numOfAllRecipe;
     private int numOfFilteredRecipe;
 
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         //We use temperary array to show the list,
         //will be substitute by JSON reader
+        if(MainActivity.allRecipe.isEmpty()){
         Recipe Steak = new Recipe();
         Steak.setRecipeName("Steak");
         allRecipe.add(Steak);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         Recipe IceCream= new Recipe();
         IceCream.setRecipeName("Ice Cream");
-        allRecipe.add(IceCream);
+        allRecipe.add(IceCream);}
 
         numOfAllRecipe=6;
         for (int i=0;i<numOfAllRecipe;i++){
