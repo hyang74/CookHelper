@@ -14,7 +14,7 @@ public class showRecipe extends Activity {
     private ListView ingList;
     private ListView stepList;
     private Recipe showRecipeDetail;
-
+    Button mDelete;
 
 
     //{"Beef showRecipeDetail x 1 Piece", "Peper x 10 g","Olive oil x 200 ml","Salt x 10 g"};
@@ -28,6 +28,7 @@ public class showRecipe extends Activity {
         TextView mRecipeCategory = (TextView) findViewById(R.id.SRecipecategory);
         TextView mRecipeOrigin = (TextView) findViewById(R.id.SRecipeorigin);
 
+
         Intent intentShow = getIntent();
         showRecipeDetail =(Recipe ) intentShow.getSerializableExtra("Recipe");
 
@@ -38,7 +39,13 @@ public class showRecipe extends Activity {
         mRecipeClass.setText(showRecipeDetail.getRecipeClass());
         mRecipeCategory.setText(showRecipeDetail.getRecipeCategory());
         mRecipeOrigin.setText(showRecipeDetail.getRecipeOrigin());
-
+        mDelete = (Button) findViewById(R.id.deleteRecipe);
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delete();
+            }
+        });
         // to access list view:
         ingList = (ListView) findViewById(R.id.recipe_ing_list);
         ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showRecipeDetail.getIngredientsStringListList());
@@ -47,11 +54,17 @@ public class showRecipe extends Activity {
         stepList = (ListView) findViewById(R.id.recipe_step_list);
         ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showRecipeDetail.getSteps());
         stepList.setAdapter(adapterStep);
+
+
     }
     public void goEdit(View view) {
         Intent intentEdit = new Intent(this,editRecipe.class );
         intentEdit.putExtra("Recipe", showRecipeDetail);
         startActivity(intentEdit);
 
+    }
+    public void delete(){
+        Intent intentMain = new Intent (this,MainActivity.class);
+        startActivity(intentMain);
     }
 }
