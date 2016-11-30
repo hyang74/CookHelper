@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<Recipe> allRecipe=new LinkedList<>();
     private List<Recipe> filterResult=new LinkedList<>();
-    public static List<String> showList=new LinkedList<String>();
-    private int numOfAllRecipe;
+    public  List<String> showList=new LinkedList<String>();
     private int numOfFilteredRecipe;
 
 
@@ -43,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner spOrigin;
     Spinner spCategory;
 
-    Context context = null;
-    //        AssetManager am = context.getAssets();
-    String str=null;
-
 
 
 
@@ -57,49 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //We use temperary array to show the list,
-        //will be substitute by JSON reader
-        if(MainActivity.allRecipe.isEmpty()){
-        Recipe Steak = new Recipe();
-        Steak.setRecipeName("Steak");
-        allRecipe.add(Steak);
-
-        Recipe VegiePho = new Recipe();
-        VegiePho.setRecipeName("Vegie Pho");
-        allRecipe.add(VegiePho);
-
-        Recipe BeefPho = new Recipe();
-        BeefPho.setRecipeName("Beef Pho");
-        allRecipe.add(BeefPho);
-
-        Recipe GrilledChicken = new Recipe();
-        GrilledChicken.setRecipeName("Grilled Chicken");
-        allRecipe.add(GrilledChicken);
-
-        Recipe BeefStew= new Recipe();
-        BeefStew.setRecipeName("Beef Stew");
-        allRecipe.add(BeefStew);
-
-        Recipe BeefAndVegiePizza= new Recipe();
-        BeefAndVegiePizza.setRecipeName("Beef and Vegie Pizza");
-        allRecipe.add(BeefAndVegiePizza);
-
-        Recipe IceCream= new Recipe();
-        IceCream.setRecipeName("Ice Cream");
-        allRecipe.add(IceCream);}
-
-        numOfAllRecipe=6;
-        for (int i=0;i<numOfAllRecipe;i++){
-            showList.add(allRecipe.get(i).getRecipeName());
-        }
-        // just for test
-
-        read_jason();
-        //This is how to add  items to list: use ArrayAdapter
-        recipeList = (ListView) findViewById(R.id.recipe_list_view);
-        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
-        recipeList.setAdapter(adapterRecipe);
-
+        filter = (Button) findViewById(R.id.filter);
+        reset = (Button) findViewById(R.id.reset);
 
         //This is how to add items to spinner:
         spClass = (Spinner) findViewById(R.id.SPclass);
@@ -120,8 +74,62 @@ public class MainActivity extends AppCompatActivity {
         spCategory.setAdapter(adapterCategory);
         spCategory.setSelection(0);
 
-        filter = (Button) findViewById(R.id.filter);
-        reset = (Button) findViewById(R.id.reset);
+        mEditText = (EditText) findViewById(R.id.search);
+        mClearText = (Button) findViewById(R.id.clearText);
+
+        recipeList = (ListView) findViewById(R.id.recipe_list_view);
+        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
+        recipeList.setAdapter(adapterRecipe);
+
+
+        //We use temperary array to show the list,
+        //will be substitute by JSON reader
+
+
+       // showList = new LinkedList<>();
+            if(MainActivity.allRecipe.isEmpty()) {
+                showList.clear();
+                Recipe Steak = new Recipe();
+                Steak.setRecipeName("Steak");
+                allRecipe.add(Steak);
+
+                Recipe VegiePho = new Recipe();
+                VegiePho.setRecipeName("Vegie Pho");
+                allRecipe.add(VegiePho);
+
+                Recipe BeefPho = new Recipe();
+                BeefPho.setRecipeName("Beef Pho");
+                allRecipe.add(BeefPho);
+
+                Recipe GrilledChicken = new Recipe();
+                GrilledChicken.setRecipeName("Grilled Chicken");
+                allRecipe.add(GrilledChicken);
+
+                Recipe BeefStew = new Recipe();
+                BeefStew.setRecipeName("Beef Stew");
+                allRecipe.add(BeefStew);
+
+                Recipe BeefAndVegiePizza = new Recipe();
+                BeefAndVegiePizza.setRecipeName("Beef and Vegie Pizza");
+                allRecipe.add(BeefAndVegiePizza);
+
+                Recipe IceCream = new Recipe();
+                IceCream.setRecipeName("Ice Cream");
+                for(int i=0;i<allRecipe.size();i++){
+                    showList.add(allRecipe.get(i).getRecipeName());
+                }
+            }
+        reset();
+
+        // just for test
+
+        // read_jason();
+
+
+
+        //This is how to add  items to list: use ArrayAdapter
+
+
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Do not change, this block is used to clear text on clicking the X botton
-        mEditText = (EditText) findViewById(R.id.search);
-        mClearText = (Button) findViewById(R.id.clearText);
-
 
         //initially clear button is invisible
         mClearText.setVisibility(View.INVISIBLE);
@@ -209,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         //just for test,should show last 3 item with reversed order
         numOfFilteredRecipe=4;
         for (int i=0;i<numOfFilteredRecipe;i++){
-            filterResult.add(allRecipe.get(numOfAllRecipe-i-1));
+            filterResult.add(allRecipe.get(allRecipe.size()-i-1));
         }
 
 
@@ -263,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
         showList = new LinkedList<>();
-        for(int i=0;i<numOfAllRecipe;i++){
+        for(int i=0;i<allRecipe.size();i++){
             showList.add(allRecipe.get(i).getRecipeName());
         }
         displayList(showList);
@@ -286,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
+            System.out.println("Read from file"+json);
             if(!json.isEmpty()){
                 JSONObject jsob= new JSONObject(json);
                 JSONArray recipes;
