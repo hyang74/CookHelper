@@ -1,5 +1,6 @@
 package group88.cookhelper;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,12 @@ import java.util.List;
 import java.io.Reader;
 import java.io.InputStreamReader;
 
+/**
+ * Group Project
+ * CookHelper
+ */
+
+
 public class MainActivity extends AppCompatActivity {
     private ListView recipeList;
 
@@ -29,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
-    private static List<Recipe> filterResult=new LinkedList<>();
+    public static List<Recipe> filterResult=new LinkedList<>();
     public  List<String> showList=new LinkedList<String>();
     private int numOfFilteredRecipe;
 
@@ -101,10 +108,35 @@ public class MainActivity extends AppCompatActivity {
 
        // showList = new LinkedList<>();
             if(allRecipe.isEmpty()) {
-
+//
+//            {"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
+//             {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+//           {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
                 showList.clear();
                 Recipe Steak = new Recipe();
                 Steak.setRecipeName("Steak");
+                Steak.setRecipeOrigin("American");
+                Steak.setRecipeClass("Beef");
+                Steak.setRecipeCategory("Main Dish");
+                Steak.addIngredients(new Ingredient("balsamic vinegar",(float)0.5, Ingredient.Measure.cup));
+                Steak.addIngredients(new Ingredient("soy sauce",(float)0.25, Ingredient.Measure.cup));
+                Steak.addIngredients(new Ingredient("minced garlic",3, Ingredient.Measure.table_spoon));
+                Steak.addIngredients(new Ingredient("honey",2, Ingredient.Measure.table_spoon));
+                Steak.addIngredients(new Ingredient("olive oil",2, Ingredient.Measure.table_spoon));
+                Steak.addIngredients(new Ingredient("ground black pepper",2, Ingredient.Measure.tea_spoon));
+                Steak.addIngredients(new Ingredient("Worcestershire sauce",1, Ingredient.Measure.tea_spoon));
+                Steak.addIngredients(new Ingredient("onion powder",2, Ingredient.Measure.tea_spoon));
+                Steak.addIngredients(new Ingredient("salt",(float)0.5, Ingredient.Measure.tea_spoon));
+                Steak.addIngredients(new Ingredient("liquid smoke flavoring",(float)0.5, Ingredient.Measure.tea_spoon));
+                Steak.addIngredients(new Ingredient("rib-eye steaks",(float)2.5, Ingredient.Measure.pound));
+                Steak.addSteps("Mix vinegar, soy sauce, garlic, honey, olive oil, ground black pepper, etc (all" +
+                        "the ingredients) in a bowl");
+                Steak.addSteps("Place steak in glass dish with the marinade and rub liquid onto the meat.");
+                Steak.addSteps("Refrigerate for 1 -2 days");
+                Steak.addSteps("Preheat grill to medium- high");
+                Steak.addSteps("Lightly oil grill.");
+                Steak.addSteps("Grill steaks 7 mins per side or desired doneness.");
+                Steak.addSteps("Serve and enjoy!");
                 allRecipe.add(Steak);
 
                 Recipe VegiePho = new Recipe();
@@ -147,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i=0;i<filterResult.size();i++){
 
                 showList.add(filterResult.get(i).getRecipeName());
-                System.out.println(showList.toString());
+
             }
             displayList(showList);
         }
@@ -204,8 +236,8 @@ public class MainActivity extends AppCompatActivity {
         });
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> adapterView,View view, int i, long l){
-                Recipe selectedRecipe=filterResult.get(i);
-                goRecipe(selectedRecipe);
+
+                goRecipe(i);
             }
         });
     }
@@ -216,13 +248,13 @@ public class MainActivity extends AppCompatActivity {
         mClearText.setVisibility(View.GONE);
     }
 
-    public void goRecipe(Recipe selectedRecipe) {
+    public void goRecipe(int i) {
         savedCategory=spCategory.getSelectedItemPosition();
         savedClass=spClass.getSelectedItemPosition();
         savedOrigin=spOrigin.getSelectedItemPosition();
         savedSearch=mEditText.getText().toString();
         Intent intent1 = new Intent(this,showRecipe.class );
-        intent1.putExtra("Recipe",selectedRecipe);
+        intent1.putExtra("RecipeNumber",i);
         startActivity(intent1);
     }
 
@@ -232,8 +264,10 @@ public class MainActivity extends AppCompatActivity {
         savedClass=0;
         savedCategory=0;
         Intent intentAdd = new Intent(this,editRecipe.class );
+        int numOfNewRecipe=allRecipe.size();
         Recipe newRecipe=new Recipe();
-        intentAdd.putExtra("Recipe", newRecipe);
+        allRecipe.add(newRecipe);
+        intentAdd.putExtra("Recipe", numOfNewRecipe);
         startActivity(intentAdd);
     }
     public void reset (){
@@ -258,8 +292,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter newAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newList);
         recipeList.setAdapter(newAdapter);
     }
-
-
 
     public  void read_jason(){
         String json = new String();
@@ -347,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 
 

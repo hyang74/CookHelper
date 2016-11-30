@@ -1,10 +1,18 @@
 package group88.cookhelper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static group88.cookhelper.MainActivity.allRecipe;
+import static group88.cookhelper.MainActivity.filterResult;
 
 /**
  * Created by YANG on 2016-11-13.
@@ -13,7 +21,11 @@ import android.widget.*;
 public class showRecipe extends Activity {
     private ListView ingList;
     private ListView stepList;
+    private List<String> showIng;
+    private List<String> showSteps;
     private Recipe showRecipeDetail;
+    private int theNumOfRecipe;
+    AlertDialog.Builder dialogBuilder;
     Button mDelete;
 
 
@@ -30,7 +42,10 @@ public class showRecipe extends Activity {
 
 
         Intent intentShow = getIntent();
-        showRecipeDetail =(Recipe ) intentShow.getSerializableExtra("Recipe");
+        theNumOfRecipe=intentShow.getIntExtra("RecipeNumber",0);
+        showRecipeDetail =filterResult.get(theNumOfRecipe);
+        showIng=new LinkedList<>();
+        showSteps=new LinkedList<>();
 
         /**
          * change the textView
@@ -43,34 +58,63 @@ public class showRecipe extends Activity {
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                delete();
+                deleteRecipeDialog(theNumOfRecipe);
             }
         });
+
+        for(int i =0;i<showRecipeDetail.getIngredients().size();i++){
+            showIng.add(Integer.toString(i+1) +". "+showRecipeDetail.getIngredients().get(i).getIngName());
+        }
+        for(int i =0;i<showRecipeDetail.getSteps().size();i++){
+            showSteps.add(Integer.toString(i+1) +". "+showRecipeDetail.getSteps().get(i));
+        }
         // to access list view:
         ingList = (ListView) findViewById(R.id.recipe_ing_list);
-        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showRecipeDetail.getIngredientsStringListList());
+        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showIng);
         ingList.setAdapter(adapterIng);
 
         stepList = (ListView) findViewById(R.id.recipe_step_list);
-        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showRecipeDetail.getSteps());
+        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showSteps);
         stepList.setAdapter(adapterStep);
 
 
     }
     public void goEdit(View view) {
         Intent intentEdit = new Intent(this,editRecipe.class );
-        intentEdit.putExtra("Recipe", showRecipeDetail);
+        intentEdit.putExtra("RecipeNumber", theNumOfRecipe);
         startActivity(intentEdit);
 
     }
-    public void delete(){
-        Intent intentMain = new Intent (this,MainActivity.class);
-        startActivity(intentMain);
-    }
+
 
     public void onBackPressed() {
         moveTaskToBack(false);
         showRecipe.this.finish();
+        Intent intentMain = new Intent (this,MainActivity.class);
+        startActivity(intentMain);
+    }
+
+    public void deleteRecipeDialog(final int j){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Are you sure to delete this recipe?");
+        dialogBuilder.setMessage(showRecipeDetail.getRecipeName());
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface,int i) {
+                allRecipe.remove(j);
+                delete();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialogBuilder.show();
+    }
+    public void delete(){
+
         Intent intentMain = new Intent (this,MainActivity.class);
         startActivity(intentMain);
     }

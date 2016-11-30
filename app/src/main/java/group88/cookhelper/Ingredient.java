@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Ingredient implements Serializable{
 
     private static final long serialVersionUID =1L;
-    public enum Measure  {none,cup, tea_spoon, table_spoon, ounce, kg, g, piece};
+    public enum Measure  {none,cup, tea_spoon, table_spoon, ounce, kg, g, piece,pound};
     private String ingName;
     private float ingQuantity;
     private Measure ingUnits;
@@ -19,10 +19,10 @@ public class Ingredient implements Serializable{
         this.ingQuantity=0;
         this.ingUnits = Measure.none;
     }
-    Ingredient(String newIngName, float newIngQuantity,Measure newIngUnits){
-        this.ingName=newIngName;
-        this.ingQuantity=newIngQuantity;
-        this.ingUnits=newIngUnits;
+    Ingredient(String name, float quan, Measure unit){
+        this.ingName=name;
+        this.ingQuantity=quan;
+        this.ingUnits = unit;
     }
     public String getIngName() { return ingName; }
     public void setIngName(String name) {ingName = name;}
@@ -33,4 +33,9 @@ public class Ingredient implements Serializable{
         a += ingUnits;
         return a;}
     public void setIngUnits(Measure u) { ingUnits = u; }
+    public String toString(){
+        String str="";
+        str += this.getIngName() + " X " + this.getIngQuantity() + " " + this.getIngUnits() + "\n";
+return str;
+    }
 }

@@ -64,7 +64,7 @@ public class Recipe implements Serializable {
         ingredients.add(newIng);
     }
     public List<Ingredient> getIngredients(){return ingredients;}
-    public void deleteIngredients(){ingredients.clear();}
+    public void deleteIngredient(int j){ingredients.remove(j);}
     public void setIngredientsStringList(List<String> br){ ingredientsStringList = br;}
 
     public List<String> getIngredientsStringListList() {
@@ -80,7 +80,7 @@ public class Recipe implements Serializable {
     public void addSteps(String stp){
         steps.add(stp);
     }
-    public void deleteSteps(){steps.clear();}
+    public void deleteStep(int i){steps.remove(i);}
 
 
     public String toString(){

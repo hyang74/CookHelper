@@ -40,20 +40,20 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.nio.channels.FileChannel;
 
+import static group88.cookhelper.MainActivity.allRecipe;
 
 
 public class editRecipe extends Activity {
 
-    public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece"};
+    public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece","pound"};
     private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Vegie"};
     private String[] spinnerAddOrigin = {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
     private List<Ingredient>newIngList = new LinkedList<>();
     private List<String> newStepList = new LinkedList<>();
-    private List<String> newIngStringList = new LinkedList<>();
+    private List<String> showIng;
+    private List<String> showSteps;
     private Recipe newRecipe = new Recipe();
-
-
     EditText mEditText;
     Button mClearText;
     Button mSave;
@@ -61,15 +61,14 @@ public class editRecipe extends Activity {
     Button mAddStep;
     ListView editIngList;
     ListView editStepList;
-
-    int stepCounter = 1;
+    private int stepCounter = 1;
     Spinner aClass;
     Spinner aOrigin;
     Spinner aCategory;
     AlertDialog.Builder dialogBuilder;
     String newStep;
     Ingredient newIng = new Ingredient();
-    boolean save = false;
+    private int theNumOfThisRecipe;
 
 
     @Override
@@ -78,12 +77,15 @@ public class editRecipe extends Activity {
         setContentView(R.layout.edit_recipe);
 
         Intent intent = getIntent();
-        newRecipe =(Recipe ) intent.getSerializableExtra("Recipe");
+        theNumOfThisRecipe=intent.getIntExtra("RecipeNumber",0);
+        newRecipe=MainActivity.filterResult.get(theNumOfThisRecipe);
 
+        stepCounter=newRecipe.getSteps().size()+1;
 
         newStepList=newRecipe.getSteps();
         newIngList=newRecipe.getIngredients();
-        newIngStringList=newRecipe.getIngredientsStringListList();
+        showIng=new LinkedList<>();
+        showSteps = new LinkedList<>();
 
 
         mEditText=(EditText) findViewById(R.id.EditName);
@@ -191,18 +193,32 @@ public class editRecipe extends Activity {
                 break;
         }
 
-
+        for(int i =0;i<newIngList.size();i++){
+            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName());
+        }
+        for(int i =0;i<newStepList.size();i++){
+            showSteps.add(Integer.toString(i+1) +". "+newStepList.get(i));
+        }
 
         editIngList =(ListView) findViewById(R.id.edit_ing_list);
-        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newIngStringList);
+        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showIng);
         editIngList.setAdapter(adapterIng);
 
         editStepList = (ListView) findViewById(R.id.edit_step_list);
-        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newStepList);
+        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showSteps);
         editStepList.setAdapter(adapterStep);
 
+        editIngList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> adapterView,View view, int i, long l){
+                deleteIngDialog(i);
+            }
+        });
 
-
+        editStepList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> adapterView,View view, int i, long l){
+                deleteStepDialog(i);
+            }
+        });
         // Do not change, this block is used to clear text on clicking the X botton
 
         mClearText = (Button) findViewById(R.id.clearText);
@@ -308,7 +324,6 @@ public class editRecipe extends Activity {
                                 break;
                         }
                         newIngList.add(newIng);
-                        newIngStringList.add(newIng.getIngName()+" x " + newIng.getIngQuantity()+" "+newIng.getIngUnits());
                         display();
 
                         dialogCustom.dismiss();
@@ -355,12 +370,20 @@ public class editRecipe extends Activity {
         dialogBuilder.show();
     }
     public void display(){
+        showIng=new LinkedList<>();
+        showSteps=new LinkedList<>();
+        for(int i =0;i<newIngList.size();i++){
+            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName());
+        }
+        for(int i =0;i<newStepList.size();i++){
+            showSteps.add(Integer.toString(i+1) +". "+newStepList.get(i));
+        }
         editIngList =(ListView) findViewById(R.id.edit_ing_list);
-        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newIngStringList);
+        ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showIng);
         editIngList.setAdapter(adapterIng);
 
         editStepList = (ListView) findViewById(R.id.edit_step_list);
-        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newStepList);
+        ArrayAdapter adapterStep = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showSteps);
         editStepList.setAdapter(adapterStep);
     }
 
@@ -371,28 +394,28 @@ public class editRecipe extends Activity {
                 JSONObject data = new JSONObject();
                 JSONArray recipes = new JSONArray();
                 data.put("recipes", recipes);
-       for(int c=0;c<MainActivity.allRecipe.size(); c++) {
+       for(int c = 0; c< allRecipe.size(); c++) {
            JSONObject jasonRecipe = new JSONObject();
-           jasonRecipe.put("RecipeName", MainActivity.allRecipe.get(c).getRecipeName());
-           jasonRecipe.put("Class", MainActivity.allRecipe.get(c).getRecipeClass());
-           jasonRecipe.put("Category", MainActivity.allRecipe.get(c).getRecipeCategory());
-           jasonRecipe.put("Origin", MainActivity.allRecipe.get(c).getRecipeOrigin());
+           jasonRecipe.put("RecipeName", allRecipe.get(c).getRecipeName());
+           jasonRecipe.put("Class", allRecipe.get(c).getRecipeClass());
+           jasonRecipe.put("Category", allRecipe.get(c).getRecipeCategory());
+           jasonRecipe.put("Origin", allRecipe.get(c).getRecipeOrigin());
            JSONArray newIngredients = new JSONArray();
            int i = 0;
-           while (i < MainActivity.allRecipe.get(c).getIngredients().size()) {
+           while (i < allRecipe.get(c).getIngredients().size()) {
                JSONObject ingred = new JSONObject();
-               ingred.put("name", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngName());
-               ingred.put("quantity", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngQuantity());
-               ingred.put("unit", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngUnits());
+               ingred.put("name", allRecipe.get(c).getIngredients().get(i).getIngName());
+               ingred.put("quantity", allRecipe.get(c).getIngredients().get(i).getIngQuantity());
+               ingred.put("unit", allRecipe.get(c).getIngredients().get(i).getIngUnits());
                newIngredients.put(ingred);
                i++;
            }
            jasonRecipe.put("Ingredients", newIngredients);
            JSONArray stps = new JSONArray();
            int a = 0;
-           while (a < MainActivity.allRecipe.get(c).getSteps().size()) {
+           while (a < allRecipe.get(c).getSteps().size()) {
                JSONObject sp = new JSONObject();
-               sp.put("step", MainActivity.allRecipe.get(c).getSteps().get(a));
+               sp.put("step", allRecipe.get(c).getSteps().get(a));
                stps.put(sp);
 
                a++;
@@ -424,12 +447,13 @@ public class editRecipe extends Activity {
         if(mEditText.getText().toString().isEmpty()){
             missingNameDialog();}
         else {
-            if (newIngStringList.isEmpty()) {
+            if (newIngList.isEmpty()) {
                 missingIngredientDialog();
             } else {
                 if (newStepList.isEmpty()) {
                     missingStepDialog();
                 } else {
+                    allRecipe.remove(theNumOfThisRecipe);
 
                     newRecipe.setRecipeName(mEditText.getText().toString());
                     newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
@@ -437,10 +461,11 @@ public class editRecipe extends Activity {
                     newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
                     newRecipe.setIngredients(newIngList);
                     newRecipe.setSteps(newStepList);
-                    MainActivity.allRecipe.add(newRecipe);
+                    int theNumOfNewRecipe =allRecipe.size();
+                    allRecipe.add(newRecipe);
                     write_jason();
                     Intent intentShow = new Intent(this, showRecipe.class);
-                    intentShow.putExtra("Recipe", newRecipe);
+                    intentShow.putExtra("RecipeNumber", theNumOfNewRecipe);
                     startActivity(intentShow);
                 }
 
@@ -488,6 +513,45 @@ public class editRecipe extends Activity {
 
         dialogBuilder.show();
     }
+    public void deleteIngDialog(final int j){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Are you sure to delete this ingredient?");
+        dialogBuilder.setMessage(newIngList.get(j).toString());
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface,int i) {
+                newIngList.remove(j);
+                display();
+            }
+        });
+    dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+
+        }
+    });
+        dialogBuilder.show();
+    }
+    public void deleteStepDialog(final int j){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Are you sure to delete this step?");
+        dialogBuilder.setMessage(newStepList.get(j));
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface,int i) {
+                newStepList.remove(j);
+                display();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialogBuilder.show();
+    }
+
 
 }
 
