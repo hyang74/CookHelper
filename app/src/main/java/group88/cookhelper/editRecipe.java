@@ -69,6 +69,7 @@ public class editRecipe extends Activity {
     AlertDialog.Builder dialogBuilder;
     String newStep;
     Ingredient newIng = new Ingredient();
+    boolean save = false;
 
 
     @Override
@@ -78,6 +79,11 @@ public class editRecipe extends Activity {
 
         Intent intent = getIntent();
         newRecipe =(Recipe ) intent.getSerializableExtra("Recipe");
+
+
+        newStepList=newRecipe.getSteps();
+        newIngList=newRecipe.getIngredients();
+        newIngStringList=newRecipe.getIngredientsStringListList();
 
 
         mEditText=(EditText) findViewById(R.id.EditName);
@@ -186,10 +192,6 @@ public class editRecipe extends Activity {
         }
 
 
-        newStepList=newRecipe.getSteps();
-        newIngList=newRecipe.getIngredients();
-        newIngStringList=newRecipe.getIngredientsStringListList();
-
 
         editIngList =(ListView) findViewById(R.id.edit_ing_list);
         ArrayAdapter adapterIng = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newIngStringList);
@@ -275,6 +277,7 @@ public class editRecipe extends Activity {
         btnok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newIng= new Ingredient();
                 if (!nameInput.getText().toString().trim().isEmpty()){
                     if(!quantityInput.getText().toString().trim().isEmpty()){
                         newIng.setIngName(nameInput.getText().toString());
@@ -340,7 +343,7 @@ public class editRecipe extends Activity {
                     newStepList.add(newStep);
                     display();
                     stepCounter++;
-                   }
+                }
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -363,67 +366,123 @@ public class editRecipe extends Activity {
 
 
 
-    public void write_jason() {
-
-        try {
-
-                JSONObject data = new JSONObject();
-                JSONArray recipes = new JSONArray();
-                data.put("recipes", recipes);
-       MainActivity.allRecipe.add(newRecipe);
-       for(int c=0;c<MainActivity.allRecipe.size(); c++) {
-           JSONObject jasonRecipe = new JSONObject();
-           jasonRecipe.put("RecipeName", MainActivity.allRecipe.get(c).getRecipeName());
-           jasonRecipe.put("Class", MainActivity.allRecipe.get(c).getRecipeClass());
-           jasonRecipe.put("Category", MainActivity.allRecipe.get(c).getRecipeCategory());
-           jasonRecipe.put("Origin", MainActivity.allRecipe.get(c).getRecipeOrigin());
-           JSONArray newIngredients = new JSONArray();
-           int i = 0;
-           while (i < MainActivity.allRecipe.get(c).getIngredients().size()) {
-               JSONObject ingred = new JSONObject();
-               ingred.put("name", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngName());
-               ingred.put("quantity", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngQuantity());
-               ingred.put("unit", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngUnits());
-               newIngredients.put(ingred);
-               i++;
-           }
-           jasonRecipe.put("Ingredients", newIngredients);
-           JSONArray stps = new JSONArray();
-           int a = 0;
-           while (a < MainActivity.allRecipe.get(c).getSteps().size()) {
-               JSONObject sp = new JSONObject();
-               sp.put("step", MainActivity.allRecipe.get(c).getSteps().get(a));
-               stps.put(sp);
-           }
-           jasonRecipe.put("stpes", stps);
-            recipes.put(jasonRecipe);
-       }
-       OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
-       write.write(data.toString());
-       write.close();
-            }catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-     catch(JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//    public    void write_jason() {
+//
+//        try {
+//
+//                JSONObject data = new JSONObject();
+//                JSONArray recipes = new JSONArray();
+//                data.put("recipes", recipes);
+//       MainActivity.allRecipe.add(newRecipe);
+//       for(int c=0;c<MainActivity.allRecipe.size(); c++) {
+//           JSONObject jasonRecipe = new JSONObject();
+//           jasonRecipe.put("RecipeName", MainActivity.allRecipe.get(c).getRecipeName());
+//           jasonRecipe.put("Class", MainActivity.allRecipe.get(c).getRecipeClass());
+//           jasonRecipe.put("Category", MainActivity.allRecipe.get(c).getRecipeCategory());
+//           jasonRecipe.put("Origin", MainActivity.allRecipe.get(c).getRecipeOrigin());
+//           JSONArray newIngredients = new JSONArray();
+//           int i = 0;
+//           while (i < MainActivity.allRecipe.get(c).getIngredients().size()) {
+//               JSONObject ingred = new JSONObject();
+//               ingred.put("name", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngName());
+//               ingred.put("quantity", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngQuantity());
+//               ingred.put("unit", MainActivity.allRecipe.get(c).getIngredients().get(i).getIngUnits());
+//               newIngredients.put(ingred);
+//               i++;
+//           }
+//           jasonRecipe.put("Ingredients", newIngredients);
+//           JSONArray stps = new JSONArray();
+//           int a = 0;
+//           while (a < MainActivity.allRecipe.get(c).getSteps().size()) {
+//               JSONObject sp = new JSONObject();
+//               sp.put("step", MainActivity.allRecipe.get(c).getSteps().get(a));
+//               stps.put(sp);
+//           }
+//           jasonRecipe.put("stpes", stps);
+//            recipes.put(jasonRecipe);
+//       }
+//       OutputStreamWriter write = new OutputStreamWriter(openFileOutput("test", Context.MODE_PRIVATE));
+//       write.write(data.toString());
+//       write.close();
+//            }catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//     catch(JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
     public void goRecipe() {
-        newRecipe.setRecipeName(mEditText.getText().toString());
-        newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
-        newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
-        newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
-        newRecipe.setIngredients(newIngList);
-        newRecipe.setSteps(newStepList);
-        MainActivity.allRecipe.add(newRecipe);
-        write_jason();
-        Intent intentShow = new Intent(this,showRecipe.class );
-        intentShow.putExtra("Recipe", newRecipe);
-        startActivity(intentShow);
+
+        if(mEditText.getText().toString().isEmpty()){
+            missingNameDialog();}
+        else {
+            if (newIngStringList.isEmpty()) {
+                missingIngredientDialog();
+            } else {
+                if (newStepList.isEmpty()) {
+                    missingStepDialog();
+                } else {
+
+                    newRecipe.setRecipeName(mEditText.getText().toString());
+                    newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
+                    newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
+                    newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
+                    newRecipe.setIngredients(newIngList);
+                    newRecipe.setSteps(newStepList);
+                    MainActivity.allRecipe.add(newRecipe);
+                    //write_jason();
+                    Intent intentShow = new Intent(this, showRecipe.class);
+                    intentShow.putExtra("Recipe", newRecipe);
+                    startActivity(intentShow);
+                }
+
+            }
+
+        }
+    }
+
+    public void missingNameDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Recipe can not be saved");
+        dialogBuilder.setMessage("Reason:Name missing");
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        dialogBuilder.show();
+    }
+    public void missingIngredientDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Recipe can not be saved");
+        dialogBuilder.setMessage("Reason:Ingredient missing");
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface,int i) {
+
+            }
+        });
+
+        dialogBuilder.show();
+    }
+    public void missingStepDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Recipe can not be saved");
+        dialogBuilder.setMessage("Reason:Step missing");
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface,int i) {
+
+            }
+        });
+
+        dialogBuilder.show();
     }
 
 }
