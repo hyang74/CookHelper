@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
 
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
@@ -386,6 +389,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public void onBackPressed() {
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+    }
+
 
 
 
