@@ -82,8 +82,12 @@ public class editRecipe extends Activity {
         theNumOfThisRecipe=intent.getIntExtra("RecipeNumber",0);
         trueIfAdd = intent.getBooleanExtra("trueIfAdd",false);
 
-            newRecipe=filterResult.get(theNumOfThisRecipe);
-
+        if(trueIfAdd){
+            newRecipe=allRecipe.get(theNumOfThisRecipe);
+        }
+        else {
+            newRecipe = filterResult.get(theNumOfThisRecipe);
+        }
 
         stepCounter=newRecipe.getSteps().size()+1;
 
