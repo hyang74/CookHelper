@@ -363,7 +363,6 @@ public class editRecipe extends Activity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!stepInput.getText().toString().trim().isEmpty()){
 
-                    newStep = stepCounter +": "+ stepInput.getText().toString();
                     newStepList.add(newStep);
                     display();
                     stepCounter++;
@@ -454,7 +453,6 @@ public class editRecipe extends Activity {
 
 
     public void goRecipe() {
-
         if(mEditText.getText().toString().isEmpty()){
             missingNameDialog();}
         else {
@@ -467,6 +465,12 @@ public class editRecipe extends Activity {
                     if(trueIfAdd){
                         allRecipe.remove(theNumOfThisRecipe);
                         filterResult.clear();
+                        newRecipe.setRecipeName(mEditText.getText().toString());
+                        newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
+                        newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
+                        newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
+                        newRecipe.setIngredients(newIngList);
+                        newRecipe.setSteps(newStepList);
                         allRecipe.add(newRecipe);
                         for (int w=0;w<allRecipe.size();w++){
                             filterResult.add(allRecipe.get(w));
@@ -583,9 +587,8 @@ public class editRecipe extends Activity {
     }
     public void onBackPressed() {
         moveTaskToBack(false);
-        if (theNumOfThisRecipe==allRecipe.size()-1){
+        if(trueIfAdd){
             allRecipe.remove(theNumOfThisRecipe);
-            filterResult.remove(theNumOfThisRecipe);
             editRecipe.this.finish();
             Intent intentMain = new Intent (this,MainActivity.class);
             startActivity(intentMain);
