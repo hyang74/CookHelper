@@ -43,7 +43,7 @@ public class showRecipe extends Activity {
 
         Intent intentShow = getIntent();
         theNumOfRecipe=intentShow.getIntExtra("RecipeNumber",0);
-        showRecipeDetail =filterResult.get(theNumOfRecipe);
+        showRecipeDetail =allRecipe.get(theNumOfRecipe);
         showIng=new LinkedList<>();
         showSteps=new LinkedList<>();
 
@@ -84,6 +84,7 @@ public class showRecipe extends Activity {
     public void goEdit(View view) {
         Intent intentEdit = new Intent(this,editRecipe.class );
         intentEdit.putExtra("RecipeNumber", theNumOfRecipe);
+        intentEdit.putExtra("trueIfAdd",false);
         startActivity(intentEdit);
 
     }
@@ -103,7 +104,12 @@ public class showRecipe extends Activity {
         dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface,int i) {
-                allRecipe.remove(j);
+                for(int o=0;o<filterResult.size();o++){
+                    if(filterResult.get(o).getRecipeName()==showRecipeDetail.getRecipeName()){
+                        filterResult.remove(o);
+                    }
+                }
+                allRecipe.remove(theNumOfRecipe);
                 delete();
             }
         });

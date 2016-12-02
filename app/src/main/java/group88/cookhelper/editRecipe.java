@@ -41,6 +41,7 @@ import java.io.FileInputStream;
 import java.nio.channels.FileChannel;
 
 import static group88.cookhelper.MainActivity.allRecipe;
+import static group88.cookhelper.MainActivity.filterResult;
 
 
 public class editRecipe extends Activity {
@@ -69,6 +70,7 @@ public class editRecipe extends Activity {
     String newStep;
     Ingredient newIng = new Ingredient();
     private int theNumOfThisRecipe;
+    private boolean trueIfAdd;
 
 
     @Override
@@ -78,7 +80,10 @@ public class editRecipe extends Activity {
 
         Intent intent = getIntent();
         theNumOfThisRecipe=intent.getIntExtra("RecipeNumber",0);
-        newRecipe=MainActivity.filterResult.get(theNumOfThisRecipe);
+        trueIfAdd = intent.getBooleanExtra("trueIfAdd",false);
+
+            newRecipe=filterResult.get(theNumOfThisRecipe);
+
 
         stepCounter=newRecipe.getSteps().size()+1;
 
@@ -373,7 +378,9 @@ public class editRecipe extends Activity {
         showIng=new LinkedList<>();
         showSteps=new LinkedList<>();
         for(int i =0;i<newIngList.size();i++){
-            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName());
+            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName()+
+                    " x "+newIngList.get(i).getIngQuantity()+
+                    " "+ newIngList.get(i).getIngUnits());
         }
         for(int i =0;i<newStepList.size();i++){
             showSteps.add(Integer.toString(i+1) +". "+newStepList.get(i));
@@ -453,20 +460,38 @@ public class editRecipe extends Activity {
                 if (newStepList.isEmpty()) {
                     missingStepDialog();
                 } else {
-                    allRecipe.remove(theNumOfThisRecipe);
-
-                    newRecipe.setRecipeName(mEditText.getText().toString());
-                    newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
-                    newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
-                    newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
-                    newRecipe.setIngredients(newIngList);
-                    newRecipe.setSteps(newStepList);
-                    int theNumOfNewRecipe =allRecipe.size();
-                    allRecipe.add(newRecipe);
-                    write_jason();
-                    Intent intentShow = new Intent(this, showRecipe.class);
-                    intentShow.putExtra("RecipeNumber", theNumOfNewRecipe);
-                    startActivity(intentShow);
+                    if(trueIfAdd){
+                        allRecipe.remove(theNumOfThisRecipe);
+                        filterResult.clear();
+                        allRecipe.add(newRecipe);
+                        for (int w=0;w<allRecipe.size();w++){
+                            filterResult.add(allRecipe.get(w));
+                        }
+                        Intent intentShow = new Intent(this, showRecipe.class);
+                        intentShow.putExtra("RecipeNumber", theNumOfThisRecipe);
+                        startActivity(intentShow);
+                    }
+                    else {
+                        filterResult.remove(theNumOfThisRecipe);
+                        newRecipe.setRecipeName(mEditText.getText().toString());
+                        newRecipe.setRecipeClass(spinnerAddClass[aClass.getSelectedItemPosition()]);
+                        newRecipe.setRecipeOrigin(spinnerAddOrigin[aOrigin.getSelectedItemPosition()]);
+                        newRecipe.setRecipeCategory(spinnerAddCategory[aCategory.getSelectedItemPosition()]);
+                        newRecipe.setIngredients(newIngList);
+                        newRecipe.setSteps(newStepList);
+                        int theNumOfNewRecipe = filterResult.size();
+                        filterResult.add(newRecipe);
+                        int o=0;
+                        while(allRecipe.get(o).getRecipeName()!=filterResult.get(o).getRecipeName()){
+                            o++;
+                        }
+                        allRecipe.remove(o);
+                        allRecipe.add(newRecipe);
+                        write_jason();
+                        Intent intentShow = new Intent(this, showRecipe.class);
+                        intentShow.putExtra("RecipeNumber", theNumOfNewRecipe);
+                        startActivity(intentShow);
+                    }
                 }
 
             }
@@ -550,8 +575,26 @@ public class editRecipe extends Activity {
             }
         });
         dialogBuilder.show();
-    }
 
+    }
+    public void onBackPressed() {
+        moveTaskToBack(false);
+        if (theNumOfThisRecipe==allRecipe.size()-1){
+            allRecipe.remove(theNumOfThisRecipe);
+            filterResult.remove(theNumOfThisRecipe);
+            editRecipe.this.finish();
+            Intent intentMain = new Intent (this,MainActivity.class);
+            startActivity(intentMain);
+        }
+        else{
+            editRecipe.this.finish();
+            Intent intentShow = new Intent (this,showRecipe.class);
+            intentShow.putExtra("RecipeNumber",theNumOfThisRecipe);
+            startActivity(intentShow);
+        }
+
+
+    }
 
 }
 

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-    private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+    private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert=-p=[", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
     public static List<Recipe> filterResult=new LinkedList<>();
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 //             {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
 //           {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
                 showList.clear();
+                filterResult.clear();
                 Recipe Steak = new Recipe();
                 Steak.setRecipeName("Steak");
                 Steak.setRecipeOrigin("American");
@@ -165,13 +166,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 for(int i=0;i<allRecipe.size();i++){
-
-                    showList.add(allRecipe.get(i).getRecipeName());
+                    filterResult.add(allRecipe.get(i));
                 }
-                filterResult=allRecipe;
 
             }
-        if (filterResult==allRecipe) {
+        if (filterResult.size()==allRecipe.size()) {
             reset();
         }
         else{
@@ -253,8 +252,12 @@ public class MainActivity extends AppCompatActivity {
         savedClass=spClass.getSelectedItemPosition();
         savedOrigin=spOrigin.getSelectedItemPosition();
         savedSearch=mEditText.getText().toString();
+        int j=0;
+        while(allRecipe.get(j).getRecipeName()!=showList.get(i)){
+            j++;
+        }
         Intent intent1 = new Intent(this,showRecipe.class );
-        intent1.putExtra("RecipeNumber",i);
+        intent1.putExtra("RecipeNumber",j);
         startActivity(intent1);
     }
 
@@ -267,7 +270,8 @@ public class MainActivity extends AppCompatActivity {
         int numOfNewRecipe=allRecipe.size();
         Recipe newRecipe=new Recipe();
         allRecipe.add(newRecipe);
-        intentAdd.putExtra("Recipe", numOfNewRecipe);
+        intentAdd.putExtra("RecipeNumber", numOfNewRecipe);
+        intentAdd.putExtra("trueIfAdd",true);
         startActivity(intentAdd);
     }
     public void reset (){
@@ -280,7 +284,10 @@ public class MainActivity extends AppCompatActivity {
         savedOrigin=0;
         savedClass=0;
         savedCategory=0;
-        filterResult=allRecipe;
+        filterResult=new LinkedList<>();
+        for(int i=0;i<allRecipe.size();i++){
+            filterResult.add(allRecipe.get(i));
+        }
         showList=new LinkedList<>();
         for(int i=0;i<filterResult.size();i++){
             showList.add(filterResult.get(i).getRecipeName());
