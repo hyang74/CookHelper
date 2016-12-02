@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -383,15 +382,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public List<Recipe> filterFunction (List<Recipe> allRecipeName,String searchText,int classOption, int originOption, int categoryOption){
-        //we need this function to take a recipe list, and a search string
-        //and output a filtered recipe list
-        //we can input some recipe (see line 40-70)
-        //and add attributes of recipes to test
-        //the integer options are in the following order
-//        Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
-//        origin {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-//        category {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+    public List<Recipe> filterFunction (List<Recipe> allRecipeName,
+                                        String searchText,int classOption,
+                                        int originOption, int categoryOption){
+
+        // we need this function to take a recipe list, and a search string
+        // and output a filtered recipe list
+        // we can input some recipe (see line 40-70)
+        // and add attributes of recipes to test
+        // the integer options are in the following order
+        // Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
+        // origin{"Any","Italian","Chinese","Midle Eastern","Indian","American"};
+        // category{"Any","Starter","Main Dish","Desert","Drink","Sauce","Salad"};
 
 
         showList = new LinkedList<>();
@@ -401,53 +403,26 @@ public class MainActivity extends AppCompatActivity {
 
 
         //just for test,should show last 3 item with reversed order
-        numOfFilteredRecipe=4;
+        numOfFilteredRecipe=6;
         for (int i=0;i<numOfFilteredRecipe;i++){
             filterResult.add(allRecipe.get(allRecipe.size()-i-1));
         }
 
-
+    /*
         for(int j=0;j<numOfFilteredRecipe;j++){
             showList.add(filterResult.get(j).getRecipeName());
         }
+    */
+
+        String[] recipeClass = {"Any", "Beef", "Chicken",
+                "Seafood", "Vegie"};
+        String[] recipeOrigin = {"Any", "Italian", "Chinese",
+                "Midle Eastern", "Indian", "American"};
+        String[] recipeCategory = {"Any", "Starter", "Main Dish",
+                "Desert", "Drink", "Sauce", "Salad"};
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //please implement
-        //test.
-
-
-
-
-
-
-
-
-
-
-
-
-
-        displayList(showList);//pass a string list to displaylist
+        //displayList(showList);//pass a string list to displaylist
         return filterResult;
     }
 
