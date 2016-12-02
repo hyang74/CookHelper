@@ -490,11 +490,11 @@ public class editRecipe extends Activity {
                         newRecipe.setSteps(newStepList);
                         int theNumOfNewRecipe = filterResult.size();
                         filterResult.add(newRecipe);
-                        int o=0;
-                        while(allRecipe.get(o).getRecipeName()!=filterResult.get(o).getRecipeName()){
-                            o++;
+                        for(int o=0;o<allRecipe.size();o++){
+                            if(allRecipe.get(o).getRecipeName()==newRecipe.getRecipeName())
+                                allRecipe.remove(o);
                         }
-                        allRecipe.remove(o);
+
                         allRecipe.add(newRecipe);
                         write_jason();
                         Intent intentShow = new Intent(this, showRecipe.class);
