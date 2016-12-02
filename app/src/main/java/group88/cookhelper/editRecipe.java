@@ -283,8 +283,8 @@ public class editRecipe extends Activity {
         final EditText nameInput ;
         final EditText quantityInput;
         final Spinner unitSelection;
-        Button btnok;
-        Button btncancel;
+        Button btnSave;
+        Button btnDetele;
         final Dialog dialogCustom = new Dialog(this);
 
         dialogCustom.setContentView(R.layout.dialog);
@@ -297,9 +297,9 @@ public class editRecipe extends Activity {
                 android.R.layout.simple_spinner_item, spinnerMeasure);
         unitSelection.setAdapter(adapterMeasure);
         unitSelection.setSelection(0);
-        btnok = (Button) dialogCustom.findViewById(R.id.OKing);
-        btncancel = (Button) dialogCustom.findViewById(R.id.Canceling);
-        btnok.setOnClickListener(new View.OnClickListener() {
+        btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
+        btnDetele = (Button) dialogCustom.findViewById(R.id.deleteIng);
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newIng= new Ingredient();
@@ -342,7 +342,7 @@ public class editRecipe extends Activity {
             }
         });
 
-        btncancel.setOnClickListener(new View.OnClickListener() {
+        btnDetele.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -548,74 +548,106 @@ public class editRecipe extends Activity {
         dialogBuilder.show();
     }
     public void deleteIngDialog(final int j){
-        final EditText nameInput ;
-        final EditText quantityInput;
-        final Spinner unitSelection;
-        Button btnSave;
-        Button btnDelete;
-        final Dialog dialogCustom = new Dialog(this);
-        final Ingredient oldIng = newIngList.get(j);
-        dialogCustom.setContentView(R.layout.dialog);
-        dialogCustom.show();
-        dialogCustom.setTitle("Modify your ingredient:");
-        nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
-        quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
-        unitSelection =(Spinner) dialogCustom.findViewById(R.id.editIngU);
-        ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, spinnerMeasure);
-        unitSelection.setAdapter(adapterMeasure);
-        unitSelection.setSelection();
-        btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
-        btnDelete = (Button) dialogCustom.findViewById(R.id.deleteIng);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!nameInput.getText().toString().trim().isEmpty()){
-                    if(!quantityInput.getText().toString().trim().isEmpty()){
-                        oldIng.setIngName(nameInput.getText().toString());
-                        oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
-                        switch (unitSelection.getSelectedItemPosition()){
-                            case 0:
-                                oldIng.setIngUnits(Ingredient.Measure.none);
-                                break;
-                            case 1:
-                                oldIng.setIngUnits(Ingredient.Measure.cup);
-                                break;
-                            case 2:
-                                oldIng.setIngUnits(Ingredient.Measure.tea_spoon);
-                            case 3:
-                                oldIng.setIngUnits(Ingredient.Measure.table_spoon);
-                                break;
-                            case 4:
-                                oldIng.setIngUnits(Ingredient.Measure.ounce);
-                                break;
-                            case 5:
-                                oldIng.setIngUnits(Ingredient.Measure.kg);
-                                break;
-                            case 6:
-                                oldIng.setIngUnits(Ingredient.Measure.g);
-                                break;
-                            case 7:
-                                oldIng.setIngUnits(Ingredient.Measure.piece);
-                                break;
-                        }
-                        display();
-                        dialogCustom.dismiss();
-                    }
-                }
-                dialogCustom.dismiss();
-                display();
-            }
-        });
+            final EditText nameInput;
+            final EditText quantityInput;
+            final Spinner unitSelection;
+            Button btnSave;
+            Button btnDelete;
+            final Dialog dialogCustom = new Dialog(this);
+            final Ingredient oldIng = newIngList.get(j);
+            dialogCustom.setContentView(R.layout.dialog);
+            dialogCustom.show();
+            dialogCustom.setTitle("Modify your ingredient:");
+            nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
+        nameInput.setText(oldIng.getIngName());
+            quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
+        quantityInput.setText(oldIng.getIngQuantity());
+            unitSelection = (Spinner) dialogCustom.findViewById(R.id.editIngU);
+            ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, spinnerMeasure);
+            unitSelection.setAdapter(adapterMeasure);
+        switch (newIngList.get(j).getIngUnits()) {
+            case "":
+                unitSelection.setSelection(0);
+                break;
+            case "cup":
+                unitSelection.setSelection(1);
+                break;
+            case "tea_spoon":
+                unitSelection.setSelection(2);
+                break;
+            case "table_spoon":
+                unitSelection.setSelection(3);
+                break;
+            case "ounce":
+                unitSelection.setSelection(4);
+                break;
+            case "kg":
+                unitSelection.setSelection(5);
+                break;
+            case "g":
+                unitSelection.setSelection(6);
+                break;
+            case "piece":
+                unitSelection.setSelection(7);
+                break;
+            case "pound":
+                unitSelection.setSelection(8);
+                break;
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newIngList.remove(j);
-                dialogCustom.dismiss();
-                display();
-            }
-        });
+        }
+            btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
+            btnDelete = (Button) dialogCustom.findViewById(R.id.deleteIng);
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!nameInput.getText().toString().trim().isEmpty()) {
+                        if (!quantityInput.getText().toString().trim().isEmpty()) {
+                            oldIng.setIngName(nameInput.getText().toString());
+                            oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
+                            switch (unitSelection.getSelectedItemPosition()) {
+                                case 0:
+                                    oldIng.setIngUnits(Ingredient.Measure.none);
+                                    break;
+                                case 1:
+                                    oldIng.setIngUnits(Ingredient.Measure.cup);
+                                    break;
+                                case 2:
+                                    oldIng.setIngUnits(Ingredient.Measure.tea_spoon);
+                                case 3:
+                                    oldIng.setIngUnits(Ingredient.Measure.table_spoon);
+                                    break;
+                                case 4:
+                                    oldIng.setIngUnits(Ingredient.Measure.ounce);
+                                    break;
+                                case 5:
+                                    oldIng.setIngUnits(Ingredient.Measure.kg);
+                                    break;
+                                case 6:
+                                    oldIng.setIngUnits(Ingredient.Measure.g);
+                                    break;
+                                case 7:
+                                    oldIng.setIngUnits(Ingredient.Measure.piece);
+                                    break;
+                            }
+                            display();
+                            dialogCustom.dismiss();
+                        }
+                    }
+                    dialogCustom.dismiss();
+                    display();
+                }
+            });
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    newIngList.remove(j);
+                    dialogCustom.dismiss();
+                    display();
+                }
+            });
+
     }
     public void deleteStepDialog(final int j){
         dialogBuilder = new AlertDialog.Builder(this);

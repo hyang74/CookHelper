@@ -26,7 +26,7 @@ public class Ingredient implements Serializable{
     }
     public String getIngName() { return ingName; }
     public void setIngName(String name) {ingName = name;}
-    public float getIngQuantity() { return ingQuantity; }
+    public String getIngQuantity() { return Float.toString(ingQuantity); }
     public void setIngQuantity(float q) { ingQuantity = q; }
     public String getIngUnits() {
         String a="";
