@@ -362,11 +362,12 @@ public class editRecipe extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!stepInput.getText().toString().trim().isEmpty()){
-
+                    newStep = stepInput.getText().toString();
                     newStepList.add(newStep);
                     display();
                     stepCounter++;
                 }
+
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -547,43 +548,103 @@ public class editRecipe extends Activity {
         dialogBuilder.show();
     }
     public void deleteIngDialog(final int j){
-        dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Are you sure to delete this ingredient?");
-        dialogBuilder.setMessage(newIngList.get(j).toString());
-        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        final EditText nameInput ;
+        final EditText quantityInput;
+        final Spinner unitSelection;
+        Button btnSave;
+        Button btnDelete;
+        final Dialog dialogCustom = new Dialog(this);
+        final Ingredient oldIng = newIngList.get(j);
+        dialogCustom.setContentView(R.layout.dialog);
+        dialogCustom.show();
+        dialogCustom.setTitle("Modify your ingredient:");
+        nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
+        quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
+        unitSelection =(Spinner) dialogCustom.findViewById(R.id.editIngU);
+        ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spinnerMeasure);
+        unitSelection.setAdapter(adapterMeasure);
+        unitSelection.setSelection();
+        btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
+        btnDelete = (Button) dialogCustom.findViewById(R.id.deleteIng);
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface,int i) {
-                newIngList.remove(j);
+            public void onClick(View view) {
+                if (!nameInput.getText().toString().trim().isEmpty()){
+                    if(!quantityInput.getText().toString().trim().isEmpty()){
+                        oldIng.setIngName(nameInput.getText().toString());
+                        oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
+                        switch (unitSelection.getSelectedItemPosition()){
+                            case 0:
+                                oldIng.setIngUnits(Ingredient.Measure.none);
+                                break;
+                            case 1:
+                                oldIng.setIngUnits(Ingredient.Measure.cup);
+                                break;
+                            case 2:
+                                oldIng.setIngUnits(Ingredient.Measure.tea_spoon);
+                            case 3:
+                                oldIng.setIngUnits(Ingredient.Measure.table_spoon);
+                                break;
+                            case 4:
+                                oldIng.setIngUnits(Ingredient.Measure.ounce);
+                                break;
+                            case 5:
+                                oldIng.setIngUnits(Ingredient.Measure.kg);
+                                break;
+                            case 6:
+                                oldIng.setIngUnits(Ingredient.Measure.g);
+                                break;
+                            case 7:
+                                oldIng.setIngUnits(Ingredient.Measure.piece);
+                                break;
+                        }
+                        display();
+                        dialogCustom.dismiss();
+                    }
+                }
+                dialogCustom.dismiss();
                 display();
             }
         });
-    dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
 
-        }
-    });
-        dialogBuilder.show();
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newIngList.remove(j);
+                dialogCustom.dismiss();
+                display();
+            }
+        });
     }
     public void deleteStepDialog(final int j){
         dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Are you sure to delete this step?");
-        dialogBuilder.setMessage(newStepList.get(j));
-        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        final EditText stepInput = new EditText(this);
+
+        dialogBuilder.setTitle("Modify your step "+(j+1));
+        dialogBuilder.setMessage("Type your step here:");
+        stepInput.setText(newStepList.get(j));
+        dialogBuilder.setView(stepInput);
+        dialogBuilder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface,int i) {
-                newStepList.remove(j);
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (!stepInput.getText().toString().trim().isEmpty()){
+                    String modifiedStep = stepInput.getText().toString();
+                    newStepList.set(j,modifiedStep);
+                    display();
+                }
+
+            }
+        });
+        dialogBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            newStepList.remove(j);
+                stepCounter--;
                 display();
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
         dialogBuilder.show();
-
     }
     public void onBackPressed() {
         moveTaskToBack(false);

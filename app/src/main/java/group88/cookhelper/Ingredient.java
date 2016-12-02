@@ -30,12 +30,17 @@ public class Ingredient implements Serializable{
     public void setIngQuantity(float q) { ingQuantity = q; }
     public String getIngUnits() {
         String a="";
-        a += ingUnits;
-        return a;}
+        if(ingUnits==Measure.none){
+            return a;
+        }
+        else{
+            a += ingUnits;}
+        return a;
+    }
     public void setIngUnits(Measure u) { ingUnits = u; }
     public String toString(){
         String str="";
         str += this.getIngName() + " X " + this.getIngQuantity() + " " + this.getIngUnits() + "\n";
-return str;
+        return str;
     }
 }
