@@ -81,49 +81,6 @@ public class MainActivity extends AppCompatActivity {
             mClearText.setVisibility(View.GONE);
         }
 
-        //We use temperary array to show the list,
-        //will be substitute by JSON reader
-        if(MainActivity.allRecipe.isEmpty()){
-        Recipe Steak = new Recipe();
-        Steak.setRecipeName("Steak");
-        allRecipe.add(Steak);
-
-        Recipe VegiePho = new Recipe();
-        VegiePho.setRecipeName("Vegie Pho");
-        allRecipe.add(VegiePho);
-
-        Recipe BeefPho = new Recipe();
-        BeefPho.setRecipeName("Beef Pho");
-        allRecipe.add(BeefPho);
-
-        Recipe GrilledChicken = new Recipe();
-        GrilledChicken.setRecipeName("Grilled Chicken");
-        allRecipe.add(GrilledChicken);
-
-        Recipe BeefStew= new Recipe();
-        BeefStew.setRecipeName("Beef Stew");
-        allRecipe.add(BeefStew);
-
-        Recipe BeefAndVeggiePizza= new Recipe();
-        BeefAndVeggiePizza.setRecipeName("Beef and Veggie Pizza");
-        allRecipe.add(BeefAndVeggiePizza);
-
-        Recipe IceCream= new Recipe();
-        IceCream.setRecipeName("Ice Cream");
-        allRecipe.add(IceCream);}
-
-        int numOfAllRecipe=6;
-        for (int i=0;i<numOfAllRecipe;i++){
-            showList.add(allRecipe.get(i).getRecipeName());
-        }
-        // just for testvb
-
-        read_jason();
-        //This is how to add  items to list: use ArrayAdapter
-        recipeList = (ListView) findViewById(R.id.recipe_list_view);
-        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
-        recipeList.setAdapter(adapterRecipe);
-
 
         //This is how to add items to spinner:
         spClass = (Spinner) findViewById(R.id.SPclass);
@@ -144,9 +101,8 @@ public class MainActivity extends AppCompatActivity {
         spCategory.setAdapter(adapterCategory);
         spCategory.setSelection(savedCategory);
 
-
         recipeList = (ListView) findViewById(R.id.recipe_list_view);
-        adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
+        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
         recipeList.setAdapter(adapterRecipe);
 
 
@@ -154,84 +110,82 @@ public class MainActivity extends AppCompatActivity {
         //will be substitute by JSON reader
 
 
-       // showList = new LinkedList<>();
-            if(allRecipe.isEmpty()) {
+        // showList = new LinkedList<>();
+        if(allRecipe.isEmpty()) {
 //
 //            {"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
 //             {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
 //           {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-                showList.clear();
-                filterResult.clear();
-                Recipe Steak = new Recipe();
-                Steak.setRecipeName("Steak");
-                Steak.setRecipeOrigin("American");
-                Steak.setRecipeClass("Beef");
-                Steak.setRecipeCategory("Main Dish");
-                Steak.addIngredients(new Ingredient("balsamic vinegar",(float)0.5, Ingredient.Measure.cup));
-                Steak.addIngredients(new Ingredient("soy sauce",(float)0.25, Ingredient.Measure.cup));
-                Steak.addIngredients(new Ingredient("minced garlic",3, Ingredient.Measure.table_spoon));
-                Steak.addIngredients(new Ingredient("honey",2, Ingredient.Measure.table_spoon));
-                Steak.addIngredients(new Ingredient("olive oil",2, Ingredient.Measure.table_spoon));
-                Steak.addIngredients(new Ingredient("ground black pepper",2, Ingredient.Measure.tea_spoon));
-                Steak.addIngredients(new Ingredient("Worcestershire sauce",1, Ingredient.Measure.tea_spoon));
-                Steak.addIngredients(new Ingredient("onion powder",2, Ingredient.Measure.tea_spoon));
-                Steak.addIngredients(new Ingredient("salt",(float)0.5, Ingredient.Measure.tea_spoon));
-                Steak.addIngredients(new Ingredient("liquid smoke flavoring",(float)0.5, Ingredient.Measure.tea_spoon));
-                Steak.addIngredients(new Ingredient("rib-eye steaks",(float)2.5, Ingredient.Measure.pound));
-                Steak.addSteps("Mix vinegar, soy sauce, garlic, honey, olive oil, ground black pepper, etc (all" +
-                        "the ingredients) in a bowl");
-                Steak.addSteps("Place steak in glass dish with the marinade and rub liquid onto the meat.");
-                Steak.addSteps("Refrigerate for 1 -2 days");
-                Steak.addSteps("Preheat grill to medium- high");
-                Steak.addSteps("Lightly oil grill.");
-                Steak.addSteps("Grill steaks 7 mins per side or desired doneness.");
-                Steak.addSteps("Serve and enjoy!");
-                allRecipe.add(Steak);
+            showList.clear();
+            filterResult.clear();
+            Recipe Steak = new Recipe();
+            Steak.setRecipeName("Steak");
+            Steak.setRecipeOrigin("American");
+            Steak.setRecipeClass("Beef");
+            Steak.setRecipeCategory("Main Dish");
+            Steak.addIngredients(new Ingredient("balsamic vinegar",(float)0.5, Ingredient.Measure.cup));
+            Steak.addIngredients(new Ingredient("soy sauce",(float)0.25, Ingredient.Measure.cup));
+            Steak.addIngredients(new Ingredient("minced garlic",3, Ingredient.Measure.table_spoon));
+            Steak.addIngredients(new Ingredient("honey",2, Ingredient.Measure.table_spoon));
+            Steak.addIngredients(new Ingredient("olive oil",2, Ingredient.Measure.table_spoon));
+            Steak.addIngredients(new Ingredient("ground black pepper",2, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("Worcestershire sauce",1, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("onion powder",2, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("salt",(float)0.5, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("liquid smoke flavoring",(float)0.5, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("rib-eye steaks",(float)2.5, Ingredient.Measure.pound));
+            Steak.addSteps("Mix vinegar, soy sauce, garlic, honey, olive oil, ground black pepper, etc (all" +
+                    "the ingredients) in a bowl");
+            Steak.addSteps("Place steak in glass dish with the marinade and rub liquid onto the meat.");
+            Steak.addSteps("Refrigerate for 1 -2 days");
+            Steak.addSteps("Preheat grill to medium- high");
+            Steak.addSteps("Lightly oil grill.");
+            Steak.addSteps("Grill steaks 7 mins per side or desired doneness.");
+            Steak.addSteps("Serve and enjoy!");
+            allRecipe.add(Steak);
 
-                Recipe VegiePho = new Recipe();
-                VegiePho.setRecipeName("Veggie Pho");
-                VegiePho.setRecipeOrigin("Vietnamese");
-                VegiePho.setRecipeClass("Veggie");
-                VegiePho.setRecipeCategory("Main Dish");
-                VegiePho.addIngredients(new Ingredient("onion"),1, Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("shallot"),(float)0.5,Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("garlic cloves"),(float)0.5,Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("sliced ginger"),1,Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("cinnamon sticks"),1, Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("vegetable stock"),2,Ingredient.Measure.cup));
-                VegiePho.addIngredients(new Ingredient("soy sauce"),2,Ingredient.Measure.table_spoon));
-                VegiePho.addIngredients(new Ingredient("salt"),1,Ingredient.Measure.tea_spoon));
-                VegiePho.addIngredients(new Ingredient("riced noodles"),1,Ingredient.Measure.pound));
-                VegiePho.addIngredients(new Ingredient("tofu"),8,Ingredient.Measure.ounce));
-                VegiePho.addIngredients(new Ingredient("scallions"),6,Ingredient.Measure.piece));
-                VegiePho.addIngredients(new Ingredient("bean sprouts"),1.5,Ingredient.Measure.cup));
-                VegiePho.addIngredients(new Ingredient("lime"),1,Ingredient.Measure.piece));
-                VegiePho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
-                VegiePho.addSteps("Bring broth to a boil");
-                VegiePho.addSteps("Strain broth and return to pot. Discard all solids");
-                VegiePho.addSteps("To make pho: Cook rice noodles according to packet instructions. Drain them and rinse with cold water");
-                VegiePho.addSteps("Ladle the broth over noodles");
-                VegiePho.addSteps("Top with tofu, sprouts, onions or any additional ingredients to your liking! Enjoy!");
-                allRecipe.add(VegiePho);
+            Recipe VegiePho = new Recipe();
+            VegiePho.setRecipeName("Veggie Pho");
+            VegiePho.setRecipeOrigin("Any");
+            VegiePho.setRecipeClass("Veggie");
+            VegiePho.setRecipeCategory("Main Dish");
+            VegiePho.addIngredients(new Ingredient("onion",1, Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("shallot",(float)0.5,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("garlic cloves",(float)0.5,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("sliced ginger",1,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("cinnamon sticks",1, Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("vegetable stock",2,Ingredient.Measure.cup));
+            VegiePho.addIngredients(new Ingredient("soy sauce",2,Ingredient.Measure.table_spoon));
+            VegiePho.addIngredients(new Ingredient("salt",1,Ingredient.Measure.tea_spoon));
+            VegiePho.addIngredients(new Ingredient("riced noodles",1,Ingredient.Measure.pound));
+            VegiePho.addIngredients(new Ingredient("tofu",8,Ingredient.Measure.ounce));
+            VegiePho.addIngredients(new Ingredient("scallions",6,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("bean sprouts",(float)1.5,Ingredient.Measure.cup));
+            VegiePho.addIngredients(new Ingredient("lime",1,Ingredient.Measure.piece));
+            VegiePho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
+            VegiePho.addSteps("Bring broth to a boil");
+            VegiePho.addSteps("Strain broth and return to pot. Discard all solids");
+            VegiePho.addSteps("To make pho: Cook rice noodles according to packet instructions. Drain them and rinse with cold water");
+            VegiePho.addSteps("Ladle the broth over noodles");
+            VegiePho.addSteps("Top with tofu, sprouts, onions or any additional ingredients to your liking! Enjoy!");
+            allRecipe.add(VegiePho);
 
-                Recipe GrilledChicken = new Recipe();
-                GrilledChicken.setRecipeName("Grilled Chicken");
-                GrilledChicken.setRecipeOrigin("American");
-                GrilledChicken.setRecipeClass("Meat");
-                GrilledChicken.setRecipeCategory("Main Dish");
-                GrilledChicken.addIngredients(new Ingredient("skinless chicken"),4, Ingredient.Measure.piece));
-                GrilledChicken.addIngredients(new Ingredient("lemon juice"),(float)0.5,Ingredient.Measure.cup));
-                GrilledChicken.addIngredients(new Ingredient("onion powder"),(float)0.5,Ingredient.Measure.tea_spoon));
-                GrilledChicken.addIngredients(new Ingredient("black pepper"),(float)0.4,Ingredient.Measure.tea_spoon));
-                GrilledChicken.addIngredients(new Ingredient("salt"),1,Ingredient.Measure.tea_spoon));
-                GrilledChicken.addIngredients(new Ingredient("dried parsley"),1,Ingredient.Measure.tea_spoon));
-                GrilledChicken.addSteps("Preheat grill for medium high heat and lightly oil grate");
-                GrilledChicken.addSteps("Dip chicken in lemon juice and sprinkle with all the ingredients listed above ");
-                GrilledChicken.addSteps("Cook on grill for 10-15 minutes per side");
-                GrilledChicken.addSteps("Serve and enjoy!");
-                allRecipe.add(GrilledChicken);
-
-
+            Recipe GrilledChicken = new Recipe();
+            GrilledChicken.setRecipeName("Grilled Chicken");
+            GrilledChicken.setRecipeOrigin("American");
+            GrilledChicken.setRecipeClass("Meat");
+            GrilledChicken.setRecipeCategory("Main Dish");
+            GrilledChicken.addIngredients(new Ingredient("skinless chicken",4, Ingredient.Measure.piece));
+            GrilledChicken.addIngredients(new Ingredient("lemon juice",(float)0.5,Ingredient.Measure.cup));
+            GrilledChicken.addIngredients(new Ingredient("onion powder",(float)0.5,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addIngredients(new Ingredient("black pepper",(float)0.4,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addIngredients(new Ingredient("salt",1,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addIngredients(new Ingredient("dried parsley",1,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addSteps("Preheat grill for medium high heat and lightly oil grate");
+            GrilledChicken.addSteps("Dip chicken in lemon juice and sprinkle with all the ingredients listed above ");
+            GrilledChicken.addSteps("Cook on grill for 10-15 minutes per side");
+            GrilledChicken.addSteps("Serve and enjoy!");
+            allRecipe.add(GrilledChicken);
 
 
 
@@ -248,32 +202,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                Recipe BeefPho = new Recipe();
-                BeefPho.setRecipeName("Beef Pho");
-                allRecipe.add(BeefPho);
-
-                Recipe GrilledChicken = new Recipe();
-                GrilledChicken.setRecipeName("Grilled Chicken");
-                allRecipe.add(GrilledChicken);
-
-                Recipe BeefStew = new Recipe();
-                BeefStew.setRecipeName("Beef Stew");
-                allRecipe.add(BeefStew);
-
-                Recipe BeefAndVegiePizza = new Recipe();
-                BeefAndVegiePizza.setRecipeName("Beef and Vegie Pizza");
-                allRecipe.add(BeefAndVegiePizza);
-
-                Recipe IceCream = new Recipe();
-                IceCream.setRecipeName("Ice Cream");
-                allRecipe.add(IceCream);
 
 
-                for(int i=0;i<allRecipe.size();i++){
-                    filterResult.add(allRecipe.get(i));
-                }
+            Recipe BeefPho = new Recipe();
+            BeefPho.setRecipeName("Beef Pho");
+            allRecipe.add(BeefPho);
 
+
+
+            Recipe BeefStew = new Recipe();
+            BeefStew.setRecipeName("Beef Stew");
+            allRecipe.add(BeefStew);
+
+            Recipe BeefAndVegiePizza = new Recipe();
+            BeefAndVegiePizza.setRecipeName("Beef and Vegie Pizza");
+            allRecipe.add(BeefAndVegiePizza);
+
+            Recipe IceCream = new Recipe();
+            IceCream.setRecipeName("Ice Cream");
+            allRecipe.add(IceCream);
+
+
+            for(int i=0;i<allRecipe.size();i++){
+                filterResult.add(allRecipe.get(i));
             }
+
+        }
         if (filterResult.size()==allRecipe.size()) {
             reset();
         }
@@ -286,6 +240,14 @@ public class MainActivity extends AppCompatActivity {
             }
             displayList(showList);
         }
+
+
+
+
+
+
+
+
 
         // just for test
 

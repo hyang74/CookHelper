@@ -47,7 +47,7 @@ import static group88.cookhelper.MainActivity.filterResult;
 public class editRecipe extends Activity {
 
     public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece","pound"};
-    private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Vegie"};
+    private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Veggie"};
     private String[] spinnerAddOrigin = {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
     private List<Ingredient>newIngList = new LinkedList<>();
@@ -659,7 +659,7 @@ public class editRecipe extends Activity {
         dialogBuilder.setView(stepInput);
         dialogBuilder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
-<<<<<<< Updated upstream
+
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!stepInput.getText().toString().trim().isEmpty()){
                     String modifiedStep = stepInput.getText().toString();
@@ -667,12 +667,6 @@ public class editRecipe extends Activity {
                     display();
                 }
 
-=======
-            public void onClick(DialogInterface dialogInterface,int i) {
-                newStepList.remove(j);
-                stepCounter--;
-                display();
->>>>>>> Stashed changes
             }
         });
         dialogBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
