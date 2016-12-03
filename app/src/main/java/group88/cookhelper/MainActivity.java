@@ -31,7 +31,7 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
     private ListView recipeList;
 
-    private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
+    private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert=-p=[", "Drink", "Sauce", "Salad"};
 
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
+
         mEditText = (EditText) findViewById(R.id.search);
         mEditText.setText(savedSearch);
         mClearText = (Button) findViewById(R.id.clearText);
@@ -78,6 +79,49 @@ public class MainActivity extends AppCompatActivity {
         else {
             mClearText.setVisibility(View.GONE);
         }
+
+        //We use temperary array to show the list,
+        //will be substitute by JSON reader
+        if(MainActivity.allRecipe.isEmpty()){
+        Recipe Steak = new Recipe();
+        Steak.setRecipeName("Steak");
+        allRecipe.add(Steak);
+
+        Recipe VegiePho = new Recipe();
+        VegiePho.setRecipeName("Vegie Pho");
+        allRecipe.add(VegiePho);
+
+        Recipe BeefPho = new Recipe();
+        BeefPho.setRecipeName("Beef Pho");
+        allRecipe.add(BeefPho);
+
+        Recipe GrilledChicken = new Recipe();
+        GrilledChicken.setRecipeName("Grilled Chicken");
+        allRecipe.add(GrilledChicken);
+
+        Recipe BeefStew= new Recipe();
+        BeefStew.setRecipeName("Beef Stew");
+        allRecipe.add(BeefStew);
+
+        Recipe BeefAndVeggiePizza= new Recipe();
+        BeefAndVeggiePizza.setRecipeName("Beef and Veggie Pizza");
+        allRecipe.add(BeefAndVeggiePizza);
+
+        Recipe IceCream= new Recipe();
+        IceCream.setRecipeName("Ice Cream");
+        allRecipe.add(IceCream);}
+
+        int numOfAllRecipe=6;
+        for (int i=0;i<numOfAllRecipe;i++){
+            showList.add(allRecipe.get(i).getRecipeName());
+        }
+        // just for testvb
+
+        read_jason();
+        //This is how to add  items to list: use ArrayAdapter
+        recipeList = (ListView) findViewById(R.id.recipe_list_view);
+        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
+        recipeList.setAdapter(adapterRecipe);
 
 
         //This is how to add items to spinner:
@@ -101,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         recipeList = (ListView) findViewById(R.id.recipe_list_view);
-        ArrayAdapter adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
+        adapterRecipe = new ArrayAdapter(this, android.R.layout.simple_list_item_1, showList);
         recipeList.setAdapter(adapterRecipe);
 
 
@@ -144,8 +188,64 @@ public class MainActivity extends AppCompatActivity {
                 allRecipe.add(Steak);
 
                 Recipe VegiePho = new Recipe();
-                VegiePho.setRecipeName("Vegie Pho");
+                VegiePho.setRecipeName("Veggie Pho");
+                VegiePho.setRecipeOrigin("Vietnamese");
+                VegiePho.setRecipeClass("Veggie");
+                VegiePho.setRecipeCategory("Main Dish");
+                VegiePho.addIngredients(new Ingredient("onion"),1, Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("shallot"),(float)0.5,Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("garlic cloves"),(float)0.5,Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("sliced ginger"),1,Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("cinnamon sticks"),1, Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("vegetable stock"),2,Ingredient.Measure.cup));
+                VegiePho.addIngredients(new Ingredient("soy sauce"),2,Ingredient.Measure.table_spoon));
+                VegiePho.addIngredients(new Ingredient("salt"),1,Ingredient.Measure.tea_spoon));
+                VegiePho.addIngredients(new Ingredient("riced noodles"),1,Ingredient.Measure.pound));
+                VegiePho.addIngredients(new Ingredient("tofu"),8,Ingredient.Measure.ounce));
+                VegiePho.addIngredients(new Ingredient("scallions"),6,Ingredient.Measure.piece));
+                VegiePho.addIngredients(new Ingredient("bean sprouts"),1.5,Ingredient.Measure.cup));
+                VegiePho.addIngredients(new Ingredient("lime"),1,Ingredient.Measure.piece));
+                VegiePho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
+                VegiePho.addSteps("Bring broth to a boil");
+                VegiePho.addSteps("Strain broth and return to pot. Discard all solids");
+                VegiePho.addSteps("To make pho: Cook rice noodles according to packet instructions. Drain them and rinse with cold water");
+                VegiePho.addSteps("Ladle the broth over noodles");
+                VegiePho.addSteps("Top with tofu, sprouts, onions or any additional ingredients to your liking! Enjoy!");
                 allRecipe.add(VegiePho);
+
+                Recipe GrilledChicken = new Recipe();
+                GrilledChicken.setRecipeName("Grilled Chicken");
+                GrilledChicken.setRecipeOrigin("American");
+                GrilledChicken.setRecipeClass("Meat");
+                GrilledChicken.setRecipeCategory("Main Dish");
+                GrilledChicken.addIngredients(new Ingredient("skinless chicken"),4, Ingredient.Measure.piece));
+                GrilledChicken.addIngredients(new Ingredient("lemon juice"),(float)0.5,Ingredient.Measure.cup));
+                GrilledChicken.addIngredients(new Ingredient("onion powder"),(float)0.5,Ingredient.Measure.tea_spoon));
+                GrilledChicken.addIngredients(new Ingredient("black pepper"),(float)0.4,Ingredient.Measure.tea_spoon));
+                GrilledChicken.addIngredients(new Ingredient("salt"),1,Ingredient.Measure.tea_spoon));
+                GrilledChicken.addIngredients(new Ingredient("dried parsley"),1,Ingredient.Measure.tea_spoon));
+                GrilledChicken.addSteps("Preheat grill for medium high heat and lightly oil grate");
+                GrilledChicken.addSteps("Dip chicken in lemon juice and sprinkle with all the ingredients listed above ");
+                GrilledChicken.addSteps("Cook on grill for 10-15 minutes per side");
+                GrilledChicken.addSteps("Serve and enjoy!");
+                allRecipe.add(GrilledChicken);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 Recipe BeefPho = new Recipe();
                 BeefPho.setRecipeName("Beef Pho");

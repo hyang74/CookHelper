@@ -365,7 +365,7 @@ public class editRecipe extends Activity {
                     newStep = stepInput.getText().toString();
                     newStepList.add(newStep);
                     display();
-                    stepCounter++;
+                    //stepCounter++;
                 }
 
             }
@@ -659,6 +659,7 @@ public class editRecipe extends Activity {
         dialogBuilder.setView(stepInput);
         dialogBuilder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
+<<<<<<< Updated upstream
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!stepInput.getText().toString().trim().isEmpty()){
                     String modifiedStep = stepInput.getText().toString();
@@ -666,6 +667,12 @@ public class editRecipe extends Activity {
                     display();
                 }
 
+=======
+            public void onClick(DialogInterface dialogInterface,int i) {
+                newStepList.remove(j);
+                stepCounter--;
+                display();
+>>>>>>> Stashed changes
             }
         });
         dialogBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
