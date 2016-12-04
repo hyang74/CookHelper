@@ -17,6 +17,7 @@
         android:id="@+id/editIngName"
         android:layout_height="wrap_content"
         android:hint="Enter name here..."
+        android:imeOptions="actionDone"
         android:textStyle="normal|italic" />
 
     <EditText
@@ -25,6 +26,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editIngQ"
+        android:imeOptions="actionDone"
         android:hint="Enter quantity here..."
         android:textStyle="normal|italic" />
 
