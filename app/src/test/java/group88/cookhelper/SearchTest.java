@@ -36,7 +36,7 @@ public class SearchTest {
 
 
             Recipe Steak = new Recipe();
-            Steak.setRecipeName("1 Steak");
+            Steak.setRecipeName("0 Steak");
             Steak.setRecipeOrigin("American");
             Steak.setRecipeClass("Beef");
             Steak.setRecipeCategory("Main Dish");
@@ -62,7 +62,7 @@ public class SearchTest {
             allRecipe.add(Steak);
 
             Recipe VegiePho = new Recipe();
-            VegiePho.setRecipeName("2 Veggie Pho");
+            VegiePho.setRecipeName("1 Veggie Pho");
             VegiePho.setRecipeOrigin("Any");
             VegiePho.setRecipeClass("Veggie");
             VegiePho.setRecipeCategory("Main Dish");
@@ -88,7 +88,7 @@ public class SearchTest {
             allRecipe.add(VegiePho);
 
             Recipe GrilledChicken = new Recipe();
-            GrilledChicken.setRecipeName("3 Grilled Chicken");
+            GrilledChicken.setRecipeName("2 Grilled Chicken");
             GrilledChicken.setRecipeOrigin("American");
             GrilledChicken.setRecipeClass("Meat");
             GrilledChicken.setRecipeCategory("Main Dish");
@@ -106,20 +106,21 @@ public class SearchTest {
 
 
             Recipe beefPho = new Recipe();
-            beefPho.setRecipeName("4 Beef Pho");
+            beefPho.setRecipeName("3 Beef Pho");
+            beefPho.addIngredients(new Ingredient("salt",1,Ingredient.Measure.tea_spoon));
             allRecipe.add(beefPho);
 
 
             Recipe beefStew = new Recipe();
-            beefStew.setRecipeName("5 Beef Stew");
+            beefStew.setRecipeName("4 Beef Stew");
             allRecipe.add(beefStew);
 
             Recipe beefAndVegiePizza = new Recipe();
-            beefAndVegiePizza.setRecipeName("6 Beef and Vegie Pizza");
+            beefAndVegiePizza.setRecipeName("5 Beef and Vegie Pizza");
             allRecipe.add(beefAndVegiePizza);
 
             Recipe iceCream = new Recipe();
-            iceCream.setRecipeName("7 Ice Cream");
+            iceCream.setRecipeName("6 Ice Cream");
             allRecipe.add(iceCream);
 
 
@@ -128,7 +129,7 @@ public class SearchTest {
 
             System.out.println("Defining search string:\n");
 
-            String searchString = "onion salt+-lime";
+            String searchString = "honey tofu onion salt+-lime";
             int classOption = 0;
             int originOption = 0;
             int categoryOption = 0;
@@ -173,23 +174,62 @@ public class SearchTest {
         // Deactivate showlist object since not needed in dev test method:
         // List<Recipe> showList = new LinkedList<>();
 
+
+        // Temporary sum of a recipe's search score
+        // +1 for every hit on a recipe class, origin or category
+        // +1 for every hit on an OR'd search word
+        // +1 for every word of a hit on an AND'd group of words
+        // +1 for every hit on a NOT word successfully not in the ingredients
+        // The score then serves as the key to put the recipe in the right list
+        // of the LinkedHashMap that will store the search result recipes
+        int recipeScore = 0;
+
+        // Count of times a word is found in an ingredient list pass
+        int passScore = 0;
+
+        // Temporary sum to calculate an all or nothing score for AND's
+        int andScore = 0;
+
+        // Size of sub list of and words
+        int andListSize = 0;
+
+        // Flag to show that word is a NOT word (1st char is '-')
+        boolean isNot = false;
+
+        // Temp value to store the all recipe list size
+        int allRecipesSize = 0;
+
+        // Temp value to store a recipe's ingredient list size
+        int ingsSize = 0;
+
+        // Current search word to be checked
+        String searchWord;
+
+        // Current ingredient name to be checked
+        String ingWord;
+
         // Create a hash map based list to store the Recipes in
         // order of search result relevance
         Map<Integer, List<Recipe>> sortedRecipes
                 = new LinkedHashMap< Integer, List<Recipe>>();
 
-        // Create list to store temp filtered list:
+        // List to store temp filtered list
         List<Recipe> filterTemp = new LinkedList<>();
 
-        // Create list to store final filtered list:
+        // List to store final filtered list
         List<Recipe> filterResult= new LinkedList<>();
 
-        // Search string parser - turns search string into nested list.
+        // List to store temporary passes at ingredients lists
+        List<String> ings = new LinkedList<String>();
 
-        // 1 - Separate string into list separated by spaces
+
+
+        // Search string parser - turns search string into nested word list
+
+        // 1 - Separate string into word list using space separations
         List<String> wordsList = Arrays.asList(searchText.split(" "));
 
-        // 2 - Turn this list into list of lists
+        // 2 - Turn this list into list of word lists
         //     Each sublist is a string to be separated by plus signs
         //     If no plus signs, it's a list of one word
         List<List<String>> nestedWordsList = new LinkedList<List<String>>();
@@ -201,20 +241,125 @@ public class SearchTest {
         System.out.println(wordsList + "\n");
         System.out.println(nestedWordsList + "\n");
 
-        // The NOT character "-" to be searched for a each element..
 
+        // Begin main loop through the recipes to get the results
 
+        allRecipesSize = allRecipeName.size();
 
-        int allRecipesSize = allRecipeName.size();
         for (int i = 0; i < allRecipesSize; i++){
-            filterTemp.add(allRecipeName.get(i));
+
+            ingsSize = allRecipeName.get(i).getIngredients().size();
+
+            System.out.println("Recipe " + i + allRecipeName.get(i).getRecipeName() + " size " + ingsSize);
+
+            // Go through all words separated by a space (OR condition)
+            for (int k = 0; k < nestedWordsList.size(); k++){
+
+                // Go through all sublist words separated by a + (AND condition)
+
+                // Determine the size of the current AND word sublist
+                andListSize = nestedWordsList.get(k).size();
+
+                for (int m = 0; m < andListSize; m++){
+
+                    // Isolate the word we're looking for
+                    searchWord = nestedWordsList.get(k).get(m);
+
+
+
+                    // Case where we hit a NOT word (First char is '-')
+                    if (searchWord.substring(0,1).equals("-")) {
+
+                        // Get rid of the '-' for proper search
+                        searchWord = searchWord.substring(1, searchWord.length());
+
+                        // Set NOT flag
+                        isNot = true;
+                    }
+
+                    System.out.print(searchWord);
+
+                    // Go through recipe's ingredients
+                    for (int j = 0; j < ingsSize; j++) {
+
+                        // Current ingredient word extract
+
+                        // HERE i gets stuck at 2 Grilled chicken ???
+                        ingWord = allRecipeName.get(i).getIngredients().get(j).getIngName();
+
+                        System.out.print(ingWord + " ");
+
+                        // Count the search word hits
+                        if (searchWord.equals(ingWord)) {
+
+                            System.out.print("XXX");
+
+                            passScore++;
+                        }
+                    }
+                    System.out.print("\n");
+
+                    System.out.print(" " + passScore + " ");
+
+                    if(isNot){
+                        if(passScore == 0){
+                            andScore++;
+                        }
+                    } else {
+                        if(passScore > 0){
+                            andScore++;
+                        }
+                    }
+
+                    isNot = false;
+                    passScore = 0;
+
+                }
+
+                System.out.println(" andScore = " + andScore);
+
+                if(andScore == andListSize){
+                    recipeScore = recipeScore + andScore;
+                }
+                andScore = 0;
+            }
+
+            if(recipeScore > 0){
+                if(sortedRecipes.get(recipeScore) == null){
+                    sortedRecipes.put(recipeScore, allRecipeName.subList(i,i+1));
+                } else {
+                    sortedRecipes.get(recipeScore).add(allRecipeName.get(i));
+                }
+
+            }
+
+            System.out.println("recipeScore = " + recipeScore);
+
+            recipeScore = 0;
+
+            //filterTemp.add(allRecipeName.get(i));
         }
 
+        //System.out.println(sortedRecipes.values());
+
+
+        for (int n = sortedRecipes.size(); n > 0; n--){
+            if(sortedRecipes.get(n) != null) {
+                for (int p = 0; p < sortedRecipes.get(n).size(); p++) {
+                    filterResult.add(sortedRecipes.get(n).get(p));
+                }
+            }
+
+            //filterResult.add(allRecipeName.get(i));
+        }
+
+
+        /*
         int filterTempSize = filterTemp.size();
         for (int i = 0; i < filterTempSize; i++){
             filterResult.add(allRecipeName.get(i));
         }
-
+        */
 
 
 
