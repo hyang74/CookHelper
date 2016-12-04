@@ -15,8 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.Reader;
@@ -263,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 filterFunction(allRecipe,mEditText.getText().toString(),spClass.getSelectedItemPosition(),spOrigin.getSelectedItemPosition(),spCategory.getSelectedItemPosition());
+               
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
@@ -540,5 +544,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void WriteBtn() {
+        // add-write text into file
+        try {
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+
+
+
+
+            outputWriter.write(mEditText.getText().toString());//String to be write
+
+
+
+            outputWriter.close();
+            //display file saved message
+            Toast.makeText(getBaseContext(), "File saved successfully!",
+                    Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void ReadBtn() {
+        //reading text from file
+        try {
+            FileInputStream fileIn=openFileInput("mytextfile.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[1000];
+            String s="";
+            // String to be read
+
+
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+
+            InputRead.close();
+            Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

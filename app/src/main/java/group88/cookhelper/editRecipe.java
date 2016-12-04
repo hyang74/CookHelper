@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -78,9 +80,13 @@ public class editRecipe extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_recipe);
 
+
         Intent intent = getIntent();
         theNumOfThisRecipe=intent.getIntExtra("RecipeNumber",0);
         trueIfAdd = intent.getBooleanExtra("trueIfAdd",false);
+
+
+
 
         if(trueIfAdd){
             newRecipe=allRecipe.get(theNumOfThisRecipe);
@@ -696,6 +702,8 @@ public class editRecipe extends Activity {
 
 
     }
+
+
 
 }
 
