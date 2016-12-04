@@ -8,6 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -123,7 +129,64 @@ public class showRecipe extends Activity {
     }
     public void delete(){
 
+        writeBtn();
         Intent intentMain = new Intent (this,MainActivity.class);
         startActivity(intentMain);
     }
+    public void writeBtn() {
+        String str=write_jason();
+        try {
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+            System.out.println("write+"+str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public String write_jason() {
+        try {
+            JSONObject data = new JSONObject();
+            JSONArray recipes = new JSONArray();
+            data.put("recipes", recipes);
+            for(int c = 0; c< allRecipe.size(); c++) {
+                JSONObject jasonRecipe = new JSONObject();
+                jasonRecipe.put("RecipeName", allRecipe.get(c).getRecipeName());
+                jasonRecipe.put("Class", allRecipe.get(c).getRecipeClass());
+                jasonRecipe.put("Category", allRecipe.get(c).getRecipeCategory());
+                jasonRecipe.put("Origin", allRecipe.get(c).getRecipeOrigin());
+                JSONArray newIngredients = new JSONArray();
+                int i = 0;
+                while (i < allRecipe.get(c).getIngredients().size()) {
+                    JSONObject ingred = new JSONObject();
+                    ingred.put("name", allRecipe.get(c).getIngredients().get(i).getIngName());
+                    ingred.put("quantity", allRecipe.get(c).getIngredients().get(i).getIngQuantity());
+                    ingred.put("unit", allRecipe.get(c).getIngredients().get(i).getIngUnits());
+                    newIngredients.put(ingred);
+                    i++;
+                }
+                jasonRecipe.put("Ingredients", newIngredients);
+                JSONArray stps = new JSONArray();
+                int a = 0;
+                while (a < allRecipe.get(c).getSteps().size()) {
+                    JSONObject sp = new JSONObject();
+                    sp.put("step", allRecipe.get(c).getSteps().get(a));
+                    stps.put(sp);
+
+                    a++;
+                }
+                jasonRecipe.put("steps", stps);
+                recipes.put(jasonRecipe);
+
+            }
+            return data.toString();
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
 }

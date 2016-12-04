@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        readBtn();
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
 
@@ -226,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
             allRecipe.add(IceCream);
 
 
+            writeBtn();
             for(int i=0;i<allRecipe.size();i++){
                 filterResult.add(allRecipe.get(i));
             }
@@ -310,13 +312,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     // This function is called to reset the text
     public void clear(View view) {
         mEditText.setText("");
         mClearText.setVisibility(View.GONE);
     }
-
     public void goRecipe(int i) {
         savedCategory=spCategory.getSelectedItemPosition();
         savedClass=spClass.getSelectedItemPosition();
@@ -330,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
         intent1.putExtra("RecipeNumber",j);
         startActivity(intent1);
     }
-
     public void goAdd(View view) {
         savedSearch="";
         savedOrigin=0;
@@ -363,26 +362,142 @@ public class MainActivity extends AppCompatActivity {
             showList.add(filterResult.get(i).getRecipeName());
         }
         displayList(showList);
-
     }
     public void displayList(List<String> newList){
         ArrayAdapter newAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, newList);
         recipeList.setAdapter(newAdapter);
     }
 
-    public  void read_jason(){
-        String json = new String();
-        //allRecipe = new LinkedList<>();
-        //showList = new LinkedList<>();
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+    }
+    public List<Recipe> filterFunction (List<Recipe> allRecipeName,String searchText,int classOption, int originOption, int categoryOption){
+        //we need this function to take a recipe list, and a search string
+        //and output a filtered recipe list
+        //we can input some recipe (see line 40-70)
+        //and add attributes of recipes to test
+        //the integer options are in the following order
+//        Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
+//        origin {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+//        category {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
+        showList = new LinkedList<>();
+        filterResult= new LinkedList<>();
+        //used to store filtered list
+
+        //just for test,should show last 3 item with reversed order
+        numOfFilteredRecipe=4;
+        for (int i=0;i<numOfFilteredRecipe;i++){
+            filterResult.add(allRecipe.get(allRecipe.size()-i-1));
+        }
+
+
+        for(int j=0;j<numOfFilteredRecipe;j++){
+            showList.add(filterResult.get(j).getRecipeName());
+        }
+
+
+        //please implement
+
+
+
+        displayList(showList);//pass a string list to displaylist
+        return filterResult;
+    }
+
+
+    public void writeBtn() {
+        String str=write_jason();
         try {
-            InputStream is = getAssets().open("test");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-            System.out.println("Read from file"+json);
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+            System.out.println("write+"+str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void readBtn() {
+        try {
+            FileInputStream fileIn=openFileInput("mytextfile.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+            char[] inputBuffer= new char[10000];
+            String s="";
+            // String to be read
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            System.out.println("read+"+s);
+            read_jason(s);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String write_jason() {
+        try {
+            JSONObject data = new JSONObject();
+            JSONArray recipes = new JSONArray();
+            data.put("recipes", recipes);
+            for(int c = 0; c< allRecipe.size(); c++) {
+                JSONObject jasonRecipe = new JSONObject();
+                jasonRecipe.put("RecipeName", allRecipe.get(c).getRecipeName());
+                jasonRecipe.put("Class", allRecipe.get(c).getRecipeClass());
+                jasonRecipe.put("Category", allRecipe.get(c).getRecipeCategory());
+                jasonRecipe.put("Origin", allRecipe.get(c).getRecipeOrigin());
+                JSONArray newIngredients = new JSONArray();
+                int i = 0;
+                while (i < allRecipe.get(c).getIngredients().size()) {
+                    JSONObject ingred = new JSONObject();
+                    ingred.put("name", allRecipe.get(c).getIngredients().get(i).getIngName());
+                    ingred.put("quantity", allRecipe.get(c).getIngredients().get(i).getIngQuantity());
+                    ingred.put("unit", allRecipe.get(c).getIngredients().get(i).getIngUnits());
+                    newIngredients.put(ingred);
+                    i++;
+                }
+                jasonRecipe.put("Ingredients", newIngredients);
+                JSONArray stps = new JSONArray();
+                int a = 0;
+                while (a < allRecipe.get(c).getSteps().size()) {
+                    JSONObject sp = new JSONObject();
+                    sp.put("step", allRecipe.get(c).getSteps().get(a));
+                    stps.put(sp);
+
+                    a++;
+                }
+                jasonRecipe.put("steps", stps);
+                recipes.put(jasonRecipe);
+
+            }
+            return data.toString();
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+    public void read_jason(String json){
+        try{
             if(!json.isEmpty()){
                 JSONObject jsob= new JSONObject(json);
                 JSONArray recipes;
@@ -401,9 +516,9 @@ public class MainActivity extends AppCompatActivity {
                     recpe.setRecipeCategory(category);
                     String Origin = recp.getString("Origin");
                     recpe.setRecipeOrigin(Origin);
-                    JSONArray ject = recp.getJSONArray("newIngredients");
+                    JSONArray ject = recp.getJSONArray("Ingredients");
                     for (int a = 0; a < ject.length(); a++) {
-                        JSONObject inget = ject.getJSONObject(i);
+                        JSONObject inget = ject.getJSONObject(a);
                         String names = inget.getString("name");
                         float quantity = inget.getLong("quantity");
                         String unit = inget.getString("unit");
@@ -436,159 +551,16 @@ public class MainActivity extends AppCompatActivity {
                                 the_ingredient.setIngUnits(Ingredient.Measure.piece);
                         }
                         ingredient_list.add(the_ingredient);
-
                     }
-
                     JSONArray sps = recp.getJSONArray("steps");
                     for (int b = 0; b < sps.length(); b++) {
-                        JSONObject step = sps.getJSONObject(i);
+                        JSONObject step = sps.getJSONObject(b);
                         String the_step=step.getString("step");
                         steps_list.add(the_step);
                     }
                 }
-
             }
         } catch (JSONException e) {
-            e.printStackTrace();
-        }catch(java.io.IOException e){
-            e.printStackTrace();
-
-        }
-
-    }
-
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
-            backButtonCount++;
-        }
-    }
-
-
-
-    public List<Recipe> filterFunction (List<Recipe> allRecipeName,String searchText,int classOption, int originOption, int categoryOption){
-        //we need this function to take a recipe list, and a search string
-        //and output a filtered recipe list
-        //we can input some recipe (see line 40-70)
-        //and add attributes of recipes to test
-        //the integer options are in the following order
-//        Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
-//        origin {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-//        category {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
-
-
-        showList = new LinkedList<>();
-        filterResult= new LinkedList<>();
-        //used to store filtered list
-
-
-
-        //just for test,should show last 3 item with reversed order
-        numOfFilteredRecipe=4;
-        for (int i=0;i<numOfFilteredRecipe;i++){
-            filterResult.add(allRecipe.get(allRecipe.size()-i-1));
-        }
-
-
-        for(int j=0;j<numOfFilteredRecipe;j++){
-            showList.add(filterResult.get(j).getRecipeName());
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //please implement
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        displayList(showList);//pass a string list to displaylist
-        return filterResult;
-    }
-
-
-    public void WriteBtn() {
-        // add-write text into file
-        try {
-            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-
-
-
-
-            outputWriter.write(mEditText.getText().toString());//String to be write
-
-
-
-            outputWriter.close();
-            //display file saved message
-            Toast.makeText(getBaseContext(), "File saved successfully!",
-                    Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void ReadBtn() {
-        //reading text from file
-        try {
-            FileInputStream fileIn=openFileInput("mytextfile.txt");
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-
-            char[] inputBuffer= new char[1000];
-            String s="";
-            // String to be read
-
-
-            int charRead;
-
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
-            }
-
-            InputRead.close();
-            Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
