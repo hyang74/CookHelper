@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Recipe> allRecipe=new LinkedList<>();
     public static List<Recipe> filterResult=new LinkedList<>();
     public  List<String> showList=new LinkedList<String>();
-    private int numOfFilteredRecipe;
+
 
     private static String savedSearch="";
     private static int savedClass=0;
@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
         savedOrigin=spOrigin.getSelectedItemPosition();
         savedSearch=mEditText.getText().toString();
         int j=0;
-        while(allRecipe.get(j).getRecipeName()!=showList.get(i)){
+        while(filterResult.get(j).getRecipeName()!=showList.get(i)){
             j++;
         }
         Intent intent1 = new Intent(this,showRecipe.class );
@@ -594,6 +594,8 @@ public class MainActivity extends AppCompatActivity {
 
                         // Current ingredient word extract
                         ingWord = allRecipeName.get(i).getIngredients().get(j).getIngName();
+
+
 
                         // DEBUG TO CONSOLE
                         //System.out.print(ingWord + " ");

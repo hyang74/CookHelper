@@ -48,7 +48,7 @@ public class showRecipe extends Activity {
 
         Intent intentShow = getIntent();
         theNumOfRecipe=intentShow.getIntExtra("RecipeNumber",0);
-        showRecipeDetail =allRecipe.get(theNumOfRecipe);
+        showRecipeDetail =filterResult.get(theNumOfRecipe);
         showIng=new LinkedList<>();
         showSteps=new LinkedList<>();
 
