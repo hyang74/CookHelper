@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView recipeList;
 
     private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
-    private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+    private String[] spinnerOrigin= {"Any","Italian", "Chinese","Asian", "Midle Eastern", "Indian", "American"};
     private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
             Recipe VegiePho = new Recipe();
             VegiePho.setRecipeName("Veggie Pho");
-            VegiePho.setRecipeOrigin("Any");
+            VegiePho.setRecipeOrigin("Asian");
             VegiePho.setRecipeClass("Veggie");
             VegiePho.setRecipeCategory("Main Dish");
             VegiePho.addIngredients(new Ingredient("onion",1, Ingredient.Measure.piece));
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
             Recipe BeefPho = new Recipe();
             BeefPho.setRecipeName("Beef Pho");
-            BeefPho.setRecipeOrigin("Any");
+            BeefPho.setRecipeOrigin("Asian");
             BeefPho.setRecipeClass("Beef");
             BeefPho.setRecipeCategory("Main Dish");
             BeefPho.addIngredients(new Ingredient("Beef",(float)0.5, Ingredient.Measure.pound));
@@ -478,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
         // Define string arrays to decode integer listings:
 
         String[] recipeClass ={"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
-        String[] recipeOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+        String[] recipeOrigin= {"Any","Italian", "Chinese","Asian", "Midle Eastern", "Indian", "American"};
         String[]  recipeCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
         // Deactivate showlist object since not needed in dev test method:
