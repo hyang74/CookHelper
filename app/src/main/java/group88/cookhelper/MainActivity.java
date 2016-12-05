@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+               SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savedString =saved_values.getString("AllRecipe","");
         System.out.println("read+"+savedString);
         read_jason(savedString);
@@ -598,13 +598,18 @@ public class MainActivity extends AppCompatActivity {
                         // DEBUG TO CONSOLE
                         //System.out.print(ingWord + " ");
 
-                        // Count the search word hits during an ingredients pass
-                        if (searchWord.equals(ingWord)) {
+                        List<String> ingSubWords = Arrays.asList(ingWord.split(" "));
 
-                            // DEBUG TO CONSOLE
-                            //System.out.print("XXX");
+                        for (int s = 0; s < ingSubWords.size(); s++) {
 
-                            passScore++;
+                            // Count the search word hits during an ingredients pass
+                            if (searchWord.equals(ingSubWords.get(s))) {
+
+                                // DEBUG TO CONSOLE
+                                //System.out.print("XXX");
+
+                                passScore++;
+                            }
                         }
                     }
 
