@@ -270,15 +270,24 @@ public class MainActivity extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mEditText.getText().toString().isEmpty()) {
-                    missingNameDialog();
-                } else {
-                    filterResult = filterFunction(allRecipe, mEditText.getText().toString(), spClass.getSelectedItemPosition(), spOrigin.getSelectedItemPosition(), spCategory.getSelectedItemPosition());
-                    showList.clear();
-                    for (int i = 0; i < filterResult.size(); i++) {
-                        showList.add(filterResult.get(i).getRecipeName());
-                    }
-                    displayList(showList);
+                //if (mEditText.getText().toString().isEmpty()) {
+                //    missingNameDialog();
+                //} else {
+
+                filterResult = filterFunction(allRecipe,
+                        EditText.getText().toString(),
+                        spClass.getSelectedItemPosition(),
+                        spOrigin.getSelectedItemPosition(),
+                        spCategory.getSelectedItemPosition());
+
+                showList.clear();
+
+                showList.add("Test1");
+                for (int t = 0; t < filterResult.size(); t++) {
+                    showList.add(filterResult.get(t).getRecipeName());
+                }
+
+                displayList(showList);
 
                     // Code snipet to activate search results ?
                 /*
