@@ -68,11 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-               SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        savedString =saved_values.getString("AllRecipe","");
-        System.out.println("read+"+savedString);
-        read_jason(savedString);
-
+        readBtn();
 
 
         filter = (Button) findViewById(R.id.filter);
@@ -236,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+        reset();
         if (filterResult.size()==allRecipe.size()) {
             reset();
         }
@@ -818,17 +815,16 @@ public class MainActivity extends AppCompatActivity {
     }
     public void read_jason(String json){
         try{
+            allRecipe.clear();
             if(!json.isEmpty()){
                 JSONObject jsob= new JSONObject(json);
                 JSONArray recipes;
                 recipes=jsob.getJSONArray("recipes");
                 for (int i =0; i <recipes.length(); i++) {
+
                     Recipe recpe = new Recipe();
-                    List ingredient_list= new LinkedList<Ingredient>();
-                    List steps_list= new LinkedList<String>();
                     JSONObject recp = recipes.getJSONObject(i);
                     String name = recp.getString("RecipeName");
-                    showList.add(name);
                     recpe.setRecipeName(name);
                     String classs = recp.getString("Class");
                     recpe.setRecipeClass(classs);
@@ -870,14 +866,15 @@ public class MainActivity extends AppCompatActivity {
                             case "piece":
                                 the_ingredient.setIngUnits(Ingredient.Measure.piece);
                         }
-                        ingredient_list.add(the_ingredient);
+                        recpe.addIngredients(the_ingredient);
                     }
                     JSONArray sps = recp.getJSONArray("steps");
                     for (int b = 0; b < sps.length(); b++) {
                         JSONObject step = sps.getJSONObject(b);
                         String the_step=step.getString("step");
-                        steps_list.add(the_step);
+                        recpe.addSteps(the_step);
                     }
+                    allRecipe.add(recpe);
                 }
             }
         } catch (JSONException e) {
@@ -886,19 +883,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void missingNameDialog(){
-        dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Can not search");
-        dialogBuilder.setMessage("Reason:empty input");
-        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
 
-            }
-        });
-
-        dialogBuilder.show();
-    }
     @Override
     protected void onStop() {
         super.onStop();
