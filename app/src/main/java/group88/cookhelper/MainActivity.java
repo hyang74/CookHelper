@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     Spinner spOrigin;
     Spinner spCategory;
     int backButtonCount=0;
+    String savedString;
+    public static final String PREFS_NAME = "RECIPE";
 
 
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         readBtn();
+
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
 
@@ -331,6 +334,9 @@ public class MainActivity extends AppCompatActivity {
                 goRecipe(i);
             }
         });
+
+
+
     }
     // This function is called to reset the text
     public void clear(View view) {
@@ -717,37 +723,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void writeBtn() {
         String str=write_jason();
-        try {
-            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-            outputWriter.write(str);
-            outputWriter.close();
-            System.out.println("write+"+str);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
+        SharedPreferences.Editor editor = savedV.edit();
+        editor.putString("AllRecipe", str);
+        editor.apply();
+
     }
     public void readBtn() {
-        try {
-            FileInputStream fileIn=openFileInput("mytextfile.txt");
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-            char[] inputBuffer= new char[10000];
-            String s="";
-            // String to be read
-            int charRead;
+        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
+        savedString = savedV.getString("AllRecipe","");
+        System.out.println("read+"+savedString);
+        read_jason(savedString);
 
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
-            }
-            InputRead.close();
-            System.out.println("read+"+s);
-            read_jason(s);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public String write_jason() {
@@ -860,6 +847,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        writeBtn();
     }
 
-}
+    }
+

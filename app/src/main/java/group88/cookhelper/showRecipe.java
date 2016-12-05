@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -17,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import static group88.cookhelper.MainActivity.PREFS_NAME;
 import static group88.cookhelper.MainActivity.allRecipe;
 import static group88.cookhelper.MainActivity.filterResult;
 
@@ -135,16 +137,14 @@ public class showRecipe extends Activity {
     }
     public void writeBtn() {
         String str=write_jason();
-        try {
-            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-            outputWriter.write(str);
-            outputWriter.close();
-            System.out.println("write+"+str);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
+        SharedPreferences.Editor editor = savedV.edit();
+        editor.putString("AllRecipe", str);
+        editor.apply();
+
     }
+
+
     public String write_jason() {
         try {
             JSONObject data = new JSONObject();
