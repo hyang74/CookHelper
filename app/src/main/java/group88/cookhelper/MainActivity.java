@@ -625,11 +625,11 @@ public class MainActivity extends AppCompatActivity {
                     // Add a point to the score of the AND grouping.
                     if (isNot) {
                         if (passScore == 0) {
-                            andScore++;
+                            andScore+= 10;
                         }
                     } else {
                         if (passScore > 0) {
-                            andScore++;
+                            andScore+= 10;
                         }
                     }
 
