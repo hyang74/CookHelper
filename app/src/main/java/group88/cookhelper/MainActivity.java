@@ -1,10 +1,7 @@
 package group88.cookhelper;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.res.AssetManager;
 import android.preference.PreferenceManager;
-import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.*;
@@ -17,17 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.Reader;
-import java.io.InputStreamReader;
 import java.util.Map;
 
 /**

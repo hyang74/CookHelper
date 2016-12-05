@@ -13,9 +13,6 @@ import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +21,7 @@ import static group88.cookhelper.MainActivity.filterResult;
 
 /**
  * Created by YANG on 2016-11-13.
- */
+ */9
 
 public class showRecipe extends Activity {
     private ListView ingList;
