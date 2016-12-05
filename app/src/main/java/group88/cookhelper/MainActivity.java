@@ -573,7 +573,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int m = 0; m < andListSize; m++) {
 
                     // Isolate the word to be looked for in the ingredients
-                    searchWord = nestedWordsList.get(k).get(m);
+                    searchWord = nestedWordsList.get(k).get(m).toLowerCase();
 
                     // Case where we hit a NOT word (First char is '-')
                     // Here, we'll add a point if the word is *not* found
@@ -593,7 +593,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int j = 0; j < ingsSize; j++) {
 
                         // Current ingredient word extract
-                        ingWord = allRecipeName.get(i).getIngredients().get(j).getIngName();
+                        ingWord = allRecipeName.get(i).getIngredients().get(j).getIngName().toLowerCase();
 
 
 
