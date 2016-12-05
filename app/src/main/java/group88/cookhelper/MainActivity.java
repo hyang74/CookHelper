@@ -123,17 +123,17 @@ public class MainActivity extends AppCompatActivity {
             Steak.setRecipeOrigin("American");
             Steak.setRecipeClass("Beef");
             Steak.setRecipeCategory("Main Dish");
-            Steak.addIngredients(new Ingredient("balsamic vinegar",(float)0.5, Ingredient.Measure.cup));
-            Steak.addIngredients(new Ingredient("soy sauce",(float)0.25, Ingredient.Measure.cup));
+            Steak.addIngredients(new Ingredient("balsamic vinegar",(double)0.5, Ingredient.Measure.cup));
+            Steak.addIngredients(new Ingredient("soy sauce",(double)0.25, Ingredient.Measure.cup));
             Steak.addIngredients(new Ingredient("minced garlic",3, Ingredient.Measure.table_spoon));
             Steak.addIngredients(new Ingredient("honey",2, Ingredient.Measure.table_spoon));
             Steak.addIngredients(new Ingredient("olive oil",2, Ingredient.Measure.table_spoon));
             Steak.addIngredients(new Ingredient("ground black pepper",2, Ingredient.Measure.tea_spoon));
             Steak.addIngredients(new Ingredient("Worcestershire sauce",1, Ingredient.Measure.tea_spoon));
             Steak.addIngredients(new Ingredient("onion powder",2, Ingredient.Measure.tea_spoon));
-            Steak.addIngredients(new Ingredient("salt",(float)0.5, Ingredient.Measure.tea_spoon));
-            Steak.addIngredients(new Ingredient("liquid smoke flavoring",(float)0.5, Ingredient.Measure.tea_spoon));
-            Steak.addIngredients(new Ingredient("rib-eye steaks",(float)2.5, Ingredient.Measure.pound));
+            Steak.addIngredients(new Ingredient("salt",(double)0.5, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("liquid smoke flavoring",(double)0.5, Ingredient.Measure.tea_spoon));
+            Steak.addIngredients(new Ingredient("rib-eye steaks",(double)2.5, Ingredient.Measure.pound));
             Steak.addSteps("Mix vinegar, soy sauce, garlic, honey, olive oil, ground black pepper, etc (all" +
                     "the ingredients) in a bowl");
             Steak.addSteps("Place steak in glass dish with the marinade and rub liquid onto the meat.");
@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
             VegiePho.setRecipeClass("Veggie");
             VegiePho.setRecipeCategory("Main Dish");
             VegiePho.addIngredients(new Ingredient("onion",1, Ingredient.Measure.piece));
-            VegiePho.addIngredients(new Ingredient("shallot",(float)0.5,Ingredient.Measure.piece));
-            VegiePho.addIngredients(new Ingredient("garlic cloves",(float)0.5,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("shallot",(double)0.5,Ingredient.Measure.piece));
+            VegiePho.addIngredients(new Ingredient("garlic cloves",(double)0.5,Ingredient.Measure.piece));
             VegiePho.addIngredients(new Ingredient("sliced ginger",1,Ingredient.Measure.piece));
             VegiePho.addIngredients(new Ingredient("cinnamon sticks",1, Ingredient.Measure.piece));
             VegiePho.addIngredients(new Ingredient("vegetable stock",2,Ingredient.Measure.cup));
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             VegiePho.addIngredients(new Ingredient("riced noodles",1,Ingredient.Measure.pound));
             VegiePho.addIngredients(new Ingredient("tofu",8,Ingredient.Measure.ounce));
             VegiePho.addIngredients(new Ingredient("scallions",6,Ingredient.Measure.piece));
-            VegiePho.addIngredients(new Ingredient("bean sprouts",(float)1.5,Ingredient.Measure.cup));
+            VegiePho.addIngredients(new Ingredient("bean sprouts",(double)1.5,Ingredient.Measure.cup));
             VegiePho.addIngredients(new Ingredient("lime",1,Ingredient.Measure.piece));
             VegiePho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
             VegiePho.addSteps("Bring broth to a boil");
@@ -176,9 +176,9 @@ public class MainActivity extends AppCompatActivity {
             GrilledChicken.setRecipeClass("Meat");
             GrilledChicken.setRecipeCategory("Main Dish");
             GrilledChicken.addIngredients(new Ingredient("skinless chicken",4, Ingredient.Measure.piece));
-            GrilledChicken.addIngredients(new Ingredient("lemon juice",(float)0.5,Ingredient.Measure.cup));
-            GrilledChicken.addIngredients(new Ingredient("onion powder",(float)0.5,Ingredient.Measure.tea_spoon));
-            GrilledChicken.addIngredients(new Ingredient("black pepper",(float)0.4,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addIngredients(new Ingredient("lemon juice",(double)0.5,Ingredient.Measure.cup));
+            GrilledChicken.addIngredients(new Ingredient("onion powder",(double)0.5,Ingredient.Measure.tea_spoon));
+            GrilledChicken.addIngredients(new Ingredient("black pepper",(double)0.4,Ingredient.Measure.tea_spoon));
             GrilledChicken.addIngredients(new Ingredient("salt",1,Ingredient.Measure.tea_spoon));
             GrilledChicken.addIngredients(new Ingredient("dried parsley",1,Ingredient.Measure.tea_spoon));
             GrilledChicken.addSteps("Preheat grill for medium high heat and lightly oil grate");
@@ -195,10 +195,10 @@ public class MainActivity extends AppCompatActivity {
             BeefPho.setRecipeOrigin("Asian");
             BeefPho.setRecipeClass("Beef");
             BeefPho.setRecipeCategory("Main Dish");
-            BeefPho.addIngredients(new Ingredient("Beef",(float)0.5, Ingredient.Measure.pound));
+            BeefPho.addIngredients(new Ingredient("Beef",(double)0.5, Ingredient.Measure.pound));
             BeefPho.addIngredients(new Ingredient("onion",1, Ingredient.Measure.piece));
-            BeefPho.addIngredients(new Ingredient("shallot",(float)0.5,Ingredient.Measure.piece));
-            BeefPho.addIngredients(new Ingredient("garlic cloves",(float)0.5,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("shallot",(double)0.5,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("garlic cloves",(double)0.5,Ingredient.Measure.piece));
             BeefPho.addIngredients(new Ingredient("sliced ginger",1,Ingredient.Measure.piece));
             BeefPho.addIngredients(new Ingredient("cinnamon sticks",1, Ingredient.Measure.piece));
             BeefPho.addIngredients(new Ingredient("vegetable stock",2,Ingredient.Measure.cup));
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             BeefPho.addIngredients(new Ingredient("riced noodles",1,Ingredient.Measure.pound));
             BeefPho.addIngredients(new Ingredient("tofu",8,Ingredient.Measure.ounce));
             BeefPho.addIngredients(new Ingredient("scallions",6,Ingredient.Measure.piece));
-            BeefPho.addIngredients(new Ingredient("bean sprouts",(float)1.5,Ingredient.Measure.cup));
+            BeefPho.addIngredients(new Ingredient("bean sprouts",(double)1.5,Ingredient.Measure.cup));
             BeefPho.addIngredients(new Ingredient("lime",1,Ingredient.Measure.piece));
             BeefPho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
             BeefPho.addSteps("Bring broth to a boil");
@@ -872,7 +872,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int a = 0; a < ject.length(); a++) {
                         JSONObject inget = ject.getJSONObject(a);
                         String names = inget.getString("name");
-                        float quantity = inget.getLong("quantity");
+                        double quantity = inget.getLong("quantity");
                         String unit = inget.getString("unit");
                         Ingredient the_ingredient= new Ingredient();
                         the_ingredient.setIngName(names);

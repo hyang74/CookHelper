@@ -12,22 +12,22 @@ public class Ingredient implements Serializable{
     private static final long serialVersionUID =1L;
     public enum Measure  {none,cup, tea_spoon, table_spoon, ounce, kg, g, piece,pound};
     private String ingName;
-    private float ingQuantity;
+    private double ingQuantity;
     private Measure ingUnits;
     Ingredient(){
         this.ingName="";
         this.ingQuantity=0;
         this.ingUnits = Measure.none;
     }
-    Ingredient(String name, float quan, Measure unit){
+    Ingredient(String name, double quan, Measure unit){
         this.ingName=name;
         this.ingQuantity=quan;
         this.ingUnits = unit;
     }
     public String getIngName() { return ingName; }
     public void setIngName(String name) {ingName = name;}
-    public String getIngQuantity() { return Float.toString(ingQuantity); }
-    public void setIngQuantity(float q) { ingQuantity = q; }
+    public double getIngQuantity() { return (ingQuantity); }
+    public void setIngQuantity(double q) { ingQuantity = q; }
     public String getIngUnits() {
         String a="";
         if(ingUnits==Measure.none){
