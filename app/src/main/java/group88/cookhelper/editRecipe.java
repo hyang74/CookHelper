@@ -501,7 +501,7 @@ public class editRecipe extends Activity {
         nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
         nameInput.setText(oldIng.getIngName());
         quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
-        quantityInput.setText(oldIng.getIngQuantity());
+        quantityInput.setText(Double.toString(oldIng.getIngQuantity()));
         unitSelection = (Spinner) dialogCustom.findViewById(R.id.editIngU);
         ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerMeasure);
