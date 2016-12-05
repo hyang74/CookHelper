@@ -271,7 +271,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 filterFunction(allRecipe,mEditText.getText().toString(),spClass.getSelectedItemPosition(),spOrigin.getSelectedItemPosition(),spCategory.getSelectedItemPosition());
-               
+
+
+                // Code snipet to activate search results ?
+                /*
+                filterResult = filterFunction(allRecipe,
+                        mEditText.getText().toString(),
+                        spClass.getSelectedItemPosition(),
+                        spOrigin.getSelectedItemPosition(),
+                        spCategory.getSelectedItemPosition());
+
+                showList.clear();
+                for(int i = 0; i < filterResult.size(); i++){
+
+                    showList.add(filterResult.get(i).getRecipeName());
+
+                }
+                displayList(showList);
+                */
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
