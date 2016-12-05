@@ -34,7 +34,7 @@ public class editRecipe extends Activity {
 
     public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece","pound"};
     private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Veggie"};
-    private String[] spinnerAddOrigin = {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+    private String[] spinnerAddOrigin = {"Any","Italian", "Chinese","Asian", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
     private List<Ingredient>newIngList = new LinkedList<>();
     private List<String> newStepList = new LinkedList<>();
@@ -153,14 +153,17 @@ public class editRecipe extends Activity {
             case "Chinese":
                 aOrigin.setSelection(2);
                 break;
+            case "Asain":
+                aOrigin.setSelection(3);
+                break;
             case "Midle Eastern":
-                aOrigin.setSelection(3);;
+                aOrigin.setSelection(4);;
                 break;
             case "Indian":
-                aOrigin.setSelection(4);
+                aOrigin.setSelection(5);
                 break;
             case "American":
-                aOrigin.setSelection(5);
+                aOrigin.setSelection(6);
                 break;
         }
 
@@ -193,7 +196,7 @@ public class editRecipe extends Activity {
         }
 
         for(int i =0;i<newIngList.size();i++){
-            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName());
+            showIng.add(Integer.toString(i+1) +". "+newIngList.get(i).getIngName()+" X "+newIngList.get(i).getIngQuantity()+ " "+ newIngList.get(i).getIngUnits().toString());
         }
         for(int i =0;i<newStepList.size();i++){
             showSteps.add(Integer.toString(i+1) +". "+newStepList.get(i));
