@@ -1,7 +1,9 @@
 package group88.cookhelper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.res.AssetManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     Spinner spCategory;
     int backButtonCount=0;
     String savedString;
-    public static final String PREFS_NAME = "RECIPE";
 
+    AlertDialog.Builder dialogBuilder;
 
 
 
@@ -76,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        readBtn();
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        savedString =saved_values.getString("AllRecipe","");
+        System.out.println("read+"+savedString);
+        read_jason(savedString);
+
+
 
         filter = (Button) findViewById(R.id.filter);
         reset = (Button) findViewById(R.id.reset);
@@ -273,10 +280,17 @@ public class MainActivity extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filterFunction(allRecipe,mEditText.getText().toString(),spClass.getSelectedItemPosition(),spOrigin.getSelectedItemPosition(),spCategory.getSelectedItemPosition());
+                if (mEditText.getText().toString().isEmpty()) {
+                    missingNameDialog();
+                } else {
+                    filterResult = filterFunction(allRecipe, mEditText.getText().toString(), spClass.getSelectedItemPosition(), spOrigin.getSelectedItemPosition(), spCategory.getSelectedItemPosition());
+                    showList.clear();
+                    for (int i = 0; i < filterResult.size(); i++) {
+                        showList.add(filterResult.get(i).getRecipeName());
+                    }
+                    displayList(showList);
 
-
-                // Code snipet to activate search results ?
+                    // Code snipet to activate search results ?
                 /*
                 filterResult = filterFunction(allRecipe,
                         mEditText.getText().toString(),
@@ -292,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 displayList(showList);
                 */
+                }
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
@@ -723,15 +738,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void writeBtn() {
         String str=write_jason();
-        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
-        SharedPreferences.Editor editor = savedV.edit();
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor=saved_values.edit();
         editor.putString("AllRecipe", str);
-        editor.apply();
+        editor.commit();
 
     }
     public void readBtn() {
-        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
-        savedString = savedV.getString("AllRecipe","");
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        savedString =saved_values.getString("AllRecipe","");
         System.out.println("read+"+savedString);
         read_jason(savedString);
 
@@ -849,10 +864,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public void missingNameDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Can not search");
+        dialogBuilder.setMessage("Reason:empty input");
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        dialogBuilder.show();
+    }
     @Override
     protected void onStop() {
         super.onStop();
-        writeBtn();
+        String str=write_jason();
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor=saved_values.edit();
+        editor.putString("AllRecipe", str);
+        editor.commit();
     }
 
     }

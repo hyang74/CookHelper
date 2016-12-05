@@ -18,6 +18,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.DialogPreference;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,7 +35,6 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import static group88.cookhelper.MainActivity.PREFS_NAME;
 import static group88.cookhelper.MainActivity.allRecipe;
 import static group88.cookhelper.MainActivity.filterResult;
 
@@ -642,11 +642,11 @@ public class editRecipe extends Activity {
         }
     }
     public void writeBtn() {
-        String str = write_jason();
-        SharedPreferences savedV = getSharedPreferences( PREFS_NAME, 0);
-        SharedPreferences.Editor editor = savedV.edit();
+        String str=write_jason();
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor=saved_values.edit();
         editor.putString("AllRecipe", str);
-        editor.apply();
+        editor.commit();
 
     }
     public String write_jason() {
