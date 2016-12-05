@@ -872,7 +872,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int a = 0; a < ject.length(); a++) {
                         JSONObject inget = ject.getJSONObject(a);
                         String names = inget.getString("name");
-                        double quantity = inget.getLong("quantity");
+                        double quantity = inget.getDouble("quantity");
                         String unit = inget.getString("unit");
                         Ingredient the_ingredient= new Ingredient();
                         the_ingredient.setIngName(names);

@@ -299,7 +299,7 @@ public class editRecipe extends Activity {
                 if (!nameInput.getText().toString().trim().isEmpty()){
                     if(!quantityInput.getText().toString().trim().isEmpty()){
                         newIng.setIngName(nameInput.getText().toString());
-                        newIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
+                        newIng.setIngQuantity(Double.valueOf(quantityInput.getText().toString()));
                         switch (unitSelection.getSelectedItemPosition()){
                             case 0:
                                 newIng.setIngUnits(Ingredient.Measure.none);
@@ -501,7 +501,7 @@ public class editRecipe extends Activity {
         nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
         nameInput.setText(oldIng.getIngName());
         quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
-        quantityInput.setText(Double.toString(oldIng.getIngQuantity()));
+        quantityInput.setText(oldIng.getIngQuantity());
         unitSelection = (Spinner) dialogCustom.findViewById(R.id.editIngU);
         ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerMeasure);
@@ -543,7 +543,7 @@ public class editRecipe extends Activity {
                 if (!nameInput.getText().toString().trim().isEmpty()) {
                     if (!quantityInput.getText().toString().trim().isEmpty()) {
                         oldIng.setIngName(nameInput.getText().toString());
-                        oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
+                        oldIng.setIngQuantity(Double.valueOf(quantityInput.getText().toString()));
                         switch (unitSelection.getSelectedItemPosition()) {
                             case 0:
                                 oldIng.setIngUnits(Ingredient.Measure.none);
