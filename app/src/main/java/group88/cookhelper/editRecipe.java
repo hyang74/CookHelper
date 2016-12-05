@@ -485,24 +485,24 @@ public class editRecipe extends Activity {
         dialogBuilder.show();
     }
     public void deleteIngDialog(final int j){
-            final EditText nameInput;
-            final EditText quantityInput;
-            final Spinner unitSelection;
-            Button btnSave;
-            Button btnDelete;
-            final Dialog dialogCustom = new Dialog(this);
-            final Ingredient oldIng = newIngList.get(j);
-            dialogCustom.setContentView(R.layout.dialog);
-            dialogCustom.show();
-            dialogCustom.setTitle("Modify your ingredient:");
-            nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
+        final EditText nameInput;
+        final EditText quantityInput;
+        final Spinner unitSelection;
+        Button btnSave;
+        Button btnDelete;
+        final Dialog dialogCustom = new Dialog(this);
+        final Ingredient oldIng = newIngList.get(j);
+        dialogCustom.setContentView(R.layout.dialog);
+        dialogCustom.show();
+        dialogCustom.setTitle("Modify your ingredient:");
+        nameInput = (EditText) dialogCustom.findViewById(R.id.editIngName);
         nameInput.setText(oldIng.getIngName());
-            quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
+        quantityInput = (EditText) dialogCustom.findViewById(R.id.editIngQ);
         quantityInput.setText(oldIng.getIngQuantity());
-            unitSelection = (Spinner) dialogCustom.findViewById(R.id.editIngU);
-            ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, spinnerMeasure);
-            unitSelection.setAdapter(adapterMeasure);
+        unitSelection = (Spinner) dialogCustom.findViewById(R.id.editIngU);
+        ArrayAdapter<String> adapterMeasure = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spinnerMeasure);
+        unitSelection.setAdapter(adapterMeasure);
         switch (newIngList.get(j).getIngUnits()) {
             case "":
                 unitSelection.setSelection(0);
@@ -532,57 +532,57 @@ public class editRecipe extends Activity {
                 unitSelection.setSelection(8);
                 break;
         }
-            btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
-            btnDelete = (Button) dialogCustom.findViewById(R.id.deleteIng);
-            btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!nameInput.getText().toString().trim().isEmpty()) {
-                        if (!quantityInput.getText().toString().trim().isEmpty()) {
-                            oldIng.setIngName(nameInput.getText().toString());
-                            oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
-                            switch (unitSelection.getSelectedItemPosition()) {
-                                case 0:
-                                    oldIng.setIngUnits(Ingredient.Measure.none);
-                                    break;
-                                case 1:
-                                    oldIng.setIngUnits(Ingredient.Measure.cup);
-                                    break;
-                                case 2:
-                                    oldIng.setIngUnits(Ingredient.Measure.tea_spoon);
-                                case 3:
-                                    oldIng.setIngUnits(Ingredient.Measure.table_spoon);
-                                    break;
-                                case 4:
-                                    oldIng.setIngUnits(Ingredient.Measure.ounce);
-                                    break;
-                                case 5:
-                                    oldIng.setIngUnits(Ingredient.Measure.kg);
-                                    break;
-                                case 6:
-                                    oldIng.setIngUnits(Ingredient.Measure.g);
-                                    break;
-                                case 7:
-                                    oldIng.setIngUnits(Ingredient.Measure.piece);
-                                    break;
-                            }
-                            display();
-                            dialogCustom.dismiss();
+        btnSave = (Button) dialogCustom.findViewById(R.id.saveIng);
+        btnDelete = (Button) dialogCustom.findViewById(R.id.deleteIng);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!nameInput.getText().toString().trim().isEmpty()) {
+                    if (!quantityInput.getText().toString().trim().isEmpty()) {
+                        oldIng.setIngName(nameInput.getText().toString());
+                        oldIng.setIngQuantity(Float.valueOf(quantityInput.getText().toString()));
+                        switch (unitSelection.getSelectedItemPosition()) {
+                            case 0:
+                                oldIng.setIngUnits(Ingredient.Measure.none);
+                                break;
+                            case 1:
+                                oldIng.setIngUnits(Ingredient.Measure.cup);
+                                break;
+                            case 2:
+                                oldIng.setIngUnits(Ingredient.Measure.tea_spoon);
+                            case 3:
+                                oldIng.setIngUnits(Ingredient.Measure.table_spoon);
+                                break;
+                            case 4:
+                                oldIng.setIngUnits(Ingredient.Measure.ounce);
+                                break;
+                            case 5:
+                                oldIng.setIngUnits(Ingredient.Measure.kg);
+                                break;
+                            case 6:
+                                oldIng.setIngUnits(Ingredient.Measure.g);
+                                break;
+                            case 7:
+                                oldIng.setIngUnits(Ingredient.Measure.piece);
+                                break;
                         }
+                        display();
+                        dialogCustom.dismiss();
                     }
-                    dialogCustom.dismiss();
-                    display();
                 }
-            });
+                dialogCustom.dismiss();
+                display();
+            }
+        });
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newIngList.remove(j);
-                    dialogCustom.dismiss();
-                    display();
-                }
-            });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newIngList.remove(j);
+                dialogCustom.dismiss();
+                display();
+            }
+        });
 
     }
     public void deleteStepDialog(final int j){
@@ -607,7 +607,7 @@ public class editRecipe extends Activity {
         dialogBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-            newStepList.remove(j);
+                newStepList.remove(j);
                 stepCounter--;
                 display();
             }

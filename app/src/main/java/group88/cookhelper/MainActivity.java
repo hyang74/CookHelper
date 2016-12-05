@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] spinnerClass ={"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
     private String[] spinnerOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-    private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert=-p=[", "Drink", "Sauce", "Salad"};
+    private String[] spinnerCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
     public static List<Recipe> allRecipe=new LinkedList<>();
     public static List<Recipe> filterResult=new LinkedList<>();
@@ -115,10 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         // showList = new LinkedList<>();
         if(allRecipe.isEmpty()) {
-//
-//            {"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
-//             {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
-//           {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+
             showList.clear();
             filterResult.clear();
             Recipe Steak = new Recipe();
@@ -193,36 +190,73 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             Recipe BeefPho = new Recipe();
             BeefPho.setRecipeName("Beef Pho");
+            BeefPho.setRecipeOrigin("Any");
+            BeefPho.setRecipeClass("Beef");
+            BeefPho.setRecipeCategory("Main Dish");
+            BeefPho.addIngredients(new Ingredient("Beef",(float)0.5, Ingredient.Measure.pound));
+            BeefPho.addIngredients(new Ingredient("onion",1, Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("shallot",(float)0.5,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("garlic cloves",(float)0.5,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("sliced ginger",1,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("cinnamon sticks",1, Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("vegetable stock",2,Ingredient.Measure.cup));
+            BeefPho.addIngredients(new Ingredient("soy sauce",2,Ingredient.Measure.table_spoon));
+            BeefPho.addIngredients(new Ingredient("salt",1,Ingredient.Measure.tea_spoon));
+            BeefPho.addIngredients(new Ingredient("riced noodles",1,Ingredient.Measure.pound));
+            BeefPho.addIngredients(new Ingredient("tofu",8,Ingredient.Measure.ounce));
+            BeefPho.addIngredients(new Ingredient("scallions",6,Ingredient.Measure.piece));
+            BeefPho.addIngredients(new Ingredient("bean sprouts",(float)1.5,Ingredient.Measure.cup));
+            BeefPho.addIngredients(new Ingredient("lime",1,Ingredient.Measure.piece));
+            BeefPho.addSteps("To make broth: Place all the ingredients in pot with 8 cups of water");
+            BeefPho.addSteps("Bring broth to a boil");
+            BeefPho.addSteps("Strain broth and return to pot. Discard all solids");
+            BeefPho.addSteps("To make pho: Cook rice noodles according to packet instructions. Drain them and rinse with cold water");
+            BeefPho.addSteps("Ladle the broth over noodles");
+            BeefPho.addSteps("Top with Beef tofu, sprouts, onions or any additional ingredients to your liking! Enjoy!");
             allRecipe.add(BeefPho);
 
 
 
-            Recipe BeefStew = new Recipe();
-            BeefStew.setRecipeName("Beef Stew");
-            allRecipe.add(BeefStew);
+            Recipe bbqChickenWings = new Recipe();
+            bbqChickenWings.setRecipeName("BBQ Chicken Wings");
+            bbqChickenWings.setRecipeOrigin("American");
+            bbqChickenWings.setRecipeClass("Meat");
+            bbqChickenWings.setRecipeCategory("Main Dish");
+            bbqChickenWings.addIngredients(new Ingredient("chicken legs", 2, Ingredient.Measure.pound));
+            bbqChickenWings.addIngredients(new Ingredient("BBQSauce", 2, Ingredient.Measure.cup));
+            bbqChickenWings.addIngredients(new Ingredient("cide vinegar", 2, Ingredient.Measure.cup));
+            bbqChickenWings.addIngredients(new Ingredient("garlic", 2, Ingredient.Measure.piece));
+            bbqChickenWings.addSteps("Put all ingredients in a slowcooker");
+            bbqChickenWings.addSteps("Set to cook for 6 to 7 hours");
+            bbqChickenWings.addSteps("Serve");
+            allRecipe.add(bbqChickenWings);
 
-            Recipe BeefAndVegiePizza = new Recipe();
-            BeefAndVegiePizza.setRecipeName("Beef and Vegie Pizza");
-            allRecipe.add(BeefAndVegiePizza);
+
+            //
+//            {"Any","Beef", "Chicken","Pork","Seafood", "Vegie","Mixed"};
+//             {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+//           {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
+
 
             Recipe IceCream = new Recipe();
-            IceCream.setRecipeName("Ice Cream");
+            IceCream.setRecipeName("ROCKY ROAD Ice Cream");
+            IceCream.setRecipeOrigin("Any");
+            IceCream.setRecipeCategory("Desert");
+            IceCream.setRecipeClass("Any");
+            IceCream.addIngredients(new Ingredient("can sweetened condensed milk", 2, Ingredient.Measure.ounce));
+            IceCream.addIngredients(new Ingredient("chopped pecans", 2, Ingredient.Measure.cup));
+            IceCream.addIngredients(new Ingredient("unsweetened cocoa powder", 1, Ingredient.Measure.cup));
+            IceCream.addIngredients(new Ingredient("heavy cream", 2, Ingredient.Measure.cup));
+            IceCream.addIngredients(new Ingredient(" vanilla extract", 5, Ingredient.Measure.table_spoon));
+            IceCream.addSteps("In a medium saucepan over low heat, cook and stir condensed milk and cocoa\n" +
+                    "until smooth and slightly thickened.");
+            IceCream.addSteps("Remove from heat and allow to cool slightly");
+            IceCream.addSteps("Stir in heavy cream, vanilla, and light cream.");
+            IceCream.addSteps("Pour mixture into a canister of an icecream maker, and freeze according to\n" +
+                    "manufacturers directions.");
+            IceCream.addSteps("Stir in nuts and marshmellows");
             allRecipe.add(IceCream);
 
 
@@ -278,13 +312,13 @@ public class MainActivity extends AppCompatActivity {
                         spCategory.getSelectedItemPosition());
 
                 showList.clear();
+                if (!filterResult.isEmpty()) {
+                    //showList.add("Test1");
+                    for (int t = 0; t < filterResult.size(); t++) {
+                        showList.add(filterResult.get(t).getRecipeName());
+                    }
 
-                //showList.add("Test1");
-                for (int t = 0; t < filterResult.size(); t++) {
-                    showList.add(filterResult.get(t).getRecipeName());
-                }
-
-                displayList(showList);
+                    displayList(showList);
 
                     // Code snipet to activate search results ?
                 /*
@@ -303,7 +337,11 @@ public class MainActivity extends AppCompatActivity {
                 displayList(showList);
                 */
                 }
-
+                else{
+                    showList = new LinkedList<String>();
+                    displayList(showList);
+                }
+            }
         });
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -438,12 +476,10 @@ public class MainActivity extends AppCompatActivity {
         // DEFINITIONS
 
         // Define string arrays to decode integer listings:
-        String[] recipeClass = {"Any", "Beef", "Chicken",
-                "Seafood", "Vegie"};
-        String[] recipeOrigin = {"Any", "Italian", "Chinese",
-                "Midle Eastern", "Indian", "American"};
-        String[] recipeCategory = {"Any", "Starter", "Main Dish",
-                "Desert", "Drink", "Sauce", "Salad"};
+
+        String[] recipeClass ={"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
+        String[] recipeOrigin= {"Any","Italian", "Chinese", "Midle Eastern", "Indian", "American"};
+        String[]  recipeCategory= {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
 
         // Deactivate showlist object since not needed in dev test method:
         // List<Recipe> showList = new LinkedList<>();
@@ -894,5 +930,5 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    }
+}
 
