@@ -21,7 +21,7 @@ import static group88.cookhelper.MainActivity.filterResult;
 
 /**
  * Created by YANG on 2016-11-13.
- */9
+ *///9
 
 public class showRecipe extends Activity {
     private ListView ingList;

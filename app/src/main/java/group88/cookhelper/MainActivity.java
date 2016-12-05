@@ -275,14 +275,14 @@ public class MainActivity extends AppCompatActivity {
                 //} else {
 
                 filterResult = filterFunction(allRecipe,
-                        EditText.getText().toString(),
+                        mEditText.getText().toString(),
                         spClass.getSelectedItemPosition(),
                         spOrigin.getSelectedItemPosition(),
                         spCategory.getSelectedItemPosition());
 
                 showList.clear();
 
-                showList.add("Test1");
+                //showList.add("Test1");
                 for (int t = 0; t < filterResult.size(); t++) {
                     showList.add(filterResult.get(t).getRecipeName());
                 }
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 displayList(showList);
                 */
                 }
-            }
+
         });
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -512,6 +512,14 @@ public class MainActivity extends AppCompatActivity {
 
         // 1 - Separate string into word list using space separations
         //     The first level of the list represents OR conditions.
+
+
+        // Empty string workaround... :/
+        if(searchText.equals("")){
+            searchText = "a";
+        }
+
+
         List<String> wordsList = Arrays.asList(searchText.split(" "));
 
         // 2 - Turn this list into list of word lists
