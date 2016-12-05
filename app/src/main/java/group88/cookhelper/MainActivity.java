@@ -547,13 +547,20 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < allRecipesSize; i++) {
 
             // Add one point for every hit of a Class, Origin or Category
-            if (recipeClass[classOption].equals(allRecipeName.get(i).getRecipeClass())) {
+            if (recipeClass[classOption].equals("Any")) {
+                recipeScore++;
+            } else if (recipeClass[classOption].equals(allRecipeName.get(i).getRecipeClass())) {
                 recipeScore++;
             }
-            if (recipeOrigin[originOption].equals(allRecipeName.get(i).getRecipeOrigin())) {
+
+            if (recipeOrigin[originOption].equals("Any")) {
+                recipeScore++;
+            } else if (recipeOrigin[originOption].equals(allRecipeName.get(i).getRecipeOrigin())) {
                 recipeScore++;
             }
-            if (recipeCategory[categoryOption].equals(allRecipeName.get(i).getRecipeCategory())) {
+            if (recipeCategory[categoryOption].equals("Any")) {
+                recipeScore++;
+            } else if (recipeCategory[categoryOption].equals(allRecipeName.get(i).getRecipeCategory())) {
                 recipeScore++;
             }
 
