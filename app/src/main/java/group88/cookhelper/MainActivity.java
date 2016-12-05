@@ -583,18 +583,18 @@ public class MainActivity extends AppCompatActivity {
             if (recipeClass[classOption].equals("Any")) {
                 recipeScore++;
             } else if (recipeClass[classOption].equals(allRecipeName.get(i).getRecipeClass())) {
-                recipeScore++;
+                recipeScore+=5;
             }
 
             if (recipeOrigin[originOption].equals("Any")) {
                 recipeScore++;
             } else if (recipeOrigin[originOption].equals(allRecipeName.get(i).getRecipeOrigin())) {
-                recipeScore++;
+                recipeScore+=4;
             }
             if (recipeCategory[categoryOption].equals("Any")) {
                 recipeScore++;
             } else if (recipeCategory[categoryOption].equals(allRecipeName.get(i).getRecipeCategory())) {
-                recipeScore++;
+                recipeScore+=3;
             }
 
             // Find the size of this recipe's ingredient list
