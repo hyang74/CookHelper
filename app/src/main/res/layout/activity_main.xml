@@ -53,7 +53,7 @@
 
             <EditText
                 android:inputType="textPersonName"
-                android:hint="Search..."
+                android:hint="Search ingredient..."
                 android:ems="10"
                 android:layout_width="match_parent"
                 android:background="@android:drawable/editbox_background"
