@@ -124,10 +124,10 @@ public class SearchTest {
             allRecipe.add(iceCream);
 
 
-            System.out.println("Printing dummy list:\n");
-            System.out.println(allRecipe.toString());
+            //System.out.println("Printing dummy list:\n");
+            //System.out.println(allRecipe.toString());
 
-            System.out.println("Defining search string:\n");
+            System.out.println("Defining search string:");
 
             String searchString = "honey tofu onion salt+-lime";
             int classOption = 0;
@@ -141,8 +141,6 @@ public class SearchTest {
             allRecipe = this.filterFunction(allRecipe, searchString,
                     classOption, originOption, categoryOption);
 
-            System.out.println("\nFiltering...\n");
-
             System.out.println("Printing filtered list:\n");
 
             System.out.println(allRecipe.toString());
@@ -153,15 +151,16 @@ public class SearchTest {
                                         String searchText,int classOption,
                                         int originOption, int categoryOption){
 
-        // we need this function to take a recipe list, and a search string
-        // and output a filtered recipe list
-        // we can input some recipe (see line 40-70)
-        // and add attributes of recipes to test
-        // the integer options are in the following order
+        // This method takes a recipe list, a search string and three
+        // integer values representing the three types of recipe info
+        // and outputs a filtered recipe list.
+        // The integer options are in the following order:
         // Class {"Any","Beef", "Chicken", "Seafood", "Vegie"};
         // origin{"Any","Italian","Chinese","Midle Eastern","Indian","American"};
         // category{"Any","Starter","Main Dish","Desert","Drink","Sauce","Salad"};
 
+
+        // DEFINITIONS
 
         // Define string arrays to decode integer listings:
         String[] recipeClass = {"Any", "Beef", "Chicken",
@@ -175,14 +174,26 @@ public class SearchTest {
         // List<Recipe> showList = new LinkedList<>();
 
 
-        // Temporary sum of a recipe's search score
+        // Sum representing a recipe's search score
+        //
         // +1 for every hit on a recipe class, origin or category
-        // +1 for every hit on an OR'd search word
+        //
         // +1 for every word of a hit on an AND'd group of words
-        // +1 for every hit on a NOT word successfully not in the ingredients
+        // as long as all the words have successful hits.
+        //
+        // Note that a word separated by spaces ends up being in its own
+        // AND group, so a hit on it will equal the 'group total' of 1.
+        //
+        // This lets the OR condition be treated naturally in the algorithm.
+        //
+        // +1 for every hit on a NOT word successfully not in the ingredients.
+        //
         // The score then serves as the key to put the recipe in the right list
         // of the LinkedHashMap that will store the search result recipes
         int recipeScore = 0;
+
+        // Best recipeScore found so far
+        int bestScore = 0;
 
         // Count of times a word is found in an ingredient list pass
         int passScore = 0;
@@ -190,7 +201,7 @@ public class SearchTest {
         // Temporary sum to calculate an all or nothing score for AND's
         int andScore = 0;
 
-        // Size of sub list of and words
+        // Size of sub list of AND words
         int andListSize = 0;
 
         // Flag to show that word is a NOT word (1st char is '-')
@@ -213,61 +224,73 @@ public class SearchTest {
         Map<Integer, List<Recipe>> sortedRecipes
                 = new LinkedHashMap< Integer, List<Recipe>>();
 
-        // List to store temp filtered list
-        List<Recipe> filterTemp = new LinkedList<>();
-
         // List to store final filtered list
         List<Recipe> filterResult= new LinkedList<>();
 
-        // List to store temporary passes at ingredients lists
-        List<String> ings = new LinkedList<String>();
 
+        // SEARCH LOGIC IMPLEMENTATION
 
-
-        // Search string parser - turns search string into nested word list
+        // A - PARSER - Turns search string into nested word list
 
         // 1 - Separate string into word list using space separations
+        //     The first level of the list represents OR conditions.
         List<String> wordsList = Arrays.asList(searchText.split(" "));
 
         // 2 - Turn this list into list of word lists
         //     Each sublist is a string to be separated by plus signs
         //     If no plus signs, it's a list of one word
+        //     This second list level represents the AND conditions
         List<List<String>> nestedWordsList = new LinkedList<List<String>>();
         for (int i = 0; i < wordsList.size(); i++){
             nestedWordsList.add(Arrays.asList(wordsList.get(i).split("\\+")));
         }
 
+        /*
+        // DEBUG TO CONSOLE
         System.out.println("Search words:\n");
         System.out.println(wordsList + "\n");
         System.out.println(nestedWordsList + "\n");
+        */
 
 
-        // Begin main loop through the recipes to get the results
+        // B - SEARCH  - Begin main loop through the recipes to get the results
 
         allRecipesSize = allRecipeName.size();
 
+        // For every recipe, give it a search score value.
         for (int i = 0; i < allRecipesSize; i++){
 
+            // Add one point for every hit of a Class, Origin or Category
+            if(recipeClass[classOption].equals(allRecipeName.get(i).getRecipeClass())){
+                recipeScore++;
+            }
+            if(recipeOrigin[originOption].equals(allRecipeName.get(i).getRecipeOrigin())){
+                recipeScore++;
+            }
+            if(recipeCategory[categoryOption].equals(allRecipeName.get(i).getRecipeCategory())){
+                recipeScore++;
+            }
+
+            // Find the size of this recipe's ingredient list
             ingsSize = allRecipeName.get(i).getIngredients().size();
 
-            System.out.println("Recipe " + i + allRecipeName.get(i).getRecipeName() + " size " + ingsSize);
+            // DEBUG TO CONSOLE
+            //System.out.println("Recipe " + i + allRecipeName.get(i).getRecipeName() + " size " + ingsSize);
 
             // Go through all words separated by a space (OR condition)
             for (int k = 0; k < nestedWordsList.size(); k++){
 
-                // Go through all sublist words separated by a + (AND condition)
-
                 // Determine the size of the current AND word sublist
                 andListSize = nestedWordsList.get(k).size();
 
+                // Go through the AND word sublist (words separated by a '+')
                 for (int m = 0; m < andListSize; m++){
 
-                    // Isolate the word we're looking for
+                    // Isolate the word to be looked for in the ingredients
                     searchWord = nestedWordsList.get(k).get(m);
 
-
-
                     // Case where we hit a NOT word (First char is '-')
+                    // Here, we'll add a point if the word is *not* found
                     if (searchWord.substring(0,1).equals("-")) {
 
                         // Get rid of the '-' for proper search
@@ -277,30 +300,36 @@ public class SearchTest {
                         isNot = true;
                     }
 
-                    System.out.print(searchWord);
+                    // DEBUG TO CONSOLE
+                    //System.out.print(searchWord);
 
-                    // Go through recipe's ingredients
+                    // Go through the recipe's ingredients
                     for (int j = 0; j < ingsSize; j++) {
 
                         // Current ingredient word extract
-
-                        // HERE i gets stuck at 2 Grilled chicken ???
                         ingWord = allRecipeName.get(i).getIngredients().get(j).getIngName();
 
-                        System.out.print(ingWord + " ");
+                        // DEBUG TO CONSOLE
+                        //System.out.print(ingWord + " ");
 
-                        // Count the search word hits
+                        // Count the search word hits during an ingredients pass
                         if (searchWord.equals(ingWord)) {
 
-                            System.out.print("XXX");
+                            // DEBUG TO CONSOLE
+                            //System.out.print("XXX");
 
                             passScore++;
                         }
                     }
-                    System.out.print("\n");
 
-                    System.out.print(" " + passScore + " ");
+                    // DEBUG TO CONSOLE
+                    //System.out.print("\n");
+                    //System.out.print(" " + passScore + " ");
 
+                    // If we were looking for a NOT word, not finding it is
+                    // good. Add a point to the score of this AND grouping.
+                    // Otherwise, if we found one or more hits,
+                    // Add a point to the score of the AND grouping.
                     if(isNot){
                         if(passScore == 0){
                             andScore++;
@@ -311,77 +340,83 @@ public class SearchTest {
                         }
                     }
 
+                    // Reset the NOT word flag and hit count.
                     isNot = false;
                     passScore = 0;
 
                 }
 
-                System.out.println(" andScore = " + andScore);
+                // DEBUG TO CONSOLE
+                //System.out.println(" andScore = " + andScore);
 
+                // If all the words in the AND condition were found, add a
+                // point for each word in the AND grouping to the overall
+                // search score for this recipe.
                 if(andScore == andListSize){
                     recipeScore = recipeScore + andScore;
                 }
+
+                // Reset the AND word grouping score.
                 andScore = 0;
             }
 
+            // If the score for the recipe is at least above zero, add it
+            // to the recipe results hashmap stored by score as the index key.
             if(recipeScore > 0){
                 if(sortedRecipes.get(recipeScore) == null){
-                    sortedRecipes.put(recipeScore, allRecipeName.subList(i,i+1));
+                    // If it's the first recipe at that score, put the recipe
+                    // in a list object and put that object in the hashmap.
+                    sortedRecipes.put(recipeScore,
+                            new LinkedList<Recipe>(allRecipeName.subList(i,i+1)));
                 } else {
+                    // If there's already been a recipe with the found score,
+                    // There should already be a list object with at least
+                    // one recipe. Add this recipe to that list.
                     sortedRecipes.get(recipeScore).add(allRecipeName.get(i));
                 }
-
             }
 
-            System.out.println("recipeScore = " + recipeScore);
+            // Keep track of the highest score value to unwind the hashmap
+            if(recipeScore > bestScore){
+                bestScore = recipeScore;
+            }
 
+            // DEBUG TO CONSOLE
+            //System.out.println("recipeScore = " + recipeScore);
+
+            // Reset the recipe score for the next recipe.
             recipeScore = 0;
-
-            //filterTemp.add(allRecipeName.get(i));
         }
 
-        //System.out.println(sortedRecipes.values());
+        // Unwind the hashmap into the results recipe list starting from
+        // the best score to the lowest score that is above zero.
+        // Recipes with a score of zero just aren't returned in the search.
+        for (int n = bestScore; n > 0; n--){
 
-
-        for (int n = sortedRecipes.size(); n > 0; n--){
+            // Skip over the score keys that had no Recipes at that value..
             if(sortedRecipes.get(n) != null) {
+
+                // When a populated score key is found, dump the recipes into
+                // the result recipe list. At equal scores, the insertion
+                // order doesn't really matter for the recipes.
                 for (int p = 0; p < sortedRecipes.get(n).size(); p++) {
                     filterResult.add(sortedRecipes.get(n).get(p));
                 }
             }
-
-            //filterResult.add(allRecipeName.get(i));
         }
 
-
+        // Deactivate showList related method not needed in test:
         /*
-        int filterTempSize = filterTemp.size();
-        for (int i = 0; i < filterTempSize; i++){
-            filterResult.add(allRecipeName.get(i));
+        for(int q = 0; q < filterResult.size(); q++){
+            showList.add(filterResult.get(q).getRecipeName());
         }
-        */
-
-
-
-
-    // Deactivate initial filtered list dummy result generator:
-    /*
-        //just for test,should show last 3 item with reversed order
-        int numOfFilteredRecipe = 6;
-        for (int i=0;i<numOfFilteredRecipe;i++){
-            filterResult.add(allRecipeName.get(allRecipeName.size()-i-1));
-        }
-
-        for(int j=0;j<numOfFilteredRecipe;j++){
-            showList.add(filterResult.get(j).getRecipeName());
-        }
-    */
 
         // Deactivate showList related method not needed in test:
         // displayList(showList);
         // pass a string list to displaylist
+    */
 
-
+        // Return the results list ordered by 'relevance' of search results.
         return filterResult;
     }
 }
