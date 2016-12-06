@@ -33,7 +33,7 @@ import static group88.cookhelper.MainActivity.filterResult;
 public class editRecipe extends Activity {
 
     public String[] spinnerMeasure = {"none","cup", "tea spoon", "table spoon", "ounce", "kg", "g", "piece","pound"};
-    private String[] spinnerAddClass = {"Any","Beef", "Chicken", "Seafood", "Veggie"};
+    private String[] spinnerAddClass = {"Any","Beef", "Chicken","Pork","Seafood", "Veggie","Mixed"};
     private String[] spinnerAddOrigin = {"Any","Italian", "Chinese","Asian", "Midle Eastern", "Indian", "American"};
     private String[] spinnerAddCategory = {"Any","Starter", "Main Dish", "Desert", "Drink", "Sauce", "Salad"};
     private List<Ingredient>newIngList = new LinkedList<>();
